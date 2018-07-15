@@ -1,5 +1,5 @@
 token.txt
-users.json
+persistent/
 websites/
 
 # node

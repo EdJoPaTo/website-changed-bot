@@ -6,4 +6,5 @@ README.md
 # botfiles
 botfather-settings
 token.txt
-users.json
+persistent/
+websites/
