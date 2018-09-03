@@ -1,7 +1,7 @@
 const fs = require('fs')
 const Telegraf = require('telegraf')
 
-const markdownHelper = require('./lib/markdownHelper.js')
+const markdownHelper = require('./lib/markdown-helper.js')
 const users = require('./lib/users.js')
 const website = require('./lib/website.js')
 
@@ -9,9 +9,9 @@ const partAdd = require('./parts/add.js')
 const partAdmin = require('./parts/admin.js')
 const partList = require('./parts/list.js')
 
-const { Extra, Markup } = Telegraf
+const {Extra, Markup} = Telegraf
 
-const CHECK_INTERVAL_IN_MINUTES = 30 // every 30 minutes
+const CHECK_INTERVAL_IN_MINUTES = 30 // Every 30 minutes
 const WEBSITES_FOLDER = './websites/'
 
 if (!fs.existsSync(WEBSITES_FOLDER)) {
@@ -28,16 +28,16 @@ bot.use(async (ctx, next) => {
   const userList = users.getUsers()
   if (userList.indexOf(ctx.from.id) >= 0) {
     return next()
-  } else if (userList.length === 0) {
+  }
+  if (userList.length === 0) {
     await users.addUser(ctx.from.id)
     return ctx.reply('you are now Admin ☺️')
-  } else {
-    return Promise.all([
-      bot.telegram.forwardMessage(users.getAdmin(), ctx.chat.id, ctx.message.message_id),
-      bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from))),
-      ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.')
-    ])
   }
+  return Promise.all([
+    bot.telegram.forwardMessage(users.getAdmin(), ctx.chat.id, ctx.message.message_id),
+    bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from))),
+    ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.')
+  ])
 })
 
 bot.use(users.middleware())
@@ -70,7 +70,6 @@ bot.command('lastcheck', ctx => {
   return ctx.reply(`${minutesAgo}:${secondsAgo} ago`)
 })
 
-
 setInterval(doCheck, CHECK_INTERVAL_IN_MINUTES * 60 * 1000)
 doCheck()
 
@@ -80,9 +79,10 @@ async function doCheck() {
 }
 
 async function doCheckUser(user) {
-  const settings = await users.getUserSettings(user)
-  const websites = settings.websites
-  if (!websites) { return }
+  const {websites} = await users.getUserSettings(user)
+  if (!websites) {
+    return
+  }
   const names = Object.keys(websites)
   await Promise.all(names.map(name =>
     checkSpecific(user, name, websites[name])
@@ -92,25 +92,27 @@ async function doCheckUser(user) {
 async function checkSpecific(user, name, uri) {
   try {
     const result = await website.hasChanged(`${user}-${name}`, uri)
+    // Debug
     // console.log(user, name, uri, result)
 
     if (result === true) {
       return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} has changed!`, Extra.markdown())
-    } else if (result === false) {
-      // unchanged
-      return
-    } else {
-      return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} was initialized. Now it can be checked for differences with the next check.`, Extra.markdown())
     }
-  } catch (e) {
-    return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} seems down\n${e.message}`, Extra.markdown())
+    if (result === false) {
+      // Unchanged
+      return
+    }
+    return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} was initialized. Now it can be checked for differences with the next check.`, Extra.markdown())
+  } catch (error) {
+    return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} seems down\n${error.message}`, Extra.markdown())
   }
 }
 
-
-bot.catch(err => {
-  if (err.description === 'Bad Request: message is not modified') return
-  console.error(err)
+bot.catch(error => {
+  if (error.description === 'Bad Request: message is not modified') {
+    return
+  }
+  console.error(error)
 })
 
 bot.startPolling()

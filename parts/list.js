@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf')
 
-const { Markup, Extra } = Telegraf
+const {Markup, Extra} = Telegraf
 
 const bot = new Telegraf.Composer()
 module.exports = bot
@@ -21,13 +21,13 @@ function generateRemoveKeyboard(ctx) {
 
 function generateList(ctx, keyboardMarkup) {
   if (!ctx.session.websites || Object.keys(ctx.session.websites).length === 0) {
-    return { text: `There are no websites on your list.` }
+    return {text: 'There are no websites on your list.'}
   }
 
   const list = Object.keys(ctx.session.websites)
     .map(name => `${name}\n${ctx.session.websites[name]}`)
     .join('\n')
-  const text = `Your checked websites:\n\n` + list
+  const text = `Your checked websites:\n\n${list}`
 
   if (!keyboardMarkup) {
     keyboardMarkup = generateRemoveKeyboard(ctx)
@@ -37,11 +37,11 @@ function generateList(ctx, keyboardMarkup) {
     .webPreview(false)
     .markup(keyboardMarkup)
 
-  return { text, extra }
+  return {text, extra}
 }
 
 bot.command('list', ctx => {
-  const { text, extra } = generateList(ctx, removeKeyboardStart)
+  const {text, extra} = generateList(ctx, removeKeyboardStart)
   return ctx.reply(text, extra)
 })
 
@@ -50,7 +50,7 @@ bot.action('remove-finish', ctx => ctx.editMessageReplyMarkup(removeKeyboardStar
 bot.action(/remove:(\S+)/, ctx => {
   const name = ctx.match[1]
   delete ctx.session.websites[name]
-  const { text, extra } = generateList(ctx)
+  const {text, extra} = generateList(ctx)
   return Promise.all([
     ctx.editMessageText(text, extra),
     ctx.answerCbQuery(`${name} removed`)

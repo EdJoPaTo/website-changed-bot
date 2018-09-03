@@ -1,9 +1,9 @@
 const Telegraf = require('telegraf')
 
-const markdownHelper = require('../lib/markdownHelper.js')
+const markdownHelper = require('../lib/markdown-helper.js')
 const website = require('../lib/website.js')
 
-const { Extra } = Telegraf
+const {Extra} = Telegraf
 
 const bot = new Telegraf.Composer()
 module.exports = bot
@@ -31,19 +31,17 @@ bot.hears(/([^:]+):(.+)/, async ctx => {
   if (ctx.session.websites[name]) {
     const oldURI = ctx.session.websites[name]
     if (uri === oldURI) {
-      return ctx.reply(`This website is already on your /list`, extra)
-    } else {
-      // TODO: replace button
-      return ctx.reply(`There is already an entry on your /list with that name but the URI differs:\nCurrent URI: ${oldURI}\nYou tried to add: ${uri}`, extra)
+      return ctx.reply('This website is already on your /list', extra)
     }
-  } else {
-    try {
-      // check URI
-      await website.hasChanged(`${ctx.from.id}-${name}`, uri)
-      ctx.session.websites[name] = uri
-      return ctx.reply(`${markdownHelper.uri(name, uri)} was added to your /list`, extra)
-    } catch (e) {
-      return ctx.reply(`${markdownHelper.uri(name, uri)} seems down\n${e.message}`, extra)
-    }
+    // TODO: replace button
+    return ctx.reply(`There is already an entry on your /list with that name but the URI differs:\nCurrent URI: ${oldURI}\nYou tried to add: ${uri}`, extra)
+  }
+  try {
+    // Check URI
+    await website.hasChanged(`${ctx.from.id}-${name}`, uri)
+    ctx.session.websites[name] = uri
+    return ctx.reply(`${markdownHelper.uri(name, uri)} was added to your /list`, extra)
+  } catch (error) {
+    return ctx.reply(`${markdownHelper.uri(name, uri)} seems down\n${error.message}`, extra)
   }
 })
