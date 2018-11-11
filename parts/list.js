@@ -47,7 +47,7 @@ bot.command('list', ctx => {
 
 bot.action('remove-start', ctx => ctx.editMessageReplyMarkup(generateRemoveKeyboard(ctx)))
 bot.action('remove-finish', ctx => ctx.editMessageReplyMarkup(removeKeyboardStart))
-bot.action(/remove:(\S+)/, ctx => {
+bot.action(/^remove:(.+)$/, ctx => {
   const name = ctx.match[1]
   delete ctx.session.websites[name]
   const {text, extra} = generateList(ctx)
