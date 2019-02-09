@@ -33,9 +33,11 @@ bot.hears(/([^:]+):(.+)/, async ctx => {
     if (uri === oldURI) {
       return ctx.reply('This website is already on your /list', extra)
     }
+
     // TODO: replace button
     return ctx.reply(`There is already an entry on your /list with that name but the URI differs:\nCurrent URI: ${oldURI}\nYou tried to add: ${uri}`, extra)
   }
+
   try {
     // Check URI
     await website.hasChanged(`${ctx.from.id}-${name}`, uri)

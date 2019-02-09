@@ -29,10 +29,12 @@ bot.use(async (ctx, next) => {
   if (userList.indexOf(ctx.from.id) >= 0) {
     return next()
   }
+
   if (userList.length === 0) {
     await users.addUser(ctx.from.id)
     return ctx.reply('you are now Admin ☺️')
   }
+
   return Promise.all([
     bot.telegram.forwardMessage(users.getAdmin(), ctx.chat.id, ctx.message.message_id),
     bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from))),
@@ -83,6 +85,7 @@ async function doCheckUser(user) {
   if (!websites) {
     return
   }
+
   const names = Object.keys(websites)
   await Promise.all(names.map(name =>
     checkSpecific(user, name, websites[name])
@@ -98,10 +101,12 @@ async function checkSpecific(user, name, uri) {
     if (result === true) {
       return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} has changed!`, Extra.markdown())
     }
+
     if (result === false) {
       // Unchanged
       return
     }
+
     return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} was initialized. Now it can be checked for differences with the next check.`, Extra.markdown())
   } catch (error) {
     return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} seems down\n${error.message}`, Extra.markdown())
@@ -112,6 +117,7 @@ bot.catch(error => {
   if (error.description === 'Bad Request: message is not modified') {
     return
   }
+
   console.error(error)
 })
 
