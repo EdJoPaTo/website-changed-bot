@@ -1,4 +1,4 @@
-const fs = require('fs')
+const {existsSync, readFileSync} = require('fs')
 const Telegraf = require('telegraf')
 
 const markdownHelper = require('./lib/markdown-helper.js')
@@ -15,8 +15,8 @@ const CHECK_INTERVAL_IN_MINUTES = 30 // Every 30 minutes
 
 let lastCheck = 0
 
-const tokenFilePath = process.env.NODE_ENV === 'production' ? process.env.npm_package_config_tokenpath : process.env.npm_package_config_tokenpathdebug
-const token = fs.readFileSync(tokenFilePath, 'utf8').trim()
+const tokenFilePath = existsSync('/run/secrets') ? '/run/secrets/bot-token.txt' : 'bot-token.txt'
+const token = readFileSync(tokenFilePath, 'utf8').trim()
 const bot = new Telegraf(token)
 
 bot.use(async (ctx, next) => {
