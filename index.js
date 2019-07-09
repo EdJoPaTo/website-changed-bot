@@ -12,11 +12,6 @@ const partList = require('./parts/list.js')
 const {Extra, Markup} = Telegraf
 
 const CHECK_INTERVAL_IN_MINUTES = 30 // Every 30 minutes
-const WEBSITES_FOLDER = './websites/'
-
-if (!fs.existsSync(WEBSITES_FOLDER)) {
-  fs.mkdirSync(WEBSITES_FOLDER)
-}
 
 let lastCheck = 0
 
