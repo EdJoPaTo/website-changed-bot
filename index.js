@@ -49,7 +49,7 @@ function generateAddUserKeyboard(userDetails) {
   ])
 }
 
-bot.command('help', ctx => {
+bot.command(['start', 'help'], ctx => {
   let text = `Websites you add will get checked every ${CHECK_INTERVAL_IN_MINUTES} minutes. Find out the last check with /lastcheck\n\n`
 
   text += 'Add websites by sending me it in the following syntax: `name: url`. Example: `EdJoPaTos Blog: https://edjopato.de/blog`\n\n'
