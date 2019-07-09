@@ -2,7 +2,7 @@
   "private": true,
   "main": "index.js",
   "engines": {
-    "node": ">=7.6"
+    "node": ">=12"
   },
   "dependencies": {
     "json-stable-stringify": "^1.0.1",
