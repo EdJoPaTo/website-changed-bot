@@ -1,5 +1,18 @@
 {
+  "name": "website-changed-bot",
+  "version": "0.0.0",
+  "description": "This Telegram Bot can notify you on changed website source",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdJoPaTo/WebsiteChangedBot.git"
+  },
+  "author": "EdJoPaTo",
+  "license": "MIT",
+  "homepage": "https://github.com/EdJoPaTo/WebsiteChangedBot#readme",
+  "bugs": {
+    "url": "https://github.com/EdJoPaTo/WebsiteChangedBot/issues"
+  },
   "main": "index.js",
   "engines": {
     "node": ">=12"
@@ -22,6 +35,5 @@
   "xo": {
     "space": true,
     "semicolon": false
-  },
-  "license": "MIT"
+  }
 }
