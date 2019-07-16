@@ -12,8 +12,9 @@ const removeKeyboardFinishButton = Markup.callbackButton('✅ finish', 'remove-f
 
 function generateRemoveKeyboard(ctx) {
   const websites = ctx.session && ctx.session.websites
-  const websiteNames = Object.keys(websites)
-  const buttons = websiteNames.map(name => [Markup.callbackButton(`🗑 ${name}`, `remove:${name}`)])
+  const buttons = Object.keys(websites)
+    .sort()
+    .map(name => [Markup.callbackButton(`🗑 ${name}`, `remove:${name}`)])
 
   buttons.push([removeKeyboardFinishButton])
   return Markup.inlineKeyboard(buttons)
@@ -25,6 +26,7 @@ function generateList(ctx, keyboardMarkup) {
   }
 
   const list = Object.keys(ctx.session.websites)
+    .sort()
     .map(name => `${name}\n${ctx.session.websites[name]}`)
     .join('\n')
   const text = `Your checked websites:\n\n${list}`
