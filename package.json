@@ -1,6 +1,6 @@
 {
   "name": "website-changed-bot",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "This Telegram Bot can notify you on changed website source",
   "private": true,
   "repository": {
