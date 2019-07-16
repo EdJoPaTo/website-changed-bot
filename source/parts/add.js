@@ -8,6 +8,24 @@ const {Extra} = Telegraf
 const bot = new Telegraf.Composer()
 module.exports = bot
 
+bot.on('text', Telegraf.optional(
+  ctx => ctx.message && ctx.message.entities && ctx.message.entities.some(o => o.type === 'text_link'),
+  async ctx => {
+    const {text, entities} = ctx.message
+
+    const toBeAdded = entities
+      .filter(o => o.type === 'text_link')
+      .map(o => ({
+        name: text.slice(o.offset, o.offset + o.length),
+        uri: o.url
+      }))
+
+    await Promise.all(
+      toBeAdded.map(o => add(ctx, o.name, o.uri))
+    )
+  }
+))
+
 bot.hears(/([^:]+):(.+)/, async ctx => {
   const name = ctx.match[1].trim()
   const uri = ctx.match[2].trim()
