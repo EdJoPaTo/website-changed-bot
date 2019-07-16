@@ -104,6 +104,7 @@ async function checkSpecific(user, name, uri) {
 
     return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} was initialized. Now it can be checked for differences with the next check.`, Extra.markdown())
   } catch (error) {
+    console.error('Error happened in checkSpecific', user, name, uri, error)
     return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} seems down\n${error.message}`, Extra.markdown())
   }
 }
