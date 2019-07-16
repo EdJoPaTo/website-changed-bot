@@ -9,12 +9,16 @@ const bot = new Telegraf.Composer()
 module.exports = bot
 
 bot.hears(/([^:]+):(.+)/, async ctx => {
+  const name = ctx.match[1].trim()
+  const uri = ctx.match[2].trim()
+  return add(ctx, name, uri)
+})
+
+async function add(ctx, name, originalURI) {
   if (!ctx.session.websites) {
     ctx.session.websites = {}
   }
 
-  const name = ctx.match[1].trim()
-  const originalURI = ctx.match[2].trim()
   let uri = originalURI
   const extra = Extra
     .inReplyTo(ctx.message.message_id)
@@ -46,4 +50,4 @@ bot.hears(/([^:]+):(.+)/, async ctx => {
   } catch (error) {
     return ctx.reply(`${markdownHelper.uri(name, uri)} seems down\n${error.message}`, extra)
   }
-})
+}
