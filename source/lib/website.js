@@ -16,10 +16,7 @@ async function getBody(uri) {
 }
 
 function getFilenameOfName(name) {
-  let filename = name
-  filename = filename.replace(' ', '-')
-  filename = filename.replace('.', '-')
-  filename = filename.replace('/', '-')
+  const filename = name.replace(/[ ./]+/g, '-')
   return `${WEBSITES_FOLDER}${filename}.html`
 }
 
