@@ -8,9 +8,9 @@ const USERS_FILE = './persistent/users.json'
 let users
 try {
   users = JSON.parse(readFileSync(USERS_FILE, 'utf8'))
-} catch (error) {
+} catch (_) {
   users = {}
-  console.error(`The admin has to write the first message to the bot. If someone else is faster, he will be the admin. (Admin is the first one in the '${USERS_FILE}'.)`)
+  console.error(`The admin has to write the first message to the bot. If someone else is faster, he will be the admin. (Admin is the first one in the "${USERS_FILE}".)`)
 }
 
 async function saveUsersFile() {

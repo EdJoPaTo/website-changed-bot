@@ -21,7 +21,7 @@ const bot = new Telegraf(token)
 
 bot.use(async (ctx, next) => {
   const userList = users.getUsers()
-  if (userList.indexOf(ctx.from.id) >= 0) {
+  if (userList.includes(ctx.from.id)) {
     return next()
   }
 

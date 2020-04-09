@@ -37,7 +37,7 @@ async function hasBodyChanged(name, currentWebsiteBody) {
     await writeFile(filename, currentWebsiteBody, 'utf8')
 
     return true
-  } catch (error) {
+  } catch (_) {
     // There isn't an old version yet… create
     await writeFile(filename, currentWebsiteBody, 'utf8')
     return undefined
