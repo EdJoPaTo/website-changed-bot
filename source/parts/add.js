@@ -1,6 +1,6 @@
+const {markdown: format} = require('telegram-format')
 const Telegraf = require('telegraf')
 
-const markdownHelper = require('../lib/markdown-helper.js')
 const website = require('../lib/website.js')
 
 const {Extra} = Telegraf
@@ -64,8 +64,8 @@ async function add(ctx, name, originalURI) {
     // Check URI
     await website.hasChanged(`${ctx.from.id}-${name}`, uri)
     ctx.session.websites[name] = uri
-    return ctx.reply(`${markdownHelper.uri(name, uri)} was added to your /list`, extra)
+    return ctx.reply(`${format.url(name, uri)} was added to your /list`, extra)
   } catch (error) {
-    return ctx.reply(`${markdownHelper.uri(name, uri)} seems down\n${error.message}`, extra)
+    return ctx.reply(`${format.url(name, uri)} seems down\n${error.message}`, extra)
   }
 }

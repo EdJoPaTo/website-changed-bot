@@ -1,7 +1,8 @@
 const {existsSync, readFileSync} = require('fs')
+
+const {markdown: format} = require('telegram-format')
 const Telegraf = require('telegraf')
 
-const markdownHelper = require('./lib/markdown-helper.js')
 const users = require('./lib/users.js')
 const website = require('./lib/website.js')
 
@@ -94,7 +95,7 @@ async function checkSpecific(user, name, uri) {
     // console.log(user, name, uri, result)
 
     if (result === true) {
-      return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} has changed!`, Extra.markdown())
+      return bot.telegram.sendMessage(user, `${format.url(name, uri)} has changed!`, Extra.markdown())
     }
 
     if (result === false) {
@@ -102,10 +103,10 @@ async function checkSpecific(user, name, uri) {
       return
     }
 
-    return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} was initialized. Now it can be checked for differences with the next check.`, Extra.markdown())
+    return bot.telegram.sendMessage(user, `${format.url(name, uri)} was initialized. Now it can be checked for differences with the next check.`, Extra.markdown())
   } catch (error) {
     console.error('Error happened in checkSpecific', user, name, uri, error)
-    return bot.telegram.sendMessage(user, `${markdownHelper.uri(name, uri)} seems down\n${error.message}`, Extra.markdown())
+    return bot.telegram.sendMessage(user, `${format.url(name, uri)} seems down\n${error.message}`, Extra.markdown())
   }
 }
 
