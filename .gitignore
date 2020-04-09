@@ -1,6 +1,9 @@
+.nyc_output
+coverage
+dist
+node_modules
+yarn.lock
+
 bot-token.txt
 persistent/
 websites/
-
-# node
-node_modules

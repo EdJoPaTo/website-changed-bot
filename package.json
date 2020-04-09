@@ -1,22 +1,30 @@
 {
   "name": "website-changed-bot",
+  "private": true,
   "version": "0.2.0",
   "description": "This Telegram Bot can notify you on changed website source",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EdJoPaTo/WebsiteChangedBot.git"
-  },
-  "author": "EdJoPaTo",
   "license": "MIT",
-  "homepage": "https://github.com/EdJoPaTo/WebsiteChangedBot#readme",
-  "bugs": {
-    "url": "https://github.com/EdJoPaTo/WebsiteChangedBot/issues"
+  "repository": "EdJoPaTo/website-changed-bot",
+  "author": {
+    "name": "EdJoPaTo",
+    "email": "EdJoPaTo@gmail.com",
+    "url": "https://edjopato.de"
   },
-  "main": "source/index.js",
   "engines": {
     "node": ">=12"
   },
+  "scripts": {
+    "build": "del-cli dist && tsc",
+    "prepack": "npm run build",
+    "start": "ts-node source/index.ts",
+    "test": "tsc --sourceMap && xo && nyc ava"
+  },
+  "main": "dist",
+  "types": "dist",
+  "files": [
+    "dist",
+    "!*.test.*"
+  ],
   "dependencies": {
     "got": "^10.7.0",
     "js-beautify": "^1.10.0",
@@ -25,14 +33,20 @@
     "telegram-format": "^2.0.0"
   },
   "devDependencies": {
-    "xo": "^0.29.0"
-  },
-  "scripts": {
-    "start": "node source/index.js",
-    "test": "xo"
+    "@sindresorhus/tsconfig": "^0.7.0",
+    "@types/js-beautify": "^1.8.2",
+    "@types/json-stable-stringify": "^1.0.32",
+    "@types/node": "^13.1.4",
+    "del-cli": "^3.0.0",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.7.4",
+    "xo": "^0.29"
   },
   "xo": {
-    "space": true,
-    "semicolon": false
+    "semicolon": false,
+    "rules": {
+      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off"
+    }
   }
 }
