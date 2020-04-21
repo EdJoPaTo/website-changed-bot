@@ -1,13 +1,11 @@
-import got from 'got'
-
 import {HeadMission} from '../mission'
 
-const cache = new Map()
+import {cachedGot} from './got'
 
 export async function getCurrent(entry: HeadMission): Promise<string> {
 	const ignoreHeader = new Set(entry.ignoreHeader ?? [])
 
-	const response = await got.head(entry.url, {cache})
+	const response = await cachedGot.head(entry.url)
 	const {headers} = response
 
 	const keys = Object.keys(headers)
