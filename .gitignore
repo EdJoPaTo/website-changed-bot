@@ -6,4 +6,5 @@ yarn.lock
 
 bot-token.txt
 persistent/
+users/
 websites/

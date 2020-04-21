@@ -26,7 +26,8 @@
     "!*.test.*"
   ],
   "dependencies": {
-    "got": "^10.7.0",
+    "array-filter-unique": "^2.2.0",
+    "got": "^11.0.1",
     "js-beautify": "^1.10.0",
     "json-stable-stringify": "^1.0.1",
     "telegraf": "^3.27.1",
