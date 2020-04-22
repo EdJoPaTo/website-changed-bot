@@ -1,8 +1,7 @@
 import {js as beautifyJS} from 'js-beautify'
 
-import {JavaScriptMission} from '../mission'
-
 import {cachedGot} from './got'
+import {JavaScriptMission} from './mission'
 
 const requiredWords = ['function', 'var', 'const']
 

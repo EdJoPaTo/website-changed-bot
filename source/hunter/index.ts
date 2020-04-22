@@ -7,6 +7,8 @@ import {getCurrent as getHtml} from './html'
 import {getCurrent as getJavaScript} from './javascript'
 import {getCurrent as getText} from './text'
 
+export * from './mission'
+
 async function getCurrent(mission: Mission): Promise<string> {
 	switch (mission.type) {
 		case 'head': return getHead(mission)

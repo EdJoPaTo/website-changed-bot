@@ -1,6 +1,5 @@
-import {HeadMission} from '../mission'
-
 import {cachedGot} from './got'
+import {HeadMission} from './mission'
 
 export async function getCurrent(entry: HeadMission): Promise<string> {
 	const ignoreHeader = new Set(entry.ignoreHeader ?? [])
