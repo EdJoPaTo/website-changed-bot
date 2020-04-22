@@ -9,17 +9,17 @@ import {Mission} from './mission'
 
 export * from './mission'
 
-export async function checkMany<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>): Promise<void> {
+export async function checkMany<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>, delayMsBetweenSameDomain: number): Promise<void> {
 	const groupedByDomain = directions
 		.reduce(arrayReduceGroupBy(o => getDomainFromUrl(o.mission.url)), {})
 
 	await Promise.all(Object.keys(groupedByDomain)
-		.map(async group => checkGroup(groupedByDomain[group]))
+		.map(async group => checkGroup(groupedByDomain[group], delayMsBetweenSameDomain))
 	)
 }
 
-async function checkGroup<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>): Promise<void> {
-	await runSequentiallyWithDelayInBetween(checkOne, directions, 5000)
+async function checkGroup<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>, delayMsBetweenSameDomain: number): Promise<void> {
+	await runSequentiallyWithDelayInBetween(checkOne, directions, delayMsBetweenSameDomain)
 }
 
 export async function checkOne<TMission extends Mission>(directions: Directions<TMission>): Promise<void> {

@@ -2,16 +2,19 @@ import {checkMany} from './hunter'
 import {getStore, finalizeStore} from './trophy-store'
 import {Mission} from './mission'
 import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions'
-import {sleep} from './async'
+import {generateEndlessLoopRunner} from './async'
 import {Store} from './store'
 import {userMissions} from './user-missions'
 
+const SECOND = 1000
+const MINUTE = 60 * SECOND
+
+const BETWEEN_TWO_RUNS = 1 * MINUTE
+const BETWEEN_SAME_DOMAIN_CHECKS = 10 * SECOND
+
 export async function checkRunner(notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<void> {
-	await run(notifyChange, notifyError)
-	await sleep(15000)
-	await run(notifyChange, notifyError)
-	await sleep(15000)
-	await run(notifyChange, notifyError)
+	const endless = generateEndlessLoopRunner(() => run(notifyChange, notifyError), BETWEEN_TWO_RUNS)
+	await endless()
 }
 
 async function run(notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<void> {
@@ -19,7 +22,7 @@ async function run(notifyChange: NotifyChangeFunction<Mission>, notifyError: Not
 		.filter(o => o.startsWith('tg'))
 	const directions = await directionsOfIssuers(issuers, notifyChange, notifyError)
 
-	await checkMany(directions)
+	await checkMany(directions, BETWEEN_SAME_DOMAIN_CHECKS)
 
 	for (const issuer of issuers) {
 		finishUpIssuer(issuer)

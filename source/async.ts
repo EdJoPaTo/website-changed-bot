@@ -17,3 +17,23 @@ export async function runSequentiallyWithDelayInBetween<Argument>(runner: (job: 
 		/* eslint-enable */
 	}
 }
+
+/**
+ * Runs the Runner in an endless loop. If it finishes faster than `minimumDelayBetweenStarts` wait before running again
+ */
+export function generateEndlessLoopRunner(runner: () => Promise<void>, minimumDelayBetweenStarts: number): () => Promise<void> {
+	let startTime: number
+	return async () => {
+		while (true) {
+			startTime = Date.now()
+
+			await runner()
+
+			const now = Date.now()
+			const waittime = (startTime + minimumDelayBetweenStarts) - now
+			if (waittime > 0) {
+				await sleep(waittime)
+			}
+		}
+	}
+}
