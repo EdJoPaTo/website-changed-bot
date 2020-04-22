@@ -1,11 +1,11 @@
 import {js as beautifyJS} from 'js-beautify'
 
-import {cachedGot} from './got'
-import {JavaScriptMission} from './mission'
+import {cachedGot} from '../got'
+import {JavaScriptMission} from '../mission'
 
 const requiredWords = ['function', 'var', 'const']
 
-export async function getCurrent(entry: JavaScriptMission): Promise<string> {
+export async function getJavaScript(entry: JavaScriptMission): Promise<string> {
 	const response = await cachedGot(entry.url)
 	const {body} = response
 	if (!requiredWords.some(o => body.includes(o))) {

@@ -15,13 +15,16 @@ function tryCommit(folder: string): void {
 	try {
 		gitCommand(folder, 'commit -m "update" --no-gpg-sign --author "website-changed-bot <website-changed-bot@3t0.de>"')
 	} catch (error) {
-		if ('stdout' in error && error.stdout instanceof Buffer) {
-			const stdout = error.stdout.toString()
-			if (stdout.includes('nothing to commit')) {
-				return
-			}
+		if ('stdout' in error) {
+			const {stdout} = error
+			if (stdout instanceof Buffer) {
+				const stdoutString = stdout.toString()
+				if (stdoutString.includes('nothing to commit')) {
+					return
+				}
 
-			console.log('git commit failed with unexpected error', stdout)
+				console.log('git commit failed with unexpected error', stdoutString)
+			}
 		}
 
 		throw error
@@ -29,7 +32,7 @@ function tryCommit(folder: string): void {
 }
 
 export function update(folder: string): void {
-	if (!existsSync('folder' + '.git')) {
+	if (!existsSync(folder + '.git')) {
 		gitCommand(folder, 'init')
 	}
 

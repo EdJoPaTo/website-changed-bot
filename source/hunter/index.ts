@@ -1,36 +1,46 @@
-import {Mission} from '../mission'
+import arrayReduceGroupBy from 'array-reduce-group-by'
 
-import {Store} from '../store'
+import {runSequentiallyWithDelayInBetween} from '../async'
 
-import {getCurrent as getHead} from './head'
-import {getCurrent as getHtml} from './html'
-import {getCurrent as getJavaScript} from './javascript'
-import {getCurrent as getText} from './text'
+import {Directions, SaveNewContentFunction} from './directions'
+import {getCurrent} from './individuals'
+import {getDomainFromUrl} from './url-logic'
+import {Mission} from './mission'
 
 export * from './mission'
 
-async function getCurrent(mission: Mission): Promise<string> {
-	switch (mission.type) {
-		case 'head': return getHead(mission)
-		case 'html': return getHtml(mission)
-		case 'js': return getJavaScript(mission)
-		case 'txt': return getText(mission)
-		default: throw new Error(`A hunter for this mission type was not implemented yet: ${(mission as any).type as string}`)
+export async function checkMany<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>): Promise<void> {
+	const groupedByDomain = directions
+		.reduce(arrayReduceGroupBy(o => getDomainFromUrl(o.mission.url)), {})
+
+	await Promise.all(Object.keys(groupedByDomain)
+		.map(async group => checkGroup(groupedByDomain[group]))
+	)
+}
+
+async function checkGroup<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>): Promise<void> {
+	await runSequentiallyWithDelayInBetween(checkOne, directions, 5000)
+}
+
+export async function checkOne<TMission extends Mission>(directions: Directions<TMission>): Promise<void> {
+	try {
+		const change = await hasChanged(directions.mission, directions.currentContent, directions.saveNewContent)
+		await directions.notifyChange(directions.mission, change)
+	} catch (error) {
+		await directions.notifyError(directions.mission, error)
 	}
 }
 
-export async function hasChanged(contentCache: Store<string>, mission: Mission): Promise<boolean | undefined> {
-	const contentName = mission.uniqueIdentifier + '.' + mission.type
+async function hasChanged(mission: Mission, lastContent: string | undefined, saveNewContent: SaveNewContentFunction): Promise<boolean | undefined> {
 	const newContent = await getCurrent(mission)
 
-	const oldContent = contentCache.get(contentName)
-	if (oldContent === undefined) {
-		contentCache.set(contentName, newContent)
+	if (lastContent === undefined) {
+		await saveNewContent(newContent)
 		return undefined
 	}
 
-	if (oldContent !== newContent) {
-		contentCache.set(contentName, newContent)
+	if (lastContent !== newContent) {
+		await saveNewContent(newContent)
 		return true
 	}
 

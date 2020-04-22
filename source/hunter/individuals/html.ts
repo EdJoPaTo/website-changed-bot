@@ -1,9 +1,9 @@
 import {html as beautifyHtml} from 'js-beautify'
 
-import {cachedGot} from './got'
-import {HtmlMission} from './mission'
+import {cachedGot} from '../got'
+import {HtmlMission} from '../mission'
 
-export async function getCurrent(entry: HtmlMission): Promise<string> {
+export async function getHtml(entry: HtmlMission): Promise<string> {
 	const response = await cachedGot(entry.url)
 	const {body} = response
 	if (!/<html/i.test(body)) {

@@ -45,6 +45,7 @@ export class StringFileStore implements Store<string> {
 		try {
 			rmdirSync(this.folder, {recursive: true})
 		} catch {}
+
 		mkdirSync(this.folder, {recursive: true})
 	}
 }
@@ -55,9 +56,16 @@ export class JsonFileStore<T> implements Store<T> {
 	constructor(
 		public readonly folder: string,
 		public readonly serialise: (input: T) => string = input => JSON.stringify(input, undefined, '\t'),
-		public readonly deserialise: (input: string) => T = input => JSON.parse(input)
+		public readonly deserialise: (input: string) => T = input => JSON.parse(input) as T
 	) {
 		this._stringFileStore = new StringFileStore(folder)
+	}
+
+	keys(): string[] {
+		const content = this._stringFileStore.keys()
+			.filter(o => o.endsWith('.json'))
+			.map(o => o.slice(0, 0 - '.json'.length))
+		return content
 	}
 
 	get(key: string): T | undefined {

@@ -12,10 +12,8 @@ export function getStore(issuer: string): Store<string> {
 	return new StringFileStore(folder(issuer))
 }
 
-export function updateGit(issuer: string): void {
-	gitFolder.update(folder(issuer))
-}
-
-export function cleanup(issuer: string, expectedFiles: readonly string[]): void {
-	cleanupFolder.cleanup(folder(issuer), new Set(expectedFiles))
+export function finalizeStore(issuer: string, expectedFiles: readonly string[]): void {
+	const f = folder(issuer)
+	cleanupFolder.cleanup(f, new Set(expectedFiles))
+	gitFolder.update(f)
 }
