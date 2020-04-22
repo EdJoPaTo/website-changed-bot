@@ -2,7 +2,8 @@ export type Mission =
 	HeadMission |
 	HtmlMission |
 	JavaScriptMission |
-	TextMission
+	TextMission |
+	XmlMission
 
 export type Type = Mission['type']
 
@@ -25,4 +26,8 @@ export interface JavaScriptMission extends Base {
 
 export interface TextMission extends Base {
 	readonly type: 'txt';
+}
+
+export interface XmlMission extends Base {
+	readonly type: 'xml';
 }
