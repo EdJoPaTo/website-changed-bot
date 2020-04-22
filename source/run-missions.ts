@@ -8,7 +8,7 @@ import {userMissions} from './user-missions'
 const SECOND = 1000
 const MINUTE = 60 * SECOND
 
-const BETWEEN_TWO_RUNS = 1 * MINUTE
+const BETWEEN_TWO_RUNS = 10 * MINUTE
 const BETWEEN_SAME_DOMAIN_CHECKS = 10 * SECOND
 
 export async function checkRunner(notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<void> {
