@@ -10,10 +10,10 @@ function gitCommand(folder: string, ...additionalArguments: readonly string[]): 
 	return buffer.toString()
 }
 
-function tryCommit(folder: string): void {
+function tryCommit(folder: string, commitMessage: string): void {
 	gitCommand(folder, 'add -A')
 	try {
-		gitCommand(folder, 'commit -m "update" --no-gpg-sign --author "website-changed-bot <website-changed-bot@3t0.de>"')
+		gitCommand(folder, `commit -m "${commitMessage}" --no-gpg-sign --author "website-changed-bot <website-changed-bot@3t0.de>"`)
 	} catch (error) {
 		if ('stdout' in error) {
 			const {stdout} = error
@@ -31,10 +31,10 @@ function tryCommit(folder: string): void {
 	}
 }
 
-export function update(folder: string): void {
+export function update(folder: string, commitMessage: string): void {
 	if (!existsSync(folder + '.git')) {
 		gitCommand(folder, 'init')
 	}
 
-	tryCommit(folder)
+	tryCommit(folder, commitMessage)
 }
