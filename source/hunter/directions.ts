@@ -1,6 +1,7 @@
+import {Store} from '../store'
+
 import {Mission} from './mission'
 
-export type SaveNewContentFunction = (newContent: string) => void | Promise<void>
 export type NotifyChangeFunction<TMission> = (mission: TMission, change: boolean | undefined) => void | Promise<void>
 export type NotifyErrorFunction<TMission> = (mission: TMission, error: any) => void | Promise<void>
 
@@ -9,8 +10,7 @@ export type NotifyErrorFunction<TMission> = (mission: TMission, error: any) => v
  */
 export interface Directions<TMission extends Mission> {
 	readonly mission: TMission;
-	readonly currentContent: string | undefined;
-	readonly saveNewContent: SaveNewContentFunction;
+	readonly store: Store<string>;
 	readonly notifyChange: NotifyChangeFunction<TMission>;
 	readonly notifyError: NotifyErrorFunction<TMission>;
 }

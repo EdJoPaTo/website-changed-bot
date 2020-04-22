@@ -3,7 +3,6 @@ import {getStore, finalizeStore} from './trophy-store'
 import {Mission} from './mission'
 import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions'
 import {generateEndlessLoopRunner} from './async'
-import {Store} from './store'
 import {userMissions} from './user-missions'
 
 const SECOND = 1000
@@ -51,13 +50,9 @@ async function directionsOfIssuer(issuer: string, notifyChange: NotifyChangeFunc
 
 	const directions = await Promise.all(missions
 		.map(async (mission): Promise<Directions<Mission>> => {
-			const key = filenameOfMission(mission)
-			const currentContent = await store.get(key)
-			const saveNewContent = generateSaveFunction(store, key)
 			return {
 				mission,
-				currentContent,
-				saveNewContent,
+				store,
 				notifyChange,
 				notifyError
 			}
@@ -65,10 +60,4 @@ async function directionsOfIssuer(issuer: string, notifyChange: NotifyChangeFunc
 	)
 
 	return directions
-}
-
-function generateSaveFunction(store: Store<string>, key: string): (content: string) => Promise<void> {
-	return async content => {
-		await store.set(key, content)
-	}
 }

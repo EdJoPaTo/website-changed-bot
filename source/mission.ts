@@ -5,7 +5,6 @@ export type Type = Hunter.Type
 
 export interface BaseMission {
 	readonly issuer: string;
-	readonly uniqueIdentifier: string;
 }
 
 export function generateUniqueKeyForUrl(url: string): string {

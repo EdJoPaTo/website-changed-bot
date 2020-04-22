@@ -7,7 +7,15 @@ export type Mission =
 
 export type Type = Mission['type']
 
+export interface ContentReplace {
+	readonly source: string;
+	readonly flags: string;
+	readonly replaceValue: string;
+}
+
 interface Base {
+	readonly contentReplace: readonly ContentReplace[];
+	readonly uniqueIdentifier: string;
 	readonly url: string;
 }
 

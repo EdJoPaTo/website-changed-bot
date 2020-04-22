@@ -1,11 +1,12 @@
 import arrayReduceGroupBy from 'array-reduce-group-by'
 
 import {runSequentiallyWithDelayInBetween} from '../async'
+import {Store} from '../store'
 
-import {Directions, SaveNewContentFunction} from './directions'
+import {Directions} from './directions'
 import {getCurrent} from './individuals'
 import {getDomainFromUrl} from './url-logic'
-import {Mission} from './mission'
+import {Mission, ContentReplace} from './mission'
 
 export * from './mission'
 
@@ -24,25 +25,43 @@ async function checkGroup<TMission extends Mission>(directions: ReadonlyArray<Di
 
 export async function checkOne<TMission extends Mission>(directions: Directions<TMission>): Promise<void> {
 	try {
-		const change = await hasChanged(directions.mission, directions.currentContent, directions.saveNewContent)
+		const change = await hasChanged(directions.mission, directions.store)
 		await directions.notifyChange(directions.mission, change)
 	} catch (error) {
 		await directions.notifyError(directions.mission, error)
 	}
 }
 
-async function hasChanged(mission: Mission, lastContent: string | undefined, saveNewContent: SaveNewContentFunction): Promise<boolean | undefined> {
-	const newContent = await getCurrent(mission)
+async function hasChanged(mission: Mission, store: Store<string>): Promise<boolean | undefined> {
+	const newRaw = await getCurrent(mission)
+	const newReplaced = replaceAll(newRaw, mission.contentReplace)
+
+	const filename = mission.uniqueIdentifier + '.' + mission.type
+
+	const lastContent = await store.get(filename)
+
+	if (lastContent !== newReplaced) {
+		await store.set(filename, newReplaced)
+	}
 
 	if (lastContent === undefined) {
-		await saveNewContent(newContent)
 		return undefined
 	}
 
-	if (lastContent !== newContent) {
-		await saveNewContent(newContent)
+	if (lastContent !== newReplaced) {
 		return true
 	}
 
 	return false
+}
+
+function replaceAll(content: string, replacers: readonly ContentReplace[]): string {
+	let current = content
+
+	for (const {source, flags, replaceValue} of replacers) {
+		const regex = new RegExp(source, flags)
+		current = current.replace(regex, replaceValue)
+	}
+
+	return current
 }
