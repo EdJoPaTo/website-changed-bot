@@ -6,6 +6,11 @@ export type Mission =
 	XmlMission
 
 export type Type = Mission['type']
+export const TYPES: Type[] = ['head', 'html', 'js', 'txt', 'xml']
+
+export function StringIsType(type: string): type is Type {
+	return (TYPES as string[]).includes(type)
+}
 
 export interface ContentReplace {
 	readonly source: string;

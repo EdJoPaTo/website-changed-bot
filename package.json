@@ -27,10 +27,14 @@
   ],
   "dependencies": {
     "array-filter-unique": "^2.2.0",
-    "got": "^11.0.1",
+    "array-reduce-group-by": "^1.0.0",
+    "got": "^11.0.2",
     "js-beautify": "^1.10.0",
     "json-stable-stringify": "^1.0.1",
     "telegraf": "^3.27.1",
+    "telegraf-inline-menu": "^4.0.0",
+    "telegraf-middleware-console-time": "^1.0.0",
+    "telegraf-stateless-question": "^0.1.0",
     "telegram-format": "^2.0.0"
   },
   "devDependencies": {
@@ -46,6 +50,7 @@
   "xo": {
     "semicolon": false,
     "rules": {
+      "@typescript-eslint/no-floating-promises": "error",
       "@typescript-eslint/prefer-readonly-parameter-types": "off",
       "@typescript-eslint/no-unsafe-member-access": "off"
     }
