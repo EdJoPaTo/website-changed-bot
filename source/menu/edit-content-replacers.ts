@@ -19,6 +19,9 @@ menu.choose('remove', currentContentReplaceIndicies, {
 		if (key) {
 			const index = Number(key)
 			const mission = getMission(context)
+			if (!mission.contentReplace) {
+				return
+			}
 
 			const newReplacers = [...mission.contentReplace]
 			newReplacers.splice(index, 1)
@@ -66,7 +69,7 @@ function menuBody(context: Context): Body {
 
 	text += '\n'
 
-	if (mission.contentReplace.length > 0) {
+	if (mission.contentReplace?.length) {
 		text += mission.contentReplace
 			.map(o => singleReplacerLines(format, o))
 			.join('')
@@ -79,5 +82,9 @@ function menuBody(context: Context): Body {
 
 function currentContentReplaceIndicies(context: Context): string[] {
 	const replacers = getMission(context).contentReplace
+	if (!replacers) {
+		return []
+	}
+
 	return replacers.map((_, i) => String(i))
 }

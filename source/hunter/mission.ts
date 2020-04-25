@@ -19,8 +19,9 @@ export interface ContentReplace {
 }
 
 interface Base {
-	readonly contentReplace: readonly ContentReplace[];
 	readonly url: string;
+
+	readonly contentReplace?: readonly ContentReplace[];
 }
 
 export interface HeadMission extends Base {

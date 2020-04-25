@@ -38,7 +38,7 @@ function menuBody(context: Context): Body {
 		text += '\n'
 	}
 
-	if (mission.contentReplace.length > 0) {
+	if (mission.contentReplace?.length) {
 		text += format.bold('Content Replace')
 		text += ':\n'
 

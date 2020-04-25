@@ -54,9 +54,12 @@ export async function hasChanged(mission: Mission, store: Store<string>): Promis
 	return false
 }
 
-function replaceAll(content: string, replacers: readonly ContentReplace[]): string {
-	let current = content
+function replaceAll(content: string, replacers?: readonly ContentReplace[]): string {
+	if (!replacers) {
+		return content
+	}
 
+	let current = content
 	for (const {source, flags, replaceValue} of replacers) {
 		const regex = new RegExp(source, flags)
 		current = current.replace(regex, replaceValue)
