@@ -1,6 +1,5 @@
-import {checkMany} from './hunter'
+import {checkMany, Mission} from './hunter'
 import {getStore, finalizeStore} from './trophy-store'
-import {Mission} from './mission'
 import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions'
 import {generateEndlessLoopRunner} from './async'
 import {userMissions} from './user-missions'
@@ -51,6 +50,7 @@ async function directionsOfIssuer(issuer: string, notifyChange: NotifyChangeFunc
 	const directions = await Promise.all(missions
 		.map(async (mission): Promise<Directions<Mission>> => {
 			return {
+				issuer,
 				mission,
 				store,
 				notifyChange,

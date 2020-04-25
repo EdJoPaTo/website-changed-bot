@@ -26,9 +26,9 @@ async function checkGroup<TMission extends Mission>(directions: ReadonlyArray<Di
 export async function checkOne<TMission extends Mission>(directions: Directions<TMission>): Promise<void> {
 	try {
 		const change = await hasChanged(directions.mission, directions.store)
-		await directions.notifyChange(directions.mission, change)
+		await directions.notifyChange(directions.issuer, directions.mission, change)
 	} catch (error) {
-		await directions.notifyError(directions.mission, error)
+		await directions.notifyError(directions.issuer, directions.mission, error)
 	}
 }
 

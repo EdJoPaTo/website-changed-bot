@@ -1,7 +1,6 @@
 import {Formatter} from 'telegram-format'
 
-import {ContentReplace} from '../../hunter'
-import { Mission } from '../../mission'
+import {Mission, ContentReplace} from '../../hunter'
 
 export function basicInfo(format: Formatter, mission: Mission): string {
 	let text = ''

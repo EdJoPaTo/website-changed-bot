@@ -1,8 +1,8 @@
 import {MenuTemplate, Body} from 'telegraf-inline-menu/next-gen'
 import {html as format} from 'telegram-format'
 
-import {getIndex, update} from '../user-missions'
-import {Mission} from '../mission'
+import {getByIndex, update} from '../user-missions'
+import {Mission} from '../hunter'
 
 import {Context} from './context'
 import {backButtons} from './back-buttons'
@@ -42,7 +42,7 @@ menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
 	const index = Number(context.match![1])
-	return getIndex(`tg${context.from!.id}`, index)
+	return getByIndex(`tg${context.from!.id}`, index)
 }
 
 function menuBody(context: Context): Body {
