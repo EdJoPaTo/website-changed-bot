@@ -17,7 +17,7 @@ menu.submenu('Edit Content Replacers…', 'replacers', editContentReplacerMenu)
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
-	const index = Number(context.match![1])
+	const index = Number(context.match![1].slice(1))
 	return getByIndex(`tg${context.from!.id}`, index)
 }
 

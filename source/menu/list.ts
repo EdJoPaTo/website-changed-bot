@@ -1,5 +1,6 @@
 import {MenuTemplate} from 'telegraf-inline-menu/dist/next-gen'
 
+import {generateUniqueKeyForUrl} from '../mission'
 import {userMissions} from '../user-missions'
 
 import {backButtons} from './back-buttons'
@@ -25,18 +26,25 @@ menu.manualRow(backButtons)
 function getAllEntries(user: number): Map<string, string> {
 	const all = userMissions.get(`tg${user}`) ?? []
 	const entries = new Map<string, string>()
-	all.forEach((o, i) => {
-		let title = ''
-		title += o.type
-		title += ' '
-		title += o.url.slice(0, SHOW_URL_LENGTH)
+	all
+		.map((o, i) => ({
+			key: `i${i}`,
+			type: o.type,
+			url: o.url
+		}))
+		.sort((a, b) => a.type.localeCompare(b.type))
+		.sort((a, b) => generateUniqueKeyForUrl(a.url).localeCompare(generateUniqueKeyForUrl(b.url)))
+		.forEach(o => {
+			let title = ''
+			title += o.type
+			title += ' '
+			title += o.url.slice(0, SHOW_URL_LENGTH)
 
-		if (o.url.length > SHOW_URL_LENGTH) {
-			title += '…'
-		}
+			if (o.url.length > SHOW_URL_LENGTH) {
+				title += '…'
+			}
 
-		entries.set(String(i), title)
-	})
-
+			entries.set(o.key, title)
+		})
 	return entries
 }
