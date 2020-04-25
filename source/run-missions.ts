@@ -11,7 +11,7 @@ const BETWEEN_TWO_RUNS = 10 * MINUTE
 const BETWEEN_SAME_DOMAIN_CHECKS = 10 * SECOND
 
 export async function checkRunner(notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<void> {
-	const endless = generateEndlessLoopRunner(() => run(notifyChange, notifyError), BETWEEN_TWO_RUNS)
+	const endless = generateEndlessLoopRunner(async () => run(notifyChange, notifyError), BETWEEN_TWO_RUNS)
 	await endless()
 }
 

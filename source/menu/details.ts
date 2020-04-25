@@ -17,12 +17,12 @@ menu.submenu('Edit Content Replacers…', 'replacers', editContentReplacerMenu)
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
-    const index = Number(context.match![1])
-    return getByIndex(`tg${context.from!.id}`, index)
+	const index = Number(context.match![1])
+	return getByIndex(`tg${context.from!.id}`, index)
 }
 
 function menuBody(context: Context): Body {
-    const mission = getMission(context)
+	const mission = getMission(context)
 	let text = ''
 
 	text += basicInfo(format, mission)

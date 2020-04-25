@@ -35,7 +35,7 @@ menu.choose('remove', currentContentReplaceIndicies, {
 })
 
 menu.interact('Add…', 'add', {
-	do: ctx => ctx.answerCbQuery('TODO')
+	do: async ctx => ctx.answerCbQuery('TODO')
 })
 
 menu.manualRow(backButtons)

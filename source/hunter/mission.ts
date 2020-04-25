@@ -8,7 +8,7 @@ export type Mission =
 export type Type = Mission['type']
 export const TYPES: Type[] = ['head', 'html', 'js', 'txt', 'xml']
 
-export function StringIsType(type: string): type is Type {
+export function stringIsType(type: string): type is Type {
 	return (TYPES as string[]).includes(type)
 }
 

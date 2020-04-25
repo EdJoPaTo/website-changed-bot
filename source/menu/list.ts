@@ -4,7 +4,7 @@ import {userMissions} from '../user-missions'
 
 import {backButtons} from './back-buttons'
 import {Context} from './context'
-import {menu as detailsMenu}  from './details'
+import {menu as detailsMenu} from './details'
 
 const SHOW_URL_LENGTH = 50
 

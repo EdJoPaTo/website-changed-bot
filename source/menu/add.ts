@@ -8,7 +8,7 @@ import {basicInfo} from './lib/mission'
 import {Context} from './context'
 import {generateUniqueKeyForUrl} from '../mission'
 import {getStore} from '../trophy-store'
-import {TYPES, StringIsType, Mission, hasChanged} from '../hunter'
+import {TYPES, stringIsType, Mission, hasChanged} from '../hunter'
 import * as userMissions from '../user-missions'
 
 export const bot = new Composer<Context>()
@@ -16,7 +16,7 @@ export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
 const urlQuestion = new TelegrafStatelessQuestion<Context>('add-url', async context => {
-	const url = context.message.text as string | undefined
+	const url = context.message.text
 	if (!url) {
 		await context.reply('Please send the url as a text message')
 	} else if (!(url.startsWith('https://') || url.startsWith('http://'))) {
@@ -37,7 +37,7 @@ menu.interact('Set the url…', 'url', {
 		console.log('data', context.callbackQuery?.data)
 		await Promise.all([
 			urlQuestion.replyWithMarkdown(context, 'Please tell me the url you want to spy upon.'),
-			context.deleteMessage().catch(() => {})
+			context.deleteMessage().catch(() => {/* ignore */})
 		])
 	}
 })
@@ -45,7 +45,7 @@ menu.interact('Set the url…', 'url', {
 menu.select('type', TYPES, {
 	isSet: (context, key) => context.session.addType === key,
 	set: (context, key) => {
-		if (key === undefined || StringIsType(key)) {
+		if (key === undefined || stringIsType(key)) {
 			context.session.addType = key
 		}
 	}
@@ -96,6 +96,8 @@ menu.interact('Add', 'add', {
 
 			delete context.session.addType
 			delete context.session.addUrl
+
+			await context.answerCbQuery('added successfully 😎')
 		} catch (error) {
 			const errorMessage = error instanceof Error ? error.message : String(error)
 			await context.answerCbQuery(errorMessage, true)
