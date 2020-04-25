@@ -1,13 +1,15 @@
 import {Composer} from 'telegraf'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, replyMenuToContext, Body} from 'telegraf-inline-menu/next-gen'
+import {MenuTemplate, replyMenuToContext, Body} from 'telegraf-inline-menu/dist/next-gen'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
 import {backButtons} from './back-buttons'
+import {basicInfo} from './lib/mission'
 import {Context} from './context'
-import {TYPES, StringIsType} from '../hunter'
-import {getAll} from '../user-missions'
 import {generateUniqueKeyForUrl} from '../mission'
+import {getStore} from '../trophy-store'
+import {TYPES, StringIsType, Mission, hasChanged} from '../hunter'
+import * as userMissions from '../user-missions'
 
 export const bot = new Composer<Context>()
 
@@ -50,6 +52,9 @@ menu.select('type', TYPES, {
 })
 
 menu.interact('Reset', 'reset', {
+	hide: context => {
+		return !context.session.addType && !context.session.addUrl
+	},
 	do: async (context, next) => {
 		delete context.session.addType
 		delete context.session.addUrl
@@ -70,7 +75,34 @@ menu.interact('Add', 'add', {
 
 		return false
 	},
-	do: async context => context.answerCbQuery('TODO')
+	do: async (context, next) => {
+		if (!context.session.addUrl || !context.session.addType) {
+			return next()
+		}
+
+		const issuer = `tg${context.from!.id}`
+		const uniqueIdentifier = generateUniqueKeyForUrl(context.session.addUrl)
+		const mission: Mission = {
+			uniqueIdentifier,
+			type: context.session.addType,
+			url: context.session.addUrl,
+			contentReplace: []
+		}
+
+		try {
+			await hasChanged(mission, getStore(issuer))
+
+			userMissions.add(issuer, mission)
+
+			delete context.session.addType
+			delete context.session.addUrl
+		} catch (error) {
+			const errorMessage = error instanceof Error ? error.message : String(error)
+			await context.answerCbQuery(errorMessage, true)
+		}
+
+		return next()
+	}
 })
 
 menu.manualRow(backButtons)
@@ -94,25 +126,26 @@ function menuBody(context: Context): Body {
 
 	text += '\n'
 
-	if (similarUrlExists(context)) {
+	const similar = similarUrlExists(context)
+	if (similar) {
 		text += '⚠️'
-		text += 'You already have a similar url added! Use a different url :)'
+		text += 'You already have something similar:'
 		text += '\n'
+		text += basicInfo(format, similar)
 	}
 
 	return {text, parse_mode: format.parse_mode}
 }
 
-function similarUrlExists(context: Context): boolean {
+function similarUrlExists(context: Context): Mission | undefined {
 	if (!context.session.addUrl || !context.session.addType) {
-		return false
+		return undefined
 	}
 
 	const uniqueIdentifier = generateUniqueKeyForUrl(context.session.addUrl)
-	const existingMissions = getAll(`tg${context.from!.id}`)
+	const existingMissions = userMissions.getAll(`tg${context.from!.id}`)
 
 	return existingMissions
 		.filter(o => o.type === context.session.addType)
-		.map(o => o.uniqueIdentifier)
-		.some(o => o === uniqueIdentifier)
+		.find(o => o.uniqueIdentifier === uniqueIdentifier)
 }

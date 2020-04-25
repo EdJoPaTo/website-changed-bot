@@ -1,5 +1,5 @@
 import {Composer} from 'telegraf'
-import {MenuMiddleware} from 'telegraf-inline-menu/next-gen'
+import {MenuMiddleware} from 'telegraf-inline-menu/dist/next-gen'
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 
 import {Context} from './context'

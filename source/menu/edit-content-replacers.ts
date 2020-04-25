@@ -1,4 +1,4 @@
-import {MenuTemplate, Body} from 'telegraf-inline-menu/next-gen'
+import {MenuTemplate, Body} from 'telegraf-inline-menu/dist/next-gen'
 import {html as format} from 'telegram-format'
 
 import {getByIndex, update} from '../user-missions'

@@ -23,7 +23,7 @@ async function checkGroup<TMission extends Mission>(directions: ReadonlyArray<Di
 	await runSequentiallyWithDelayInBetween(checkOne, directions, delayMsBetweenSameDomain)
 }
 
-export async function checkOne<TMission extends Mission>(directions: Directions<TMission>): Promise<void> {
+async function checkOne<TMission extends Mission>(directions: Directions<TMission>): Promise<void> {
 	try {
 		const change = await hasChanged(directions.mission, directions.store)
 		await directions.notifyChange(directions.issuer, directions.mission, change)
@@ -32,7 +32,7 @@ export async function checkOne<TMission extends Mission>(directions: Directions<
 	}
 }
 
-async function hasChanged(mission: Mission, store: Store<string>): Promise<boolean | undefined> {
+export async function hasChanged(mission: Mission, store: Store<string>): Promise<boolean | undefined> {
 	const newRaw = await getCurrent(mission)
 	const newReplaced = replaceAll(newRaw, mission.contentReplace)
 

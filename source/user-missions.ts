@@ -33,3 +33,18 @@ export function update(issuer: string, updated: Mission): void {
 	newContent.splice(index, 1, updated)
 	userMissions.set(issuer, newContent)
 }
+
+export function add(issuer: string, ...add: readonly Mission[]) {
+	const current = getAll(issuer)
+	for (const mission of add) {
+		if (indexOfIdentifier(current, mission.type, mission.uniqueIdentifier) >= 0) {
+			throw new Error('A similar mission already exists. Maybe update instead?')
+		}
+	}
+
+	const all = [
+		...current,
+		...add
+	]
+	userMissions.set(issuer, all)
+}

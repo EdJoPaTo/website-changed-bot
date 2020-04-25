@@ -1,4 +1,4 @@
-import {MenuTemplate} from 'telegraf-inline-menu/next-gen'
+import {MenuTemplate} from 'telegraf-inline-menu/dist/next-gen'
 
 import {userMissions} from '../user-missions'
 
