@@ -1,5 +1,5 @@
 import {JsonFileStore} from './file-store'
-import {Mission} from './hunter'
+import {Mission, Type, generateFilename} from './hunter'
 
 export const userMissions = new JsonFileStore<Mission[]>('users/missions/')
 
@@ -16,15 +16,15 @@ export function getByIndex(issuer: string, index: number): Mission {
 	return all[index]
 }
 
-function indexOfIdentifier(missions: readonly Mission[], type: string, uniqueIdentifier: string): number {
+function indexOf(missions: readonly Mission[], url: string, type: Type): number {
 	return missions
-		.map(o => `${o.type} ${o.uniqueIdentifier}`)
-		.indexOf(`${type} ${uniqueIdentifier}`)
+		.map(o => generateFilename(o.url, o.type))
+		.indexOf(generateFilename(url, type))
 }
 
 export function update(issuer: string, updated: Mission): void {
 	const current = getAll(issuer)
-	const index = indexOfIdentifier(current, updated.type, updated.uniqueIdentifier)
+	const index = indexOf(current, updated.url, updated.type)
 	if (index < 0) {
 		throw new Error('mission to update does not exist')
 	}
@@ -37,7 +37,7 @@ export function update(issuer: string, updated: Mission): void {
 export function add(issuer: string, ...add: readonly Mission[]) {
 	const current = getAll(issuer)
 	for (const mission of add) {
-		if (indexOfIdentifier(current, mission.type, mission.uniqueIdentifier) >= 0) {
+		if (indexOf(current, mission.url, mission.type) >= 0) {
 			throw new Error('A similar mission already exists. Maybe update instead?')
 		}
 	}

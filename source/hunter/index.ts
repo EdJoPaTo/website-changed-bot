@@ -6,7 +6,7 @@ import {Store} from '../store'
 import {Directions} from './directions'
 import {getCurrent} from './individuals'
 import {getDomainFromUrl} from './url-logic'
-import {Mission, ContentReplace} from './mission'
+import {Mission, ContentReplace, generateFilename} from './mission'
 
 export * from './mission'
 
@@ -36,8 +36,7 @@ export async function hasChanged(mission: Mission, store: Store<string>): Promis
 	const newRaw = await getCurrent(mission)
 	const newReplaced = replaceAll(newRaw, mission.contentReplace)
 
-	const filename = mission.uniqueIdentifier + '.' + mission.type
-
+	const filename = generateFilename(mission.url, mission.type)
 	const lastContent = await store.get(filename)
 
 	if (lastContent !== newReplaced) {

@@ -6,7 +6,6 @@ import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 import {backButtons} from './back-buttons'
 import {basicInfo} from './lib/mission'
 import {Context} from './context'
-import {generateUniqueKeyForUrl} from '../mission'
 import {getStore} from '../trophy-store'
 import {TYPES, stringIsType, Mission, hasChanged} from '../hunter'
 import * as userMissions from '../user-missions'
@@ -81,9 +80,7 @@ menu.interact('Add', 'add', {
 		}
 
 		const issuer = `tg${context.from!.id}`
-		const uniqueIdentifier = generateUniqueKeyForUrl(context.session.addUrl)
 		const mission: Mission = {
-			uniqueIdentifier,
 			type: context.session.addType,
 			url: context.session.addUrl,
 			contentReplace: []
@@ -144,10 +141,7 @@ function similarUrlExists(context: Context): Mission | undefined {
 		return undefined
 	}
 
-	const uniqueIdentifier = generateUniqueKeyForUrl(context.session.addUrl)
 	const existingMissions = userMissions.getAll(`tg${context.from!.id}`)
-
 	return existingMissions
-		.filter(o => o.type === context.session.addType)
-		.find(o => o.uniqueIdentifier === uniqueIdentifier)
+		.find(o => o.type === context.session.addType && o.url === context.session.addUrl)
 }

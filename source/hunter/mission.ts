@@ -20,7 +20,6 @@ export interface ContentReplace {
 
 interface Base {
 	readonly contentReplace: readonly ContentReplace[];
-	readonly uniqueIdentifier: string;
 	readonly url: string;
 }
 
@@ -43,4 +42,17 @@ export interface TextMission extends Base {
 
 export interface XmlMission extends Base {
 	readonly type: 'xml';
+}
+
+function generateUniqueKeyForUrl(url: string): string {
+	return url
+		.replace(/^https?:\/\//, '')
+		.replace(/^www\./, '')
+		.replace(/[-_:;*?"<>|.&=/\\]+/g, ' ')
+		.trim()
+		.replace(/ +/g, '-')
+}
+
+export function generateFilename(url: string, type: Type): string {
+	return generateUniqueKeyForUrl(url) + '.' + type
 }

@@ -1,4 +1,4 @@
-import {checkMany, Mission} from './hunter'
+import {checkMany, Mission, generateFilename} from './hunter'
 import {getStore, finalizeStore} from './trophy-store'
 import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions'
 import {generateEndlessLoopRunner} from './async'
@@ -27,13 +27,9 @@ async function run(notifyChange: NotifyChangeFunction<Mission>, notifyError: Not
 	}
 }
 
-function filenameOfMission(mission: Mission): string {
-	return mission.uniqueIdentifier + '.' + mission.type
-}
-
 function finishUpIssuer(issuer: string): void {
 	const missions = userMissions.get(issuer) ?? []
-	finalizeStore(issuer, missions.map(filenameOfMission))
+	finalizeStore(issuer, missions.map(o => generateFilename(o.url, o.type)))
 }
 
 async function directionsOfIssuers(issuers: readonly string[], notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<ReadonlyArray<Directions<Mission>>> {

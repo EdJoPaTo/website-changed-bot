@@ -1,6 +1,6 @@
 import {MenuTemplate} from 'telegraf-inline-menu/dist/next-gen'
 
-import {generateUniqueKeyForUrl} from '../mission'
+import {generateFilename} from '../hunter'
 import {userMissions} from '../user-missions'
 
 import {backButtons} from './back-buttons'
@@ -32,8 +32,7 @@ function getAllEntries(user: number): Map<string, string> {
 			type: o.type,
 			url: o.url
 		}))
-		.sort((a, b) => a.type.localeCompare(b.type))
-		.sort((a, b) => generateUniqueKeyForUrl(a.url).localeCompare(generateUniqueKeyForUrl(b.url)))
+		.sort((a, b) => generateFilename(a.url, a.type).localeCompare(generateFilename(b.url, b.type)))
 		.forEach(o => {
 			let title = ''
 			title += o.type
