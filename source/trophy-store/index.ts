@@ -14,7 +14,6 @@ export function getStore(issuer: string): Store<string> {
 
 export function finalizeStore(issuer: string, expectedFiles: readonly string[]): void {
 	const folder = folderOfIssuer(issuer)
-	gitFolder.update(folder, 'update')
 	cleanup(folder, new Set(expectedFiles))
-	gitFolder.update(folder, 'cleanup')
+	gitFolder.update(folder, 'update')
 }
