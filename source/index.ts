@@ -1,5 +1,6 @@
 import {existsSync, readFileSync} from 'fs'
 
+import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 import {InlineKeyboardMarkup, User} from 'telegraf/typings/telegram-types'
 import Telegraf, {Extra, Markup, session} from 'telegraf'
 
@@ -14,6 +15,17 @@ import {notifyChange, notifyError, init} from './notify-tg-user'
 const tokenFilePath = existsSync('/run/secrets') ? '/run/secrets/bot-token.txt' : 'bot-token.txt'
 const token = readFileSync(tokenFilePath, 'utf8').trim()
 const bot = new Telegraf<Context>(token)
+
+if (process.env.NODE_ENV !== 'production') {
+	bot.use(generateUpdateMiddleware())
+	bot.use(async (context, next) => {
+		if (context.callbackQuery?.data) {
+			console.log(new Date().toISOString(), context.callbackQuery.data)
+		}
+
+		return next()
+	})
+}
 
 init(bot.telegram)
 
