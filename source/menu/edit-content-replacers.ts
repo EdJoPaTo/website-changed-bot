@@ -8,6 +8,8 @@ import {Context} from './context'
 import {backButtons} from './back-buttons'
 import {singleReplacerLines, basicInfo} from './lib/mission'
 
+import {menu as addContentReplacerMenu} from './add-content-replacer'
+
 export const menu = new MenuTemplate<Context>(menuBody)
 
 menu.choose('remove', currentContentReplaceIndicies, {
@@ -37,14 +39,12 @@ menu.choose('remove', currentContentReplaceIndicies, {
 	}
 })
 
-menu.interact('Add…', 'add', {
-	do: async ctx => ctx.answerCbQuery('TODO')
-})
+menu.submenu('Add…', 'add', addContentReplacerMenu)
 
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
-	const index = Number(context.match![1])
+	const index = Number(context.match![1].slice(1))
 	return getByIndex(`tg${context.from!.id}`, index)
 }
 

@@ -22,8 +22,7 @@ export function singleReplacerLines(format: Formatter, replacer: ContentReplace)
 	const regex = '/' + source + '/' + flags
 	let text = ''
 
-	text += format.escape('- ')
-	text += format.monospace(regex)
+	text += format.monospaceBlock(regex, 'js')
 	text += '\n'
 
 	text += '  '

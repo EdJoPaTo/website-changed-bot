@@ -5,6 +5,10 @@ export interface Session {
 	page: number | undefined;
 	addUrl?: string;
 	addType?: Type;
+	currentMissionIndex?: number;
+	replacerRegexSource?: string;
+	replacerRegexFlags?: string;
+	replacerReplaceValue?: string;
 }
 
 export interface Context extends TelegrafContext {
