@@ -45,15 +45,17 @@ export interface XmlMission extends Base {
 	readonly type: 'xml';
 }
 
-function generateUniqueKeyForUrl(url: string): string {
+function generateUniqueKeyForUrl(url: string, type: Type): string {
 	return url
 		.replace(/^https?:\/\//, '')
 		.replace(/^www\./, '')
+		.replace(new RegExp('\\.' + type + '$'), '')
+		.replace(/index$/, '')
 		.replace(/[-_:;*?"<>|.&=/\\]+/g, ' ')
 		.trim()
 		.replace(/ +/g, '-')
 }
 
 export function generateFilename(url: string, type: Type): string {
-	return generateUniqueKeyForUrl(url) + '.' + type
+	return generateUniqueKeyForUrl(url, type) + '.' + type
 }
