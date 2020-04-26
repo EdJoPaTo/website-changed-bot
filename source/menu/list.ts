@@ -9,9 +9,7 @@ import {menu as detailsMenu} from './details'
 
 const SHOW_URL_LENGTH = 50
 
-export const menu = new MenuTemplate<Context>({
-	text: 'Hier kannst du all deine Aufträge sehen, die regelmäßig abgearbeitet werden.'
-})
+export const menu = new MenuTemplate<Context>('Here you can see all the missions you set up to check regularly.')
 
 menu.chooseIntoSubmenu('', ctx => getAllEntries(ctx.from!.id), detailsMenu, {
 	columns: 1,
