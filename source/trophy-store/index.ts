@@ -3,6 +3,11 @@ import {StringFileStore} from '../file-store'
 
 import {cleanup} from './cleanup'
 import * as gitRepo from './git-repo'
+import {init as initGitDaemon} from './git-daemon'
+
+export function init(): void {
+	initGitDaemon('websites/links/')
+}
 
 function folderOfIssuer(issuer: string): string {
 	return `websites/folders/${issuer}/`

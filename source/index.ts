@@ -10,7 +10,8 @@ import {bot as partAdmin} from './parts/admin'
 import {bot as menu} from './menu'
 import {checkRunner} from './run-missions'
 import {Context} from './menu/context'
-import {notifyChange, notifyError, init} from './notify-tg-user'
+import {init as initTrophyStore} from './trophy-store'
+import {notifyChange, notifyError, init as initNotifyTgUser} from './notify-tg-user'
 
 const tokenFilePath = existsSync('/run/secrets') ? '/run/secrets/bot-token.txt' : 'bot-token.txt'
 const token = readFileSync(tokenFilePath, 'utf8').trim()
@@ -27,7 +28,8 @@ if (process.env.NODE_ENV !== 'production') {
 	})
 }
 
-init(bot.telegram)
+initNotifyTgUser(bot.telegram)
+initTrophyStore()
 
 bot.use(async (ctx, next) => {
 	const userList = users.getUsers()
