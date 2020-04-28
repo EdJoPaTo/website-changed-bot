@@ -48,3 +48,11 @@ export function add(issuer: string, ...add: readonly Mission[]) {
 	]
 	userMissions.set(issuer, all)
 }
+
+export function remove(issuer: string, remove: Mission) {
+	const removeFilename = generateFilename(remove.url, remove.type)
+	const current = getAll(issuer)
+	const all = current
+		.filter(o => generateFilename(o.url, o.type) !== removeFilename)
+	userMissions.set(issuer, all)
+}

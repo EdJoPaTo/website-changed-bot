@@ -26,7 +26,7 @@ function getAllEntries(user: number): Map<string, string> {
 	const entries = new Map<string, string>()
 	all
 		.map((o, i) => ({
-			key: `i${i}`,
+			index: i,
 			type: o.type,
 			url: o.url
 		}))
@@ -41,7 +41,8 @@ function getAllEntries(user: number): Map<string, string> {
 				title += '…'
 			}
 
-			entries.set(o.key, title)
+			const key = `i${o.index}-${generateFilename(o.url, o.type).slice(0, 25)}`
+			entries.set(key, title)
 		})
 	return entries
 }

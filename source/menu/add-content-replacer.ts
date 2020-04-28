@@ -17,6 +17,12 @@ const DEFAULT_REPLACE_VALUE = '$1'
 export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
+function getMissionIndex(context: Context): number {
+	const key = context.match![1]
+	const index = Number(/^i(\d+)-/.exec(key)![1])
+	return index
+}
+
 async function lostTrack(context: Context): Promise<void> {
 	await context.reply('Wait what? I lost track of things. Lets get me back on track please.')
 	await replyMenuToContext(listMenu, context, '/list/')
@@ -49,7 +55,7 @@ bot.use(regexQuestion.middleware())
 
 menu.interact('Set the Regular Expression…', 'regex', {
 	do: async context => {
-		context.session.currentMissionIndex = Number(context.match![1].slice(1))
+		context.session.currentMissionIndex = getMissionIndex(context)
 		await Promise.all([
 			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.'),
 			context.deleteMessage().catch(() => {/* ignore */})
@@ -103,7 +109,7 @@ bot.use(replaceValueQuestion.middleware())
 menu.interact('Set the replaceValue…', 'replaceValue', {
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
-		context.session.currentMissionIndex = Number(context.match![1].slice(1))
+		context.session.currentMissionIndex = getMissionIndex(context)
 		await Promise.all([
 			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.'),
 			context.deleteMessage().catch(() => {/* ignore */})
@@ -137,7 +143,7 @@ menu.interact('Add', 'add', {
 		const flags = context.session.replacerRegexFlags ?? DEFAULT_FLAGS
 		const replaceValue = context.session.replacerReplaceValue ?? DEFAULT_REPLACE_VALUE
 
-		const index = Number(context.match![1].slice(1))
+		const index = getMissionIndex(context)
 		const issuer = `tg${context.from!.id}`
 		const mission = userMissions.getByIndex(issuer, index)
 

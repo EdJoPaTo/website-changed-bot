@@ -44,7 +44,8 @@ menu.submenu('Add…', 'add', addContentReplacerMenu)
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
-	const index = Number(context.match![1].slice(1))
+	const key = context.match![1]
+	const index = Number(/^i(\d+)-/.exec(key)![1])
 	return getByIndex(`tg${context.from!.id}`, index)
 }
 

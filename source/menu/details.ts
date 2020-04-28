@@ -1,7 +1,7 @@
 import {MenuTemplate, Body} from 'telegraf-inline-menu/dist/next-gen'
 import {html as format} from 'telegram-format'
 
-import {getByIndex} from '../user-missions'
+import * as userMissions from '../user-missions'
 import {Mission} from '../hunter'
 
 import {Context} from './context'
@@ -14,11 +14,22 @@ export const menu = new MenuTemplate<Context>(menuBody)
 
 menu.submenu('Edit Content Replacers…', 'replacers', editContentReplacerMenu)
 
+menu.interact('Remove', 'remove', {
+	do: async (context, next) => {
+		const issuer = `tg${context.from!.id}`
+		const mission = getMission(context)
+		userMissions.remove(issuer, mission)
+
+		return next()
+	}
+})
+
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
-	const index = Number(context.match![1].slice(1))
-	return getByIndex(`tg${context.from!.id}`, index)
+	const key = context.match![1]
+	const index = Number(/^i(\d+)-/.exec(key)![1])
+	return userMissions.getByIndex(`tg${context.from!.id}`, index)
 }
 
 function menuBody(context: Context): Body {
