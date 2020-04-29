@@ -1,4 +1,4 @@
-import {MenuTemplate} from 'telegraf-inline-menu/dist/next-gen'
+import {MenuTemplate} from 'telegraf-inline-menu'
 
 import {backButtons} from './back-buttons'
 import {Context} from './context'

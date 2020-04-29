@@ -1,3 +1,3 @@
-import {createBackMainMenuButtons} from 'telegraf-inline-menu/dist/next-gen'
+import {createBackMainMenuButtons} from 'telegraf-inline-menu'
 
 export const backButtons = createBackMainMenuButtons()

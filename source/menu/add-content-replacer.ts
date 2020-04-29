@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, Body, replyMenuToContext} from 'telegraf-inline-menu/dist/next-gen'
+import {MenuTemplate, Body, replyMenuToContext} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
 import {ContentReplace} from '../hunter'

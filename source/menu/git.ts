@@ -1,4 +1,4 @@
-import {MenuTemplate, Body} from 'telegraf-inline-menu/dist/next-gen'
+import {MenuTemplate, Body} from 'telegraf-inline-menu'
 import {html as format} from 'telegram-format'
 
 import * as gitDaemon from '../trophy-store/git-daemon'

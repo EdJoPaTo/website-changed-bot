@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, replyMenuToContext, Body} from 'telegraf-inline-menu/dist/next-gen'
+import {MenuTemplate, replyMenuToContext, Body} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
 import {backButtons} from './back-buttons'

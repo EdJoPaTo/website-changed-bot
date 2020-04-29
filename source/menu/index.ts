@@ -1,5 +1,5 @@
 import {Composer} from 'telegraf'
-import {MenuMiddleware} from 'telegraf-inline-menu/dist/next-gen'
+import {MenuMiddleware} from 'telegraf-inline-menu'
 
 import {Context} from './context'
 import {mainMenu} from './main-menu'
