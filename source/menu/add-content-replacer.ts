@@ -17,10 +17,13 @@ const DEFAULT_REPLACE_VALUE = '$1'
 export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
-function getMissionIndex(context: Context): number {
-	const key = context.match![1]
-	const index = Number(/^i(\d+)-/.exec(key)![1])
-	return index
+function getMenuPath(context: Context): string {
+	const fullPath = context.callbackQuery!.data!
+	const parts = fullPath.split('/')
+
+	const menuPath = parts.slice(0, -1).join('/') + '/'
+	console.log('before', fullPath, menuPath, parts)
+	return menuPath
 }
 
 async function lostTrack(context: Context): Promise<void> {
@@ -29,14 +32,14 @@ async function lostTrack(context: Context): Promise<void> {
 }
 
 const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', async context => {
-	if (context.session.currentMissionIndex === undefined || !Number.isFinite(context.session.currentMissionIndex)) {
+	if (!context.session.pathBeforeQuestion) {
 		return lostTrack(context)
 	}
 
 	const regex = context.message.text
 	if (!regex) {
 		await context.reply('Please send the regular expression as a text message')
-		await replyMenuToContext(menu, context, `/list/:i${context.session.currentMissionIndex}/replacers/add/`)
+		await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
 		return
 	}
 
@@ -48,14 +51,14 @@ const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', a
 		await context.reply('That did not seem like a valid regular expression')
 	}
 
-	await replyMenuToContext(menu, context, `/list/:i${context.session.currentMissionIndex}/replacers/add/`)
+	await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
 })
 
 bot.use(regexQuestion.middleware())
 
 menu.interact('Set the Regular Expression…', 'regex', {
 	do: async context => {
-		context.session.currentMissionIndex = getMissionIndex(context)
+		context.session.pathBeforeQuestion = getMenuPath(context)
 		await Promise.all([
 			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.'),
 			context.deleteMessage().catch(() => {/* ignore */})
@@ -94,14 +97,14 @@ menu.select('flags', regexFlags, {
 })
 
 const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-replace-value', async context => {
-	if (context.session.currentMissionIndex === undefined || !Number.isFinite(context.session.currentMissionIndex)) {
+	if (!context.session.pathBeforeQuestion) {
 		return lostTrack(context)
 	}
 
 	// TODO: find a way to send 'empty'
 	const replaceValue = context.message.text
 	context.session.replacerReplaceValue = replaceValue
-	await replyMenuToContext(menu, context, `/list/:i${context.session.currentMissionIndex}/replacers/add/`)
+	await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
 })
 
 bot.use(replaceValueQuestion.middleware())
@@ -109,7 +112,7 @@ bot.use(replaceValueQuestion.middleware())
 menu.interact('Set the replaceValue…', 'replaceValue', {
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
-		context.session.currentMissionIndex = getMissionIndex(context)
+		context.session.pathBeforeQuestion = getMenuPath(context)
 		await Promise.all([
 			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.'),
 			context.deleteMessage().catch(() => {/* ignore */})
@@ -143,9 +146,9 @@ menu.interact('Add', 'add', {
 		const flags = context.session.replacerRegexFlags ?? DEFAULT_FLAGS
 		const replaceValue = context.session.replacerReplaceValue ?? DEFAULT_REPLACE_VALUE
 
-		const index = getMissionIndex(context)
+		const index = /\/:i(\d+)-/.exec(context.callbackQuery!.data!)![1]
 		const issuer = `tg${context.from!.id}`
-		const mission = userMissions.getByIndex(issuer, index)
+		const mission = userMissions.getByIndex(issuer, Number(index))
 
 		const newReplacers: ContentReplace[] = [
 			...(mission.contentReplace ?? []),
