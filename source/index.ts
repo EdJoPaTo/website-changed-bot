@@ -45,8 +45,8 @@ bot.use(async (ctx, next) => {
 	}
 
 	await Promise.all([
-		bot.telegram.forwardMessage(users.getAdmin(), ctx.chat!.id, ctx.message!.message_id),
-		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from!))),
+		bot.telegram.forwardMessage(users.getAdmin(), ctx.chat!.id, ctx.message!.message_id, {disable_notification: true}),
+		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from!)).notifications(false)),
 		ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.')
 	])
 })
