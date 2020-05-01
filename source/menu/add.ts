@@ -33,7 +33,6 @@ bot.use(urlQuestion.middleware())
 
 menu.interact('Set the url…', 'url', {
 	do: async context => {
-		console.log('data', context.callbackQuery?.data)
 		await Promise.all([
 			urlQuestion.replyWithMarkdown(context, 'Please tell me the url you want to spy upon.'),
 			context.deleteMessage().catch(() => {/* ignore */})

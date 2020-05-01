@@ -15,7 +15,7 @@ function tryCommit(folder: string, commitMessage: string): void {
 					return
 				}
 
-				console.log('git commit failed with unexpected error', stdoutString)
+				console.error('git commit failed with unexpected error', stdoutString)
 			}
 		}
 
