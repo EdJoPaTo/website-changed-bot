@@ -18,8 +18,7 @@ export function linkName(issuer: string, secret: string): string {
 }
 
 export function generateRemote(issuer: string, secret: string): string {
-	// TODO: read from environment variable or something like that
-	const host = 'localhost'
+	const host = process.env.PUBLIC_HOSTNAME ?? 'localhost'
 	return `git://${host}/${linkName(issuer, secret)}/`
 }
 
