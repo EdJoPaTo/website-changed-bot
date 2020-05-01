@@ -17,7 +17,7 @@
     "build": "del-cli dist && tsc",
     "prepack": "npm run build",
     "start": "ts-node source/index.ts",
-    "test": "tsc --sourceMap && xo && nyc ava"
+    "test": "tsc --sourceMap && xo"
   },
   "main": "dist",
   "types": "dist",
