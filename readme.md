@@ -5,10 +5,3 @@
 [![Dev Dependency Status](https://david-dm.org/EdJoPaTo/website-changed-bot/dev-status.svg)](https://david-dm.org/EdJoPaTo/website-changed-bot?type=dev)
 
 >
-
-
-## Install
-
-```
-$ npm install website-changed-bot
-```
