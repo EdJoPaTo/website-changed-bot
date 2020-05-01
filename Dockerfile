@@ -17,6 +17,7 @@ VOLUME /app/websites
 
 ENV NODE_ENV=production
 
+COPY package.json ./
 COPY --from=0 /build/node_modules ./node_modules
 COPY --from=0 /build/dist ./
 

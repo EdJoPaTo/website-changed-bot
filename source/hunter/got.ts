@@ -1,6 +1,6 @@
-import got from 'got'
+import {readFileSync} from 'fs'
 
-import * as packageJson from '../../package.json'
+import got from 'got'
 
 // TODO: implement cache
 // const cache = new Map<string, string>()
@@ -8,8 +8,14 @@ import * as packageJson from '../../package.json'
 // As its possible that users have the same url multiple times there should be a cache in the first place to prevent multiple calls to the same url
 // Also make sure to serve from own cache when 304 is returned
 
+function getVersion(): string {
+	const content = readFileSync('package.json', 'utf8')
+	const json = JSON.parse(content)
+	return json.version
+}
+
 export const cachedGot = got.extend({
 	headers: {
-		'user-agent': 'WebsiteChangedBot ' + packageJson.version + ' https://github.com/EdJoPaTo/WebsiteChangedBot'
+		'user-agent': 'WebsiteChangedBot ' + getVersion() + 'https://github.com/EdJoPaTo/WebsiteChangedBot'
 	}
 })
