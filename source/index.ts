@@ -39,7 +39,7 @@ bot.use(async (ctx, next) => {
 	}
 
 	if (userList.length === 0) {
-		await users.addUser(ctx.from!.id)
+		await users.addUser(ctx.from!.id, true)
 		await ctx.reply('you are now Admin ☺️')
 		return
 	}

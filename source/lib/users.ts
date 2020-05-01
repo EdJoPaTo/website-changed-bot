@@ -6,7 +6,7 @@ import {Context as TelegrafContext} from 'telegraf'
 const USERS_FILE = './persistent/users.json'
 
 export interface User {
-	websites: Record<string, string>;
+	admin?: boolean;
 }
 
 let users: Record<number, User>
@@ -14,7 +14,7 @@ try {
 	users = JSON.parse(readFileSync(USERS_FILE, 'utf8'))
 } catch (_) {
 	users = {}
-	console.error(`The admin has to write the first message to the bot. If someone else is faster, he will be the admin. (Admin is the first one in the "${USERS_FILE}".)`)
+	console.error(`The admin has to write the first message to the bot. If someone else is faster, he will be the admin. (Admin is set in "${USERS_FILE}".)`)
 }
 
 async function saveUsersFile(): Promise<void> {
@@ -26,12 +26,18 @@ export function getUsers(): readonly number[] {
 }
 
 export function getAdmin(): number {
-	// Assume first user in file is admin
-	return getUsers()[0]
+	const userId = Object.keys(users)
+		.map(o => Number(o))
+		.find(o => users[o].admin)
+	if (!userId) {
+		throw new Error('The admin has to write the first message to the bot. If someone else is faster, he will be the admin.')
+	}
+
+	return userId
 }
 
-export async function addUser(userID: number): Promise<void> {
-	users[userID] = {websites: {}}
+export async function addUser(userID: number, isAdmin: boolean): Promise<void> {
+	users[userID] = {admin: isAdmin}
 	return saveUsersFile()
 }
 
@@ -40,7 +46,9 @@ export function getUserSettings(userID: number): User {
 }
 
 export async function setUserSettings(userID: number, settings: User): Promise<void> {
-	users[userID] = settings
+	users[userID] = {
+		admin: settings.admin
+	}
 	return saveUsersFile()
 }
 
