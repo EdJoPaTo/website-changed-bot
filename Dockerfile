@@ -13,10 +13,14 @@ RUN rm -rf node_modules && npm ci --production
 FROM node:14-alpine
 WORKDIR /app
 VOLUME /app/persistent
+VOLUME /app/users
 VOLUME /app/websites
 
 ENV NODE_ENV=production
 
+RUN apk add --no-cache git
+
+COPY gitconfig /root/.gitconfig
 COPY package.json ./
 COPY --from=0 /build/node_modules ./node_modules
 COPY --from=0 /build/dist ./
