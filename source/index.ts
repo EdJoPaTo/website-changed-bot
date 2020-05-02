@@ -77,6 +77,10 @@ bot.catch((error: any) => {
 })
 
 async function startup() {
+	await bot.telegram.setMyCommands([
+		{command: 'start', description: 'display the menu'}
+	])
+
 	await bot.launch()
 	console.log(new Date(), 'Bot started as', bot.options.username)
 
