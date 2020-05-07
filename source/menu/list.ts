@@ -8,8 +8,6 @@ import {backButtons} from './back-buttons'
 import {Context} from './context'
 import {menu as detailsMenu} from './details'
 
-const SHOW_URL_LENGTH = 50
-
 export const menu = new MenuTemplate<Context>(menuBody)
 
 menu.chooseIntoSubmenu('', ctx => getAllEntries(ctx.from!.id), detailsMenu, {
@@ -55,11 +53,7 @@ function getAllEntries(user: number): Map<string, string> {
 			let title = ''
 			title += o.type
 			title += ' '
-			title += o.url.slice(0, SHOW_URL_LENGTH)
-
-			if (o.url.length > SHOW_URL_LENGTH) {
-				title += '…'
-			}
+			title += o.url
 
 			const key = `i${o.index}-${generateFilename(o.url, o.type).slice(0, 25)}`
 			entries.set(key, title)
