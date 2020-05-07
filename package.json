@@ -17,7 +17,7 @@
     "build": "del-cli dist && tsc",
     "prepack": "npm run build",
     "start": "ts-node source/index.ts",
-    "test": "tsc --sourceMap && xo"
+    "test": "tsc --sourceMap && xo && nyc ava"
   },
   "main": "dist",
   "types": "dist",
@@ -42,10 +42,29 @@
     "@types/js-beautify": "^1.8.2",
     "@types/json-stable-stringify": "^1.0.32",
     "@types/node": "^13.1.4",
+    "ava": "^3.8.1",
     "del-cli": "^3.0.0",
+    "nyc": "^15.0.1",
     "ts-node": "^8.8.2",
     "typescript": "^3.7.4",
     "xo": "^0.30.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "dist",
+      "source"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.test.ts"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ]
   },
   "xo": {
     "semicolon": false,

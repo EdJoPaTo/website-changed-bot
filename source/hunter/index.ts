@@ -5,10 +5,11 @@ import {Store} from '../store'
 
 import {Directions} from './directions'
 import {getCurrent} from './individuals'
-import {getDomainFromUrl} from './url-logic'
-import {Mission, ContentReplace, generateFilename} from './mission'
+import {getDomainFromUrl, generateFilename} from './url-logic'
+import {Mission, ContentReplace} from './mission'
 
 export * from './mission'
+export * from './url-logic'
 
 export async function checkMany<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>, delayMsBetweenSameDomain: number): Promise<void> {
 	const groupedByDomain = directions
