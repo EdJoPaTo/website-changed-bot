@@ -50,13 +50,9 @@ function getAllEntries(user: number): Map<string, string> {
 		}))
 		.sort((a, b) => generateFilename(a.url, a.type).localeCompare(generateFilename(b.url, b.type)))
 		.forEach(o => {
-			let title = ''
-			title += o.type
-			title += ' '
-			title += o.url
-
-			const key = `i${o.index}-${generateFilename(o.url, o.type).slice(0, 25)}`
-			entries.set(key, title)
+			const filename = generateFilename(o.url, o.type)
+			const key = `i${o.index}-${filename.slice(0, 25)}`
+			entries.set(key, filename)
 		})
 	return entries
 }

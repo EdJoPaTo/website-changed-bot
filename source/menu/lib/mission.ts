@@ -1,9 +1,12 @@
 import {Formatter} from 'telegram-format'
 
-import {Mission, ContentReplace} from '../../hunter'
+import {Mission, ContentReplace, generateFilename} from '../../hunter'
 
 export function basicInfo(format: Formatter, mission: Mission): string {
 	let text = ''
+	text += format.bold(generateFilename(mission.url, mission.type))
+	text += '\n'
+
 	text += format.bold('Url')
 	text += ': '
 	text += format.escape(mission.url)
