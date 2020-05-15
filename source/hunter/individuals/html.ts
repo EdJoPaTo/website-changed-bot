@@ -10,6 +10,6 @@ export async function getHtml(entry: HtmlMission): Promise<string> {
 		throw new Error('The response body does not seem like html')
 	}
 
-	const beautified = beautifyHtml(body, {indent_with_tabs: true})
+	const beautified = beautifyHtml(body, {indent_with_tabs: true, end_with_newline: true})
 	return beautified
 }
