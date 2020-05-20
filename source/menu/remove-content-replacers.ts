@@ -11,6 +11,7 @@ import {singleReplacerLines, basicInfo} from './lib/mission'
 export const menu = new MenuTemplate<Context>(menuBody)
 
 menu.choose('remove', currentContentReplaceIndicies, {
+	columns: 3,
 	buttonText: (_, key) => {
 		const index = Number(key)
 		return `remove ${index + 1}`
