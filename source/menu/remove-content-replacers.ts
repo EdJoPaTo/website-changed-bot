@@ -8,8 +8,6 @@ import {Context} from './context'
 import {backButtons} from './back-buttons'
 import {singleReplacerLines, basicInfo} from './lib/mission'
 
-import {menu as addContentReplacerMenu} from './add-content-replacer'
-
 export const menu = new MenuTemplate<Context>(menuBody)
 
 menu.choose('remove', currentContentReplaceIndicies, {
@@ -39,8 +37,6 @@ menu.choose('remove', currentContentReplaceIndicies, {
 	}
 })
 
-menu.submenu('Add…', 'add', addContentReplacerMenu)
-
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
@@ -54,19 +50,6 @@ function menuBody(context: Context): Body {
 	let text = ''
 
 	text += basicInfo(format, mission)
-
-	text += '\n'
-	text += format.bold('Content Replace')
-	text += '\n'
-
-	let infoText = 'Content Replacers are Regular Expressions used after the content is downloaded to remove parts without interest.\n'
-	infoText += 'They use JavaScripts String.replace [1] under the hood. '
-	infoText += 'This means they have a Regular Expression and a replaceValue.\n'
-
-	text += format.escape(infoText)
-	text += format.escape('[1] ')
-	text += format.url(format.escape('JavaScript String.replace Documentation'), 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace')
-	text += '\n'
 
 	text += '\n'
 

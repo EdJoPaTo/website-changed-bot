@@ -8,13 +8,22 @@ import {Context} from './context'
 import {backButtons} from './back-buttons'
 import {singleReplacerLines, basicInfo} from './lib/mission'
 
-import {menu as editContentReplacerMenu} from './edit-content-replacers'
+import {menu as addContentReplacerMenu} from './add-content-replacer'
+import {menu as removeContentReplacerMenu} from './remove-content-replacers'
 
 export const menu = new MenuTemplate<Context>(menuBody)
 
-menu.submenu('Edit Content Replacers…', 'replacers', editContentReplacerMenu)
+menu.submenu('Add Content Replacer…', 'replacer-add', addContentReplacerMenu)
 
-menu.interact('Remove', 'remove', {
+menu.submenu('Remove Content Replacer…', 'replacer-remove', removeContentReplacerMenu, {
+	leaveOnChildInteraction: true,
+	hide: async context => {
+		const mission = getMission(context)
+		return !mission.contentReplace?.length
+	}
+})
+
+menu.interact('Remove Mission', 'remove', {
 	do: async (context, next) => {
 		const issuer = `tg${context.from!.id}`
 		const mission = getMission(context)

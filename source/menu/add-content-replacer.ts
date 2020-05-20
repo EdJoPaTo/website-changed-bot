@@ -179,6 +179,18 @@ function menuBody(context: Context, path: string): Body {
 	text += basicInfo(format, mission)
 	text += '\n'
 
+	text += format.bold('Content Replace')
+	text += '\n'
+
+	let infoText = 'Content Replacers are Regular Expressions used after the content is downloaded to remove parts without interest.\n'
+	infoText += 'They use JavaScripts String.replace [1] under the hood. '
+	infoText += 'This means they have a Regular Expression and a replaceValue.\n'
+
+	text += format.escape(infoText)
+	text += format.escape('[1] ')
+	text += format.url(format.escape('JavaScript String.replace Documentation'), 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace')
+	text += '\n\n'
+
 	const {replacerRegexSource: source, replacerRegexFlags: flags, replacerReplaceValue: replaceValue} = context.session
 
 	if (source) {
