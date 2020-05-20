@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, replyMenuToContext, Body} from 'telegraf-inline-menu'
+import {MenuTemplate, replyMenuToContext, Body, deleteMenuFromContext} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
 import {backButtons} from './back-buttons'
@@ -35,7 +35,7 @@ menu.interact('Set the url…', 'url', {
 	do: async context => {
 		await Promise.all([
 			urlQuestion.replyWithMarkdown(context, 'Please tell me the url you want to spy upon.'),
-			context.deleteMessage().catch(() => {/* ignore */})
+			deleteMenuFromContext(context)
 		])
 	}
 })

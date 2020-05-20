@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, Body, replyMenuToContext} from 'telegraf-inline-menu'
+import {MenuTemplate, Body, replyMenuToContext, deleteMenuFromContext} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
 import {ContentReplace} from '../hunter'
@@ -61,7 +61,7 @@ menu.interact('Set the Regular Expression…', 'regex', {
 		context.session.pathBeforeQuestion = getMenuPath(context)
 		await Promise.all([
 			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.'),
-			context.deleteMessage().catch(() => {/* ignore */})
+			deleteMenuFromContext(context)
 		])
 	}
 })
@@ -115,7 +115,7 @@ menu.interact('Set the replaceValue…', 'replaceValue', {
 		context.session.pathBeforeQuestion = getMenuPath(context)
 		await Promise.all([
 			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.'),
-			context.deleteMessage().catch(() => {/* ignore */})
+			deleteMenuFromContext(context)
 		])
 	}
 })
