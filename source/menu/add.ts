@@ -53,10 +53,10 @@ menu.interact('Reset', 'reset', {
 	hide: context => {
 		return !context.session.addType && !context.session.addUrl
 	},
-	do: async (context, next) => {
+	do: async context => {
 		delete context.session.addType
 		delete context.session.addUrl
-		return next()
+		return '.'
 	}
 })
 
@@ -73,9 +73,9 @@ menu.interact('Add', 'add', {
 
 		return false
 	},
-	do: async (context, next) => {
+	do: async context => {
 		if (!context.session.addUrl || !context.session.addType) {
-			return next()
+			return '.'
 		}
 
 		const issuer = `tg${context.from!.id}`
@@ -99,7 +99,7 @@ menu.interact('Add', 'add', {
 			await context.answerCbQuery(errorMessage, true)
 		}
 
-		return next()
+		return '.'
 	}
 })
 

@@ -16,7 +16,6 @@ export const menu = new MenuTemplate<Context>(menuBody)
 menu.submenu('Add Content Replacer…', 'replacer-add', addContentReplacerMenu)
 
 menu.submenu('Remove Content Replacer…', 'replacer-remove', removeContentReplacerMenu, {
-	leaveOnChildInteraction: true,
 	hide: async context => {
 		const mission = getMission(context)
 		return !mission.contentReplace?.length
@@ -24,12 +23,12 @@ menu.submenu('Remove Content Replacer…', 'replacer-remove', removeContentRepla
 })
 
 menu.interact('Remove Mission', 'remove', {
-	do: async (context, next) => {
+	do: async context => {
 		const issuer = `tg${context.from!.id}`
 		const mission = getMission(context)
 		userMissions.remove(issuer, mission)
 
-		return next()
+		return '.'
 	}
 })
 

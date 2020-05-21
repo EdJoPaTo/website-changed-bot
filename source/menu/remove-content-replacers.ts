@@ -16,7 +16,7 @@ menu.choose('remove', currentContentReplaceIndicies, {
 		const index = Number(key)
 		return `remove ${index + 1}`
 	},
-	do: async (context, next, key) => {
+	do: async (context, key) => {
 		if (key) {
 			const index = Number(key)
 			const mission = getMission(context)
@@ -34,7 +34,7 @@ menu.choose('remove', currentContentReplaceIndicies, {
 			update(`tg${context.from!.id}`, newMission)
 		}
 
-		return next()
+		return '..'
 	}
 })
 

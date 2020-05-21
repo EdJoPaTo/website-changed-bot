@@ -124,11 +124,11 @@ menu.interact('Reset', 'reset', {
 	hide: context => context.session.replacerRegexSource === undefined &&
 		context.session.replacerRegexFlags === undefined &&
 		context.session.replacerReplaceValue === undefined,
-	do: async (context, next) => {
+	do: async context => {
 		delete context.session.replacerRegexSource
 		delete context.session.replacerRegexFlags
 		delete context.session.replacerReplaceValue
-		return next()
+		return '.'
 	}
 
 })
@@ -136,7 +136,7 @@ menu.interact('Reset', 'reset', {
 menu.interact('Add', 'add', {
 	joinLastRow: true,
 	hide: context => !context.session.replacerRegexSource,
-	do: async (context, next) => {
+	do: async context => {
 		if (!context.session.replacerRegexSource) {
 			await context.answerCbQuery('you need to specify a source')
 			return
@@ -161,10 +161,8 @@ menu.interact('Add', 'add', {
 		delete context.session.replacerRegexFlags
 		delete context.session.replacerReplaceValue
 
-		await Promise.all([
-			context.answerCbQuery('added successfully 😎'),
-			next()
-		])
+		await context.answerCbQuery('added successfully 😎')
+		return '.'
 	}
 })
 

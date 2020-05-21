@@ -14,11 +14,11 @@ function enableText(context: Context): string {
 }
 
 menu.interact(enableText, 'enable', {
-	do: async (context, next) => {
+	do: async context => {
 		const issuer = `tg${context.from!.id}`
 		const secret = generateSecret()
 		gitDaemon.createLink(issuer, secret)
-		return next()
+		return '.'
 	}
 })
 
@@ -27,10 +27,10 @@ menu.interact('Disable Git', 'disable', {
 		const {secret} = getInfo(context)
 		return !secret
 	},
-	do: async (context, next) => {
+	do: async context => {
 		const issuer = `tg${context.from!.id}`
 		gitDaemon.removeLink(issuer)
-		return next()
+		return '.'
 	}
 })
 
