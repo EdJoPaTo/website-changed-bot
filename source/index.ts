@@ -78,7 +78,8 @@ bot.catch((error: any) => {
 
 async function startup() {
 	await bot.telegram.setMyCommands([
-		{command: 'start', description: 'display the menu'}
+		{command: 'start', description: 'display the menu'},
+		{command: 'add', description: 'add another url'}
 	])
 
 	await bot.launch()

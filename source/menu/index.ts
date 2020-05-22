@@ -14,5 +14,6 @@ bot.use(addContentReplacerComposer)
 const menuMiddleware = new MenuMiddleware('/', mainMenu)
 
 bot.command('start', async ctx => menuMiddleware.replyToContext(ctx))
+bot.command('add', async ctx => menuMiddleware.replyToContext(ctx, '/add/'))
 
 bot.use(menuMiddleware.middleware())
