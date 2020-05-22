@@ -7,8 +7,10 @@ import {backButtons} from './back-buttons'
 import {basicInfo} from './lib/mission'
 import {Context} from './context'
 import {getStore} from '../trophy-store'
-import {TYPES, stringIsType, Mission, hasChanged} from '../hunter'
+import {TYPES, stringIsType, Mission, hasChanged, generateFilename} from '../hunter'
 import * as userMissions from '../user-missions'
+
+const DEFAULT_TYPE = 'html'
 
 export const bot = new Composer<Context>()
 
@@ -41,9 +43,9 @@ menu.interact('Set the url…', 'url', {
 })
 
 menu.select('type', TYPES, {
-	isSet: (context, key) => context.session.addType === key,
+	isSet: (context, key) => (context.session.addType ?? DEFAULT_TYPE) === key,
 	set: (context, key) => {
-		if (key === undefined || stringIsType(key)) {
+		if (stringIsType(key)) {
 			context.session.addType = key
 		}
 	}
@@ -51,7 +53,7 @@ menu.select('type', TYPES, {
 
 menu.interact('Reset', 'reset', {
 	hide: context => {
-		return !context.session.addType && !context.session.addUrl
+		return !context.session.addUrl && (context.session.addType ?? DEFAULT_TYPE) === DEFAULT_TYPE
 	},
 	do: async context => {
 		delete context.session.addType
@@ -63,7 +65,7 @@ menu.interact('Reset', 'reset', {
 menu.interact('Add', 'add', {
 	joinLastRow: true,
 	hide: context => {
-		if (!context.session.addUrl || !context.session.addType) {
+		if (!context.session.addUrl) {
 			return true
 		}
 
@@ -74,13 +76,13 @@ menu.interact('Add', 'add', {
 		return false
 	},
 	do: async context => {
-		if (!context.session.addUrl || !context.session.addType) {
+		if (!context.session.addUrl) {
 			return '.'
 		}
 
 		const issuer = `tg${context.from!.id}`
 		const mission: Mission = {
-			type: context.session.addType,
+			type: context.session.addType ?? DEFAULT_TYPE,
 			url: context.session.addUrl,
 			contentReplace: []
 		}
@@ -113,12 +115,10 @@ function menuBody(context: Context): Body {
 		text += ': '
 		text += format.escape(context.session.addUrl)
 		text += '\n'
-	}
 
-	if (context.session.addType) {
 		text += format.bold('Type')
 		text += ': '
-		text += format.escape(context.session.addType)
+		text += format.escape(context.session.addType ?? DEFAULT_TYPE)
 		text += '\n'
 	}
 
@@ -136,11 +136,13 @@ function menuBody(context: Context): Body {
 }
 
 function similarUrlExists(context: Context): Mission | undefined {
-	if (!context.session.addUrl || !context.session.addType) {
+	if (!context.session.addUrl) {
 		return undefined
 	}
 
+	const filename = generateFilename(context.session.addUrl, context.session.addType ?? DEFAULT_TYPE)
+
 	const existingMissions = userMissions.getAll(`tg${context.from!.id}`)
 	return existingMissions
-		.find(o => o.type === context.session.addType && o.url === context.session.addUrl)
+		.find(o => filename === generateFilename(o.url, o.type))
 }
