@@ -28,7 +28,7 @@ menu.interact('Remove Mission', 'remove', {
 		const mission = getMission(context)
 		userMissions.remove(issuer, mission)
 
-		return '.'
+		return '..'
 	}
 })
 

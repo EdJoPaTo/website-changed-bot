@@ -162,7 +162,7 @@ menu.interact('Add', 'add', {
 		delete context.session.replacerReplaceValue
 
 		await context.answerCbQuery('added successfully 😎')
-		return '.'
+		return '..'
 	}
 })
 
