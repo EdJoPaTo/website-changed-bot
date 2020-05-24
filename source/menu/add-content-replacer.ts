@@ -122,7 +122,7 @@ menu.interact('Set the replaceValue…', 'replaceValue', {
 
 menu.interact('Reset', 'reset', {
 	hide: context => context.session.replacerRegexSource === undefined &&
-		context.session.replacerRegexFlags === undefined &&
+		(context.session.replacerRegexFlags ?? DEFAULT_FLAGS) === DEFAULT_FLAGS &&
 		context.session.replacerReplaceValue === undefined,
 	do: async context => {
 		delete context.session.replacerRegexSource
