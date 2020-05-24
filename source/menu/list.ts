@@ -36,7 +36,11 @@ function menuBody(context: Context): Body {
 		text += '\n'
 	}
 
-	return {text, parse_mode: format.parse_mode}
+	return {
+		text,
+		disable_web_page_preview: true,
+		parse_mode: format.parse_mode
+	}
 }
 
 function getAllEntries(user: number): Map<string, string> {
