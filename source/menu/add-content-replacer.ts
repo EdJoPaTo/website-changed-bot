@@ -75,7 +75,7 @@ const regexFlags = {
 
 menu.select('flags', regexFlags, {
 	columns: 2,
-	multiselect: true,
+	showFalseEmoji: true,
 	isSet: (context, key) => (context.session.replacerRegexFlags ?? DEFAULT_FLAGS).includes(key),
 	set: (context, key, newState) => {
 		if (!key) {
