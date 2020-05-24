@@ -207,7 +207,7 @@ function menuBody(context: Context, path: string): Body {
 		text += 'this basically results in the JavaScript equivalent of'
 		text += '\n'
 
-		const js = `content.replace(/${source}/${flags ?? DEFAULT_FLAGS}, '${replaceValue ?? DEFAULT_REPLACE_VALUE}')`
+		const js = `content.replace(\n  /${source}/${flags ?? DEFAULT_FLAGS},\n  '${replaceValue ?? DEFAULT_REPLACE_VALUE}'\n)`
 		text += format.monospaceBlock(js, 'js')
 		text += '\n'
 	}
