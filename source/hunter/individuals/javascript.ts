@@ -12,6 +12,11 @@ export async function getJavaScript(entry: JavaScriptMission): Promise<string> {
 		throw new Error('The response body does not seem like JavaScript')
 	}
 
-	const beautified = beautifyJS(body, {indent_with_tabs: true, end_with_newline: true})
+	const beautified = beautifyJS(body, {
+		end_with_newline: true,
+		eol: '\n',
+		indent_with_tabs: true,
+		max_preserve_newlines: 2
+	})
 	return beautified
 }
