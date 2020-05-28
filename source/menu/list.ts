@@ -10,8 +10,11 @@ import {menu as detailsMenu} from './details'
 
 export const menu = new MenuTemplate<Context>(menuBody)
 
+const ENTRIES_PER_PAGE = 10
+
 menu.chooseIntoSubmenu('', ctx => getAllEntries(ctx.from!.id), detailsMenu, {
 	columns: 1,
+	maxRows: ENTRIES_PER_PAGE,
 	getCurrentPage: context => context.session.page,
 	setPage: (context, page) => {
 		context.session.page = page
@@ -26,9 +29,14 @@ function menuBody(context: Context): Body {
 	text += 'Here you can see all the missions you set up to check regularly.'
 	text += '\n\n'
 
+	const page = (context.session.page ?? 1) - 1
+	const offset = page * ENTRIES_PER_PAGE
+	const end = (page + 1) * ENTRIES_PER_PAGE
+
 	const all = userMissions.get(`tg${context.from!.id}`) ?? []
 	const missions = all
 		.sort((a, b) => generateFilename(a.url, a.type).localeCompare(generateFilename(b.url, b.type)))
+		.slice(offset, end)
 
 	for (const mission of missions) {
 		const label = format.monospace(mission.type) + ': ' + format.escape(mission.url)
