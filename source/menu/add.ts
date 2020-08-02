@@ -39,6 +39,7 @@ menu.interact('Set the url…', 'url', {
 			urlQuestion.replyWithMarkdown(context, 'Please tell me the url you want to spy upon.'),
 			deleteMenuFromContext(context)
 		])
+		return false
 	}
 })
 
@@ -48,6 +49,8 @@ menu.select('type', TYPES, {
 		if (stringIsType(key)) {
 			context.session.addType = key
 		}
+
+		return true
 	}
 })
 

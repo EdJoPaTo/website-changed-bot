@@ -63,6 +63,7 @@ menu.interact('Set the Regular Expression…', 'regex', {
 			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.'),
 			deleteMenuFromContext(context)
 		])
+		return false
 	}
 })
 
@@ -78,10 +79,6 @@ menu.select('flags', regexFlags, {
 	showFalseEmoji: true,
 	isSet: (context, key) => (context.session.replacerRegexFlags ?? DEFAULT_FLAGS).includes(key),
 	set: (context, key, newState) => {
-		if (!key) {
-			return
-		}
-
 		const old = context.session.replacerRegexFlags ?? DEFAULT_FLAGS
 		const set = new Set([...old])
 		if (newState) {
@@ -93,6 +90,8 @@ menu.select('flags', regexFlags, {
 		context.session.replacerRegexFlags = [...set]
 			.sort((a, b) => a.localeCompare(b))
 			.join('')
+
+		return true
 	}
 })
 
@@ -117,6 +116,7 @@ menu.interact('Set the replaceValue…', 'replaceValue', {
 			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.'),
 			deleteMenuFromContext(context)
 		])
+		return false
 	}
 })
 
@@ -139,7 +139,7 @@ menu.interact('Add', 'add', {
 	do: async context => {
 		if (!context.session.replacerRegexSource) {
 			await context.answerCbQuery('you need to specify a source')
-			return
+			return false
 		}
 
 		const source = context.session.replacerRegexSource

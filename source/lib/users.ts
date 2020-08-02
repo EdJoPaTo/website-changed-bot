@@ -12,7 +12,7 @@ export interface User {
 let users: Record<number, User>
 try {
 	users = JSON.parse(readFileSync(USERS_FILE, 'utf8'))
-} catch (_) {
+} catch {
 	users = {}
 	console.error(`The admin has to write the first message to the bot. If someone else is faster, he will be the admin. (Admin is set in "${USERS_FILE}".)`)
 }
@@ -54,7 +54,7 @@ export async function setUserSettings(userID: number, settings: User): Promise<v
 
 export function middleware(): (ctx: TelegrafContext, next: () => Promise<void>) => Promise<void> {
 	return async (ctx, next) => {
-		const user = ctx.from && ctx.from.id
+		const user = ctx.from?.id
 		if (!user) {
 			return next()
 		}

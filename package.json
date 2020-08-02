@@ -31,8 +31,8 @@
     "got": "^11.0.2",
     "js-beautify": "^1.10.0",
     "json-stable-stringify": "^1.0.1",
-    "telegraf": "^3.27.1",
-    "telegraf-inline-menu": "^5.0.0-beta.4",
+    "telegraf": "^3.38.0",
+    "telegraf-inline-menu": "^5.0.0",
     "telegraf-middleware-console-time": "^1.0.0",
     "telegraf-stateless-question": "^0.1.0",
     "telegram-format": "^2.0.0"
@@ -47,7 +47,7 @@
     "nyc": "^15.0.1",
     "ts-node": "^8.8.2",
     "typescript": "^3.7.4",
-    "xo": "^0.30.0"
+    "xo": "^0.32.1"
   },
   "nyc": {
     "extension": [
@@ -69,7 +69,7 @@
   "xo": {
     "semicolon": false,
     "rules": {
-      "@typescript-eslint/prefer-readonly-parameter-types": "off",
+			"unicorn/no-reduce": "off",
       "unicorn/no-fn-reference-in-iterator": "off"
     }
   }

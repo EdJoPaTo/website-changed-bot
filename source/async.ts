@@ -24,7 +24,6 @@ export async function runSequentiallyWithDelayInBetween<Argument>(runner: (job: 
 export function generateEndlessLoopRunner(runner: () => Promise<void>, minimumDelayBetweenStarts: number): () => Promise<void> {
 	let startTime: number
 	return async () => {
-		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			startTime = Date.now()
 

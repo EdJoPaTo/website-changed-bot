@@ -21,7 +21,7 @@ menu.choose('remove', currentContentReplaceIndicies, {
 			const index = Number(key)
 			const mission = getMission(context)
 			if (!mission.contentReplace) {
-				return
+				return true
 			}
 
 			const newReplacers = [...mission.contentReplace]
