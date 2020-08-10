@@ -29,6 +29,8 @@ export async function notifyError(issuer: string, mission: Mission, error: any):
 	let text = ''
 
 	text += 'Something went wrong'
+	text += '\n'
+	text += mission.url
 	text += '\n```\n' + JSON.stringify(mission, undefined, '  ') + '\n```\n'
 	text += '\n```\n' + JSON.stringify(error, undefined, '  ') + '\n```\n'
 
