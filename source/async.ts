@@ -1,7 +1,9 @@
 /* eslint no-await-in-loop: off */
 
 export async function sleep(ms: number): Promise<void> {
-	return new Promise(resolve => setTimeout(resolve, ms))
+	return new Promise(resolve => {
+		setTimeout(resolve, ms)
+	})
 }
 
 export async function runSequentiallyWithDelayInBetween<Argument>(runner: (job: Argument) => Promise<void>, jobs: readonly Argument[], delayMs: number): Promise<void> {
