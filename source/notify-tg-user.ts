@@ -20,7 +20,11 @@ export async function notifyChange(issuer: string, mission: Mission, change: boo
 	text += '\n'
 	text += mission.url
 
-	await telegram.sendMessage(user, text)
+	await telegram.sendMessage(user, text, {
+		reply_markup: {
+			remove_keyboard: true
+		}
+	})
 }
 
 export async function notifyError(issuer: string, mission: Mission, error: any): Promise<void> {
@@ -37,6 +41,9 @@ export async function notifyError(issuer: string, mission: Mission, error: any):
 	text += format.monospaceBlock(JSON.stringify(error, undefined, '  '))
 
 	await telegram.sendMessage(user, text, {
-		parse_mode: format.parse_mode
+		parse_mode: format.parse_mode,
+		reply_markup: {
+			remove_keyboard: true
+		}
 	})
 }
