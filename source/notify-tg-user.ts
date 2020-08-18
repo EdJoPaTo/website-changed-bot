@@ -1,4 +1,5 @@
-import {Telegram, Extra} from 'telegraf'
+import {html as format} from 'telegram-format'
+import {Telegram} from 'telegraf'
 
 import {Mission} from './hunter'
 
@@ -31,8 +32,11 @@ export async function notifyError(issuer: string, mission: Mission, error: any):
 	text += 'Something went wrong'
 	text += '\n'
 	text += mission.url
-	text += '\n```\n' + JSON.stringify(mission, undefined, '  ') + '\n```\n'
-	text += '\n```\n' + JSON.stringify(error, undefined, '  ') + '\n```\n'
+	text += '\n'
+	text += format.monospaceBlock(JSON.stringify(mission, undefined, '  '))
+	text += format.monospaceBlock(JSON.stringify(error, undefined, '  '))
 
-	await telegram.sendMessage(user, text, Extra.markdown() as any)
+	await telegram.sendMessage(user, text, {
+		parse_mode: format.parse_mode
+	})
 }
