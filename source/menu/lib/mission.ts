@@ -20,12 +20,17 @@ export function basicInfo(format: Formatter, mission: Mission): string {
 	return text
 }
 
-export function singleReplacerLines(format: Formatter, replacer: ContentReplace): string {
+export function singleReplacerLines(format: Formatter, replacer: ContentReplace, index?: number): string {
 	const {source, flags, replaceValue} = replacer
 	const regex = '/' + source + '/' + flags
 	let text = ''
 
-	text += format.monospaceBlock(regex, 'js')
+	if (index !== undefined) {
+		text += index
+		text += ': '
+	}
+
+	text += format.monospace(regex)
 	text += '\n'
 
 	text += '  '

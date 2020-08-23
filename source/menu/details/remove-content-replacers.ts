@@ -56,7 +56,7 @@ function menuBody(context: Context): Body {
 
 	if (mission.contentReplace?.length) {
 		text += mission.contentReplace
-			.map(o => singleReplacerLines(format, o))
+			.map((o, i) => singleReplacerLines(format, o, i + 1))
 			.join('')
 	} else {
 		text += 'none created yet'
