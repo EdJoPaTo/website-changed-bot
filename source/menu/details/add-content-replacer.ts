@@ -101,7 +101,6 @@ const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-re
 		return lostTrack(context)
 	}
 
-	// TODO: find a way to send 'empty'
 	const replaceValue = context.message.text
 	context.session.replacerReplaceValue = replaceValue
 	await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
@@ -109,7 +108,7 @@ const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-re
 
 bot.use(replaceValueQuestion.middleware())
 
-menu.interact('Set the replaceValue…', 'replaceValue', {
+menu.interact('Replace with…', 'replaceValue', {
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
 		context.session.pathBeforeQuestion = getMenuPath(context)
@@ -118,6 +117,15 @@ menu.interact('Set the replaceValue…', 'replaceValue', {
 			deleteMenuFromContext(context)
 		])
 		return false
+	}
+})
+
+menu.interact('Remove matches', 'replaceValueEmpty', {
+	joinLastRow: true,
+	hide: context => !context.session.replacerRegexSource,
+	do: async context => {
+		context.session.replacerReplaceValue = ''
+		return true
 	}
 })
 

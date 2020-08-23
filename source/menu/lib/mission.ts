@@ -29,10 +29,19 @@ export function singleReplacerLines(format: Formatter, replacer: ContentReplace)
 	text += '\n'
 
 	text += '  '
-	text += format.bold('Replace With')
-	text += ': '
-	text += format.monospace(replaceValue)
-	text += '\n'
+	if (replaceValue) {
+		text += format.bold('Replace with')
+		text += ': '
+		text += format.monospace(replaceValue)
+		text += '\n'
+	} else {
+		text += format.bold('Remove matches')
+		text += ' ('
+		text += 'replace with '
+		text += format.monospace('\'\'')
+		text += ')'
+		text += '\n'
+	}
 
 	return text
 }
