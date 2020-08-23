@@ -1,10 +1,10 @@
 import {MenuTemplate, Body} from 'telegraf-inline-menu'
 import {html as format} from 'telegram-format'
 
+import {Context} from '../context'
 import * as gitDaemon from '../trophy-store/git-daemon'
 
-import {Context} from './context'
-import {backButtons} from './back-buttons'
+import {backButtons} from './lib/generics'
 
 export const menu = new MenuTemplate<Context>(menuBody)
 

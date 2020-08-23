@@ -1,5 +1,5 @@
 import {Context as TelegrafContext} from 'telegraf'
-import {Type} from '../hunter'
+import {Type} from './hunter'
 
 export interface Session {
 	page: number | undefined;

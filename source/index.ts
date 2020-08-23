@@ -9,7 +9,7 @@ import {bot as partAdmin} from './parts/admin'
 
 import {bot as menu} from './menu'
 import {checkRunner} from './run-missions'
-import {Context} from './menu/context'
+import {Context} from './context'
 import {init as initTrophyStore} from './trophy-store'
 import {notifyChange, notifyError, init as initNotifyTgUser} from './notify-tg-user'
 

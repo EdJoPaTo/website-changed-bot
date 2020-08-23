@@ -1,12 +1,12 @@
 import {MenuTemplate, Body} from 'telegraf-inline-menu'
 import {html as format} from 'telegram-format'
 
-import * as userMissions from '../user-missions'
-import {Mission} from '../hunter'
+import {Context} from '../../context'
+import {Mission} from '../../hunter'
+import * as userMissions from '../../user-missions'
 
-import {Context} from './context'
-import {backButtons} from './back-buttons'
-import {singleReplacerLines, basicInfo} from './lib/mission'
+import {backButtons} from '../lib/generics'
+import {singleReplacerLines, basicInfo} from '../lib/mission'
 
 import {menu as addContentReplacerMenu} from './add-content-replacer'
 import {menu as removeContentReplacerMenu} from './remove-content-replacers'

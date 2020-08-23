@@ -1,7 +1,8 @@
 import {MenuTemplate} from 'telegraf-inline-menu'
 
-import {backButtons} from './back-buttons'
-import {Context} from './context'
+import {Context} from '../context'
+
+import {backButtons} from './lib/generics'
 
 import {menu as addMenu} from './add'
 import {menu as gitMenu} from './git'
