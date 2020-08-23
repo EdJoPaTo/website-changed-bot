@@ -20,7 +20,7 @@ export function basicInfo(format: Formatter, mission: Mission): string {
 	return text
 }
 
-export function singleReplacerLines(format: Formatter, replacer: ContentReplace, index?: number): string {
+export function singleReplacerLine(format: Formatter, replacer: ContentReplace, index?: number): string {
 	const {source, flags, replaceValue} = replacer
 	const regex = '/' + source + '/' + flags
 	let text = ''
@@ -31,21 +31,13 @@ export function singleReplacerLines(format: Formatter, replacer: ContentReplace,
 	}
 
 	text += format.monospace(regex)
-	text += '\n'
-
-	text += '  '
+	text += ' '
 	if (replaceValue) {
-		text += format.bold('Replace with')
-		text += ': '
+		text += '▶️'
+		text += ' '
 		text += format.monospace(replaceValue)
-		text += '\n'
 	} else {
-		text += format.bold('Remove matches')
-		text += ' ('
-		text += 'replace with '
-		text += format.monospace('\'\'')
-		text += ')'
-		text += '\n'
+		text += '⏹'
 	}
 
 	return text

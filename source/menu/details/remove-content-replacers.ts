@@ -6,7 +6,7 @@ import {getByIndex, update} from '../../user-missions'
 import {Mission} from '../../hunter'
 
 import {backButtons} from '../lib/generics'
-import {singleReplacerLines, basicInfo} from '../lib/mission'
+import {singleReplacerLine, basicInfo} from '../lib/mission'
 
 export const menu = new MenuTemplate<Context>(menuBody)
 
@@ -56,8 +56,8 @@ function menuBody(context: Context): Body {
 
 	if (mission.contentReplace?.length) {
 		text += mission.contentReplace
-			.map((o, i) => singleReplacerLines(format, o, i + 1))
-			.join('')
+			.map((o, i) => singleReplacerLine(format, o, i + 1))
+			.join('\n')
 	} else {
 		text += 'none created yet'
 	}

@@ -6,7 +6,7 @@ import {Mission} from '../../hunter'
 import * as userMissions from '../../user-missions'
 
 import {backButtons} from '../lib/generics'
-import {singleReplacerLines, basicInfo} from '../lib/mission'
+import {singleReplacerLine, basicInfo} from '../lib/mission'
 
 import {menu as addContentReplacerMenu} from './add-content-replacer'
 import {menu as removeContentReplacerMenu} from './remove-content-replacers'
@@ -62,8 +62,8 @@ function menuBody(context: Context): Body {
 		text += ':\n'
 
 		text += mission.contentReplace
-			.map(o => singleReplacerLines(format, o))
-			.join('')
+			.map(o => singleReplacerLine(format, o))
+			.join('\n')
 	}
 
 	return {text, parse_mode: format.parse_mode}
