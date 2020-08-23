@@ -68,9 +68,6 @@
   },
   "xo": {
     "semicolon": false,
-    "rules": {
-      "unicorn/no-reduce": "off",
-      "unicorn/no-fn-reference-in-iterator": "off"
-    }
+    "rules": {}
   }
 }
