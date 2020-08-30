@@ -23,7 +23,7 @@ export async function runSequentiallyWithDelayInBetween<Argument>(runner: (job: 
 /**
  * Runs the Runner in an endless loop. If it finishes faster than `minimumDelayBetweenStarts` wait before running again
  */
-export function generateEndlessLoopRunner(runner: () => Promise<void>, minimumDelayBetweenStarts: number): () => Promise<void> {
+export function generateEndlessLoopRunner(runner: () => Promise<void>, minimumDelayBetweenStarts: number): () => Promise<never> {
 	let startTime: number
 	return async () => {
 		while (true) {
