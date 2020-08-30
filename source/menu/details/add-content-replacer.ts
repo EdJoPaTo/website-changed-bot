@@ -19,11 +19,10 @@ export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
 function getMenuPath(context: Context): string {
+	// TODO: may add this to telegraf-inline-menu ?
 	const fullPath = context.callbackQuery!.data!
 	const parts = fullPath.split('/')
-
 	const menuPath = parts.slice(0, -1).join('/') + '/'
-	console.log('before', fullPath, menuPath, parts)
 	return menuPath
 }
 
