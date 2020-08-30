@@ -19,13 +19,6 @@ const bot = new Telegraf<Context>(token)
 
 if (process.env.NODE_ENV !== 'production') {
 	bot.use(generateUpdateMiddleware())
-	bot.use(async (context, next) => {
-		if (context.callbackQuery?.data) {
-			console.log(new Date().toISOString(), context.callbackQuery.data)
-		}
-
-		return next()
-	})
 }
 
 initNotifyTgUser(bot.telegram)

@@ -120,7 +120,7 @@ menu.interact('Replace with…', 'replaceValue', {
 	}
 })
 
-menu.interact('Remove matches', 'replaceValueEmpty', {
+menu.interact('Remove matches', 'replaceEmpty', {
 	joinLastRow: true,
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
