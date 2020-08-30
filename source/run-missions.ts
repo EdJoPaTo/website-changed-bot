@@ -1,3 +1,5 @@
+import {writeFileSync} from 'fs'
+
 import {checkMany, Mission, generateFilename} from './hunter'
 import {getStore, finalizeStore} from './trophy-store'
 import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions'
@@ -25,6 +27,9 @@ async function run(notifyChange: NotifyChangeFunction<Mission>, notifyError: Not
 	for (const issuer of issuers) {
 		finishUpIssuer(issuer)
 	}
+
+	// Allow docker healthcheck
+	writeFileSync('.last-successful-run', '', 'utf8')
 }
 
 function finishUpIssuer(issuer: string): void {
