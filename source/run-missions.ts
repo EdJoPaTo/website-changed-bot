@@ -18,18 +18,22 @@ export async function checkRunner(notifyChange: NotifyChangeFunction<Mission>, n
 }
 
 async function run(notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<void> {
-	const issuers = userMissions.keys()
-		.filter(o => o.startsWith('tg'))
-	const directions = await directionsOfIssuers(issuers, notifyChange, notifyError)
+	try {
+		const issuers = userMissions.keys()
+			.filter(o => o.startsWith('tg'))
+		const directions = await directionsOfIssuers(issuers, notifyChange, notifyError)
 
-	await checkMany(directions, BETWEEN_SAME_DOMAIN_CHECKS)
+		await checkMany(directions, BETWEEN_SAME_DOMAIN_CHECKS)
 
-	for (const issuer of issuers) {
-		finishUpIssuer(issuer)
+		for (const issuer of issuers) {
+			finishUpIssuer(issuer)
+		}
+
+		// Allow docker healthcheck
+		writeFileSync('.last-successful-run', '', 'utf8')
+	} catch (error) {
+		console.error('run endless mission loop iteration failed', error)
 	}
-
-	// Allow docker healthcheck
-	writeFileSync('.last-successful-run', '', 'utf8')
 }
 
 function finishUpIssuer(issuer: string): void {
