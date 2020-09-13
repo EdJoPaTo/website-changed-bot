@@ -1,7 +1,7 @@
 {
   "name": "website-changed-bot",
   "private": true,
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "This Telegram Bot can notify you on changed website source",
   "license": "MIT",
   "repository": "EdJoPaTo/website-changed-bot",
