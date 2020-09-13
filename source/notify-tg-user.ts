@@ -38,6 +38,14 @@ export async function notifyError(issuer: string, mission: Mission, error: any):
 	text += mission.url
 	text += '\n'
 	text += format.monospaceBlock(JSON.stringify(mission, undefined, '  '))
+
+	if (error instanceof Error) {
+		text += format.escape(error.name)
+		text += ': '
+		text += format.escape(error.message)
+		text += '\n'
+	}
+
 	text += format.monospaceBlock(JSON.stringify(error, undefined, '  '))
 
 	await telegram.sendMessage(user, text, {
