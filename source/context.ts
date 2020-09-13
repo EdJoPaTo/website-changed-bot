@@ -5,7 +5,6 @@ export interface Session {
 	page: number | undefined;
 	addUrl?: string;
 	addType?: Type;
-	pathBeforeQuestion?: string;
 	replacerRegexSource?: string;
 	replacerRegexFlags?: string;
 	replacerReplaceValue?: string;

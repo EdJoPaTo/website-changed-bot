@@ -10,8 +10,6 @@ import * as userMissions from '../../user-missions'
 import {backButtons} from '../lib/generics'
 import {basicInfo} from '../lib/mission'
 
-import {menu as listMenu} from '../list'
-
 const DEFAULT_FLAGS = 'g'
 const DEFAULT_REPLACE_VALUE = '$1'
 
@@ -26,20 +24,11 @@ function getMenuPath(context: Context): string {
 	return menuPath
 }
 
-async function lostTrack(context: Context): Promise<void> {
-	await context.reply('Wait what? I lost track of things. Lets get me back on track please.')
-	await replyMenuToContext(listMenu, context, '/list/')
-}
-
-const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', async context => {
-	if (!context.session.pathBeforeQuestion) {
-		return lostTrack(context)
-	}
-
+const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', async (context, path) => {
 	const regex = context.message.text
 	if (!regex) {
 		await context.reply('Please send the regular expression as a text message')
-		await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
+		await replyMenuToContext(menu, context, path)
 		return
 	}
 
@@ -51,16 +40,15 @@ const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', a
 		await context.reply('That did not seem like a valid regular expression')
 	}
 
-	await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
+	await replyMenuToContext(menu, context, path)
 })
 
 bot.use(regexQuestion.middleware())
 
 menu.interact('Set the Regular Expression…', 'regex', {
 	do: async context => {
-		context.session.pathBeforeQuestion = getMenuPath(context)
 		await Promise.all([
-			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.'),
+			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.', getMenuPath(context)),
 			deleteMenuFromContext(context)
 		])
 		return false
@@ -95,14 +83,10 @@ menu.select('flags', regexFlags, {
 	}
 })
 
-const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-replace-value', async context => {
-	if (!context.session.pathBeforeQuestion) {
-		return lostTrack(context)
-	}
-
+const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-replace-value', async (context, path) => {
 	const replaceValue = context.message.text
 	context.session.replacerReplaceValue = replaceValue
-	await replyMenuToContext(menu, context, context.session.pathBeforeQuestion)
+	await replyMenuToContext(menu, context, path)
 })
 
 bot.use(replaceValueQuestion.middleware())
@@ -110,9 +94,8 @@ bot.use(replaceValueQuestion.middleware())
 menu.interact('Replace with…', 'replaceValue', {
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
-		context.session.pathBeforeQuestion = getMenuPath(context)
 		await Promise.all([
-			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.'),
+			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.', getMenuPath(context)),
 			deleteMenuFromContext(context)
 		])
 		return false
