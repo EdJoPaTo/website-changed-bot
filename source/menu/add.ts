@@ -102,7 +102,7 @@ menu.interact('Add', 'add', {
 			await context.answerCbQuery('added successfully 😎')
 		} catch (error) {
 			const errorMessage = error instanceof Error ? error.message : String(error)
-			await context.answerCbQuery(errorMessage, true)
+			await context.reply(errorMessage)
 		}
 
 		return '.'
