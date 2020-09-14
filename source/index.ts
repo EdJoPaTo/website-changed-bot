@@ -13,7 +13,7 @@ import {Context} from './context'
 import {init as initTrophyStore} from './trophy-store'
 import {notifyChange, notifyError, init as initNotifyTgUser} from './notify-tg-user'
 
-process.title = "website-changed-bot"
+process.title = 'website-changed-bot'
 
 const tokenFilePath = existsSync('/run/secrets') ? '/run/secrets/bot-token.txt' : 'bot-token.txt'
 const token = readFileSync(tokenFilePath, 'utf8').trim()
