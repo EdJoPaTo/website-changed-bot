@@ -4,7 +4,7 @@ import {runSequentiallyWithDelayInBetween} from '../async'
 import {Store} from '../store'
 
 import {Directions} from './directions'
-import {getCurrent} from './individuals'
+import {getCurrent} from './get-content'
 import {getDomainFromUrl, generateFilename} from './url-logic'
 import {Mission, ContentReplace} from './mission'
 
