@@ -30,11 +30,11 @@ generateFilenameMacro.title = (_name: string, url: string, type: Type) => {
 	return type + ' ' + url
 }
 
-test(generateFilenameMacro, 'https://edjopato.de', 'head', 'de-edjopato.head')
-test(generateFilenameMacro, 'https://edjopato.de/', 'head', 'de-edjopato.head')
-test(generateFilenameMacro, 'https://www.edjopato.de', 'head', 'de-edjopato.head')
-test(generateFilenameMacro, 'https://test.edjopato.de', 'head', 'de-edjopato-test.head')
-test(generateFilenameMacro, 'https://edjopato.de/blog', 'head', 'de-edjopato-blog.head')
-test(generateFilenameMacro, 'https://test.edjopato.de/blog', 'head', 'de-edjopato-test-blog.head')
-test(generateFilenameMacro, 'https://edjopato.de/index.html', 'head', 'de-edjopato-index-html.head')
+test(generateFilenameMacro, 'https://edjopato.de', 'html', 'de-edjopato.html')
+test(generateFilenameMacro, 'https://edjopato.de/', 'html', 'de-edjopato.html')
+test(generateFilenameMacro, 'https://www.edjopato.de', 'html', 'de-edjopato.html')
+test(generateFilenameMacro, 'https://test.edjopato.de', 'html', 'de-edjopato-test.html')
+test(generateFilenameMacro, 'https://edjopato.de/blog', 'html', 'de-edjopato-blog.html')
+test(generateFilenameMacro, 'https://test.edjopato.de/blog', 'html', 'de-edjopato-test-blog.html')
 test(generateFilenameMacro, 'https://edjopato.de/index.html', 'html', 'de-edjopato.html')
+test(generateFilenameMacro, 'https://edjopato.de/index.html', 'xml', 'de-edjopato-index-html.xml')

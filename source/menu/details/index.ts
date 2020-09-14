@@ -46,17 +46,6 @@ function menuBody(context: Context): Body {
 
 	text += basicInfo(format, mission)
 
-	if (mission.type === 'head' && mission.ignoreHeader) {
-		text += format.bold('Ignore Header')
-		text += ':\n'
-		text += mission.ignoreHeader
-			.map(o => `- ${o}`)
-			.sort((a, b) => a.localeCompare(b))
-			.map(o => format.escape(o))
-			.join('\n')
-		text += '\n'
-	}
-
 	if (mission.contentReplace?.length) {
 		text += format.bold('Content Replace')
 		text += ':\n'
