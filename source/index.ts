@@ -49,8 +49,6 @@ bot.use(async (ctx, next) => {
 bot.use(session())
 bot.use(menu)
 
-bot.use(users.middleware())
-
 bot.use(Telegraf.optional(ctx => ctx.from!.id === users.getAdmin(), partAdmin.middleware()))
 
 function generateAddUserKeyboard(userDetails: User): InlineKeyboardMarkup {

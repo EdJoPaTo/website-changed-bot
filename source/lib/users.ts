@@ -1,7 +1,6 @@
 import {readFileSync, promises as fsPromises} from 'fs'
 
 import * as stringify from 'json-stable-stringify'
-import {Context as TelegrafContext} from 'telegraf'
 
 const USERS_FILE = './persistent/users.json'
 
@@ -50,26 +49,4 @@ export async function setUserSettings(userID: number, settings: User): Promise<v
 		admin: settings.admin
 	}
 	return saveUsersFile()
-}
-
-export function middleware(): (ctx: TelegrafContext, next: () => Promise<void>) => Promise<void> {
-	return async (ctx, next) => {
-		const user = ctx.from?.id
-		if (!user) {
-			return next()
-		}
-
-		(ctx as any).session = getUserSettings(user)
-		const before = JSON.stringify((ctx as any).session)
-		await next()
-		const after = JSON.stringify((ctx as any).session)
-		// Debug
-		// console.log('middleware', user)
-		// console.log('before', before)
-		// console.log('after ', after)
-
-		if (before !== after) {
-			await setUserSettings(user, (ctx as any).session)
-		}
-	}
 }
