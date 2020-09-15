@@ -1,8 +1,8 @@
 import {existsSync, readFileSync} from 'fs'
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import {InlineKeyboardMarkup, User} from 'telegraf/typings/telegram-types'
-import {Telegraf, Composer, Extra, Markup, session} from 'telegraf'
+import {InlineKeyboardMarkup, User} from 'typegram'
+import {Telegraf, Composer, session} from 'telegraf'
 
 import * as users from './lib/users'
 import {bot as partAdmin} from './parts/admin'
@@ -47,7 +47,11 @@ bot.use(async (ctx, next) => {
 
 	await Promise.all([
 		bot.telegram.forwardMessage(users.getAdmin(), ctx.chat.id, ctx.message!.message_id, {disable_notification: true}),
-		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from!)).notifications(false)),
+		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', {
+			disable_notification: true,
+			parse_mode: 'Markdown',
+			reply_markup: generateAddUserKeyboard(ctx.from!)
+		}),
 		ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.')
 	])
 })
@@ -59,9 +63,11 @@ bot.use(Composer.groupChat(groupActivity))
 bot.use(Telegraf.optional(ctx => ctx.from!.id === users.getAdmin(), partAdmin.middleware()))
 
 function generateAddUserKeyboard(userDetails: User): InlineKeyboardMarkup {
-	return Markup.inlineKeyboard([
-		Markup.callbackButton(`add ${userDetails.first_name} as allowed user`, `adduser:${userDetails.id}`)
-	])
+	return {
+		inline_keyboard: [[
+			{text: `add ${userDetails.first_name} as allowed user`, callback_data: `adduser:${userDetails.id}`}
+		]]
+	}
 }
 
 bot.catch((error: any) => {
