@@ -2,11 +2,12 @@ import {existsSync, readFileSync} from 'fs'
 
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
 import {InlineKeyboardMarkup, User} from 'telegraf/typings/telegram-types'
-import Telegraf, {Extra, Markup, session} from 'telegraf'
+import {Telegraf, Composer, Extra, Markup, session} from 'telegraf'
 
 import * as users from './lib/users'
 import {bot as partAdmin} from './parts/admin'
 
+import {bot as groupActivity} from './group-activity'
 import {bot as menu} from './menu'
 import {checkRunner} from './run-missions'
 import {Context} from './context'
@@ -33,6 +34,11 @@ bot.use(async (ctx, next) => {
 		return
 	}
 
+	if (ctx.chat?.type !== 'private') {
+		// Dont spam groups or channels
+		return
+	}
+
 	if (userList.length === 0) {
 		await users.addUser(ctx.from!.id, true)
 		await ctx.reply('you are now Admin ☺️')
@@ -40,14 +46,15 @@ bot.use(async (ctx, next) => {
 	}
 
 	await Promise.all([
-		bot.telegram.forwardMessage(users.getAdmin(), ctx.chat!.id, ctx.message!.message_id, {disable_notification: true}),
+		bot.telegram.forwardMessage(users.getAdmin(), ctx.chat.id, ctx.message!.message_id, {disable_notification: true}),
 		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', Extra.markdown().markup(generateAddUserKeyboard(ctx.from!)).notifications(false)),
 		ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.')
 	])
 })
 
 bot.use(session())
-bot.use(menu)
+bot.use(Composer.privateChat(menu))
+bot.use(Composer.groupChat(groupActivity))
 
 bot.use(Telegraf.optional(ctx => ctx.from!.id === users.getAdmin(), partAdmin.middleware()))
 
