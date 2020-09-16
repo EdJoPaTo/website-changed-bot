@@ -21,7 +21,7 @@ bot.use(async context => {
 
 			settings.groups = [...settings.groups, context.chat!.id]
 				.filter(arrayFilterUnique())
-			// eslint-ignore-next-line no-await-in-loop
+			// eslint-disable-next-line no-await-in-loop
 			await setUserSettings(admin.user.id, settings)
 		}
 	} catch { }
