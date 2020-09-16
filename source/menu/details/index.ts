@@ -22,15 +22,29 @@ menu.submenu('Remove Content Replacer…', 'replacer-remove', removeContentRepla
 	}
 })
 
-menu.interact('Remove Mission', 'remove', {
+const removeMissionMenu = new MenuTemplate<Context>(context => {
+	const mission = getMission(context)
+	let text = ''
+
+	text += basicInfo(format, mission)
+	text += '\n'
+	text += 'Are you sure to remove this mission?'
+	return {text, parse_mode: format.parse_mode}
+})
+
+removeMissionMenu.interact('Yes, remove the mission!', 'yes', {
 	do: async context => {
 		const issuer = `tg${context.from!.id}`
 		const mission = getMission(context)
 		userMissions.remove(issuer, mission)
 
-		return '..'
+		return '../..'
 	}
 })
+
+removeMissionMenu.navigate('Nope! Keep it!', '..')
+
+menu.submenu('Remove Mission', 'remove', removeMissionMenu)
 
 menu.manualRow(backButtons)
 
