@@ -15,7 +15,7 @@ function enableText(context: Context): string {
 
 menu.interact(enableText, 'enable', {
 	do: async context => {
-		const issuer = `tg${context.from!.id}`
+		const issuer = `tg${context.chat!.id}`
 		const secret = generateSecret()
 		gitDaemon.createLink(issuer, secret)
 		return '.'
@@ -28,7 +28,7 @@ menu.interact('Disable Git', 'disable', {
 		return !secret
 	},
 	do: async context => {
-		const issuer = `tg${context.from!.id}`
+		const issuer = `tg${context.chat!.id}`
 		gitDaemon.removeLink(issuer)
 		return '.'
 	}
@@ -37,7 +37,7 @@ menu.interact('Disable Git', 'disable', {
 menu.manualRow(backButtons)
 
 function getInfo(context: Context): {issuer: string; secret: string | undefined} {
-	const issuer = `tg${context.from!.id}`
+	const issuer = `tg${context.chat!.id}`
 	const secret = gitDaemon.getCurrentSecret(issuer)
 	return {issuer, secret}
 }

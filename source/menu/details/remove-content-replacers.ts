@@ -31,7 +31,8 @@ menu.choose('remove', currentContentReplaceIndicies, {
 				contentReplace: newReplacers
 			}
 
-			update(`tg${context.from!.id}`, newMission)
+			const issuer = `tg${context.chat!.id}`
+			update(issuer, newMission)
 		}
 
 		return '..'
@@ -41,9 +42,10 @@ menu.choose('remove', currentContentReplaceIndicies, {
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
+	const issuer = `tg${context.chat!.id}`
 	const key = context.match![1]
 	const index = Number(/^i(\d+)-/.exec(key)![1])
-	return getByIndex(`tg${context.from!.id}`, index)
+	return getByIndex(issuer, index)
 }
 
 function menuBody(context: Context): Body {

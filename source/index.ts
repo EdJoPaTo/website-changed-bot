@@ -57,8 +57,9 @@ bot.use(async (ctx, next) => {
 })
 
 bot.use(session())
-bot.use(Composer.privateChat(menu))
 bot.use(Composer.groupChat(groupActivity))
+
+bot.use(menu)
 
 bot.use(Telegraf.optional(ctx => ctx.from!.id === users.getAdmin(), partAdmin.middleware()))
 

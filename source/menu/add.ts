@@ -84,7 +84,7 @@ menu.interact('Add', 'add', {
 			return '.'
 		}
 
-		const issuer = `tg${context.from!.id}`
+		const issuer = `tg${context.chat!.id}`
 		const mission: Mission = {
 			type: context.session.addType ?? DEFAULT_TYPE,
 			url: context.session.addUrl,
@@ -146,7 +146,8 @@ function similarUrlExists(context: Context): Mission | undefined {
 
 	const filename = generateFilename(context.session.addUrl, context.session.addType ?? DEFAULT_TYPE)
 
-	const existingMissions = userMissions.getAll(`tg${context.from!.id}`)
+	const issuer = `tg${context.chat!.id}`
+	const existingMissions = userMissions.getAll(issuer)
 	return existingMissions
 		.find(o => filename === generateFilename(o.url, o.type))
 }

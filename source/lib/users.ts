@@ -4,7 +4,6 @@ const USERS_FILE = './persistent/users.json'
 
 export interface UserData {
 	readonly admin: boolean;
-	groups: number[];
 }
 
 const users = new KeyValueInMemoryFile<UserData>(USERS_FILE)
@@ -29,19 +28,18 @@ export function getAdmin(): number {
 
 export async function addUser(userID: number, isAdmin: boolean): Promise<void> {
 	await setUserSettings(userID, {
-		admin: isAdmin,
-		groups: []
+		admin: isAdmin
 	})
+}
+
+export function isAuthorized(userId: number): boolean {
+	return users.keys().includes(String(userId))
 }
 
 export function getUserSettings(userID: number): UserData | undefined {
 	const stored = users.get(String(userID))
 	if (!stored) {
 		return undefined
-	}
-
-	if (!stored.groups) {
-		stored.groups = []
 	}
 
 	return stored

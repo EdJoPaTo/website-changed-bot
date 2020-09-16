@@ -13,7 +13,7 @@ export const menu = new MenuTemplate<Context>(menuBody)
 
 const ENTRIES_PER_PAGE = 10
 
-menu.chooseIntoSubmenu('', ctx => getAllEntries(ctx.from!.id), detailsMenu, {
+menu.chooseIntoSubmenu('', ctx => getAllEntries(ctx.chat!.id), detailsMenu, {
 	columns: 1,
 	maxRows: ENTRIES_PER_PAGE,
 	getCurrentPage: context => context.session.page,
@@ -34,7 +34,8 @@ function menuBody(context: Context): Body {
 	const offset = page * ENTRIES_PER_PAGE
 	const end = (page + 1) * ENTRIES_PER_PAGE
 
-	const all = userMissions.get(`tg${context.from!.id}`) ?? []
+	const issuer = `tg${context.chat!.id}`
+	const all = userMissions.get(issuer) ?? []
 	const missions = all
 		.sort((a, b) => generateFilename(a.url, a.type).localeCompare(generateFilename(b.url, b.type)))
 		.slice(offset, end)
@@ -52,8 +53,9 @@ function menuBody(context: Context): Body {
 	}
 }
 
-function getAllEntries(user: number): Map<string, string> {
-	const all = userMissions.get(`tg${user}`) ?? []
+function getAllEntries(chatId: number): Map<string, string> {
+	const issuer = `tg${chatId}`
+	const all = userMissions.get(issuer) ?? []
 	const entries = new Map<string, string>()
 	all
 		.map((o, i) => ({

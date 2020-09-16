@@ -138,7 +138,7 @@ menu.interact('Add', 'add', {
 		const replaceValue = context.session.replacerReplaceValue ?? DEFAULT_REPLACE_VALUE
 
 		const index = /\/:i(\d+)-/.exec(context.callbackQuery!.data!)![1]
-		const issuer = `tg${context.from!.id}`
+		const issuer = `tg${context.chat!.id}`
 		const mission = userMissions.getByIndex(issuer, Number(index))
 
 		const newReplacers: ContentReplace[] = [
@@ -163,7 +163,7 @@ function menuBody(context: Context, path: string): Body {
 	let text = ''
 
 	const index = Number(/:i(\d+)/.exec(path)![1])
-	const issuer = `tg${context.from!.id}`
+	const issuer = `tg${context.chat!.id}`
 	const mission = userMissions.getByIndex(issuer, index)
 	text += basicInfo(format, mission)
 	text += '\n'

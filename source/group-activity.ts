@@ -1,7 +1,6 @@
 import {Composer} from 'telegraf'
-import arrayFilterUnique from 'array-filter-unique'
 
-import {getUserSettings, setUserSettings} from './lib/users'
+import {isAuthorized} from './lib/users'
 
 const removeMeFromBeingAdminMessageText = `Telegram bots which are administrators are a privacy risk to your group as they see every message or might do things every other group admin could do.
 
@@ -10,7 +9,7 @@ Please change me to be a normal user. 😘`
 
 export const bot = new Composer()
 
-bot.use(async context => {
+bot.use(async (context, next) => {
 	let anyValidAdminExists = false
 
 	try {
@@ -22,19 +21,7 @@ bot.use(async context => {
 			await context.reply(removeMeFromBeingAdminMessageText)
 		}
 
-		for (const admin of chatAdmins) {
-			const settings = getUserSettings(admin.user.id)
-			if (!settings) {
-				continue
-			}
-
-			anyValidAdminExists = true
-
-			settings.groups = [...settings.groups, context.chat!.id]
-				.filter(arrayFilterUnique())
-			// eslint-disable-next-line no-await-in-loop
-			await setUserSettings(admin.user.id, settings)
-		}
+		anyValidAdminExists = chatAdmins.some(o => isAuthorized(o.user.id))
 	} catch { }
 
 	if (!anyValidAdminExists) {
@@ -43,5 +30,8 @@ bot.use(async context => {
 		} catch {}
 
 		await context.leaveChat()
+		return
 	}
+
+	await next()
 })

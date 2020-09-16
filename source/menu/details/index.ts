@@ -34,7 +34,7 @@ const removeMissionMenu = new MenuTemplate<Context>(context => {
 
 removeMissionMenu.interact('Yes, remove the mission!', 'yes', {
 	do: async context => {
-		const issuer = `tg${context.from!.id}`
+		const issuer = `tg${context.chat!.id}`
 		const mission = getMission(context)
 		userMissions.remove(issuer, mission)
 
@@ -49,9 +49,10 @@ menu.submenu('Remove Mission', 'remove', removeMissionMenu)
 menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
+	const issuer = `tg${context.chat!.id}`
 	const key = context.match![1]
 	const index = Number(/^i(\d+)-/.exec(key)![1])
-	return userMissions.getByIndex(`tg${context.from!.id}`, index)
+	return userMissions.getByIndex(issuer, index)
 }
 
 function menuBody(context: Context): Body {
