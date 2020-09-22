@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, Body, replyMenuToContext, deleteMenuFromContext} from 'telegraf-inline-menu'
+import {MenuTemplate, Body, replyMenuToContext, deleteMenuFromContext, getMenuOfPath} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
 import {ContentReplace} from '../../hunter'
@@ -15,14 +15,6 @@ const DEFAULT_REPLACE_VALUE = '$1'
 
 export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
-
-function getMenuPath(context: Context): string {
-	// TODO: may add this to telegraf-inline-menu ?
-	const fullPath = context.callbackQuery!.data!
-	const parts = fullPath.split('/')
-	const menuPath = parts.slice(0, -1).join('/') + '/'
-	return menuPath
-}
 
 const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', async (context, path) => {
 	const regex = context.message.text
@@ -46,9 +38,9 @@ const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', a
 bot.use(regexQuestion.middleware())
 
 menu.interact('Set the Regular Expression…', 'regex', {
-	do: async context => {
+	do: async (context, path) => {
 		await Promise.all([
-			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.', getMenuPath(context)),
+			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.', getMenuOfPath(path)),
 			deleteMenuFromContext(context)
 		])
 		return false
@@ -93,9 +85,9 @@ bot.use(replaceValueQuestion.middleware())
 
 menu.interact('Replace with…', 'replaceValue', {
 	hide: context => !context.session.replacerRegexSource,
-	do: async context => {
+	do: async (context, path) => {
 		await Promise.all([
-			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.', getMenuPath(context)),
+			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.', getMenuOfPath(path)),
 			deleteMenuFromContext(context)
 		])
 		return false
