@@ -7,7 +7,6 @@ import {ContentReplace} from '../../hunter'
 import {Context} from '../../context'
 import * as userMissions from '../../user-missions'
 
-import {backButtons} from '../lib/generics'
 import {basicInfo} from '../lib/mission'
 
 const DEFAULT_FLAGS = 'g'
@@ -103,20 +102,17 @@ menu.interact('Remove matches', 'replaceEmpty', {
 	}
 })
 
-menu.interact('Reset', 'reset', {
-	hide: context => context.session.replacerRegexSource === undefined &&
-		(context.session.replacerRegexFlags ?? DEFAULT_FLAGS) === DEFAULT_FLAGS &&
-		context.session.replacerReplaceValue === undefined,
+menu.interact('🛑 Abort', 'abort', {
 	do: async context => {
 		delete context.session.replacerRegexSource
 		delete context.session.replacerRegexFlags
 		delete context.session.replacerReplaceValue
-		return '.'
+		return '..'
 	}
 
 })
 
-menu.interact('Add', 'add', {
+menu.interact('✅ Add', 'add', {
 	joinLastRow: true,
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
@@ -148,8 +144,6 @@ menu.interact('Add', 'add', {
 		return '..'
 	}
 })
-
-menu.manualRow(backButtons)
 
 function menuBody(context: Context, path: string): Body {
 	let text = ''
