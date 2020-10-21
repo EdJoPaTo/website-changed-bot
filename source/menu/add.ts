@@ -100,7 +100,7 @@ menu.interact('Add', 'add', {
 			delete context.session.addUrl
 
 			await context.answerCbQuery('added successfully 😎')
-		} catch (error) {
+		} catch (error: unknown) {
 			const errorMessage = error instanceof Error ? error.message : String(error)
 			await context.reply(errorMessage)
 		}

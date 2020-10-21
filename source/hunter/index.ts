@@ -28,7 +28,7 @@ async function checkOne<TMission extends Mission>(directions: Directions<TMissio
 	try {
 		const change = await hasChanged(directions.mission, directions.store)
 		await directions.notifyChange(directions.issuer, directions.mission, change)
-	} catch (error) {
+	} catch (error: unknown) {
 		await directions.notifyError(directions.issuer, directions.mission, error)
 	}
 }

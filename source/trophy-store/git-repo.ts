@@ -6,9 +6,9 @@ function tryCommit(folder: string, commitMessage: string): void {
 	gitCommand(folder, 'add -A')
 	try {
 		gitCommand(folder, `commit -m "${commitMessage}" --no-gpg-sign --author "website-changed-bot <website-changed-bot@3t0.de>"`)
-	} catch (error) {
-		if ('stdout' in error) {
-			const {stdout} = error
+	} catch (error: unknown) {
+		if (typeof error === 'object' && error !== null && 'stdout' in error) {
+			const {stdout} = (error as any)
 			if (stdout instanceof Buffer) {
 				const stdoutString = stdout.toString()
 				if (stdoutString.includes('nothing to commit')) {

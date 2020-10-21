@@ -31,7 +31,7 @@ async function run(notifyChange: NotifyChangeFunction<Mission>, notifyError: Not
 
 		// Allow docker healthcheck
 		writeFileSync('.last-successful-run', '', 'utf8')
-	} catch (error) {
+	} catch (error: unknown) {
 		console.error('run endless mission loop iteration failed', error)
 	}
 }
