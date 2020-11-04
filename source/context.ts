@@ -5,6 +5,7 @@ export interface Session {
 	page: number | undefined;
 	addUrl?: string;
 	addType?: Type;
+	listTopLevel?: string;
 	replacerRegexSource?: string;
 	replacerRegexFlags?: string;
 	replacerReplaceValue?: string;
