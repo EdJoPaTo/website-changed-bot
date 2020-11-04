@@ -1,5 +1,4 @@
-import {html as format} from 'telegram-format'
-import {MenuTemplate, Body} from 'telegraf-inline-menu'
+import {MenuTemplate} from 'telegraf-inline-menu'
 
 import {Context} from '../context'
 import {generateFilename} from '../hunter'
@@ -9,7 +8,7 @@ import {backButtons} from './lib/generics'
 
 import {menu as detailsMenu} from './details'
 
-export const menu = new MenuTemplate<Context>(menuBody)
+export const menu = new MenuTemplate<Context>('Here you can see all the missions you set up to check regularly.')
 
 const ENTRIES_PER_PAGE = 10
 
@@ -23,35 +22,6 @@ menu.chooseIntoSubmenu('', ctx => getAllEntries(ctx.chat!.id), detailsMenu, {
 })
 
 menu.manualRow(backButtons)
-
-function menuBody(context: Context): Body {
-	let text = ''
-
-	text += 'Here you can see all the missions you set up to check regularly.'
-	text += '\n\n'
-
-	const page = (context.session.page ?? 1) - 1
-	const offset = page * ENTRIES_PER_PAGE
-	const end = (page + 1) * ENTRIES_PER_PAGE
-
-	const issuer = `tg${context.chat!.id}`
-	const all = userMissions.get(issuer) ?? []
-	const missions = all
-		.sort((a, b) => generateFilename(a.url, a.type).localeCompare(generateFilename(b.url, b.type)))
-		.slice(offset, end)
-
-	for (const mission of missions) {
-		const label = format.monospace(mission.type) + ': ' + format.escape(mission.url)
-		text += format.url(label, mission.url)
-		text += '\n'
-	}
-
-	return {
-		text,
-		disable_web_page_preview: true,
-		parse_mode: format.parse_mode
-	}
-}
 
 function getAllEntries(chatId: number): Map<string, string> {
 	const issuer = `tg${chatId}`
