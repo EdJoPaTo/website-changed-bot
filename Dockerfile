@@ -28,4 +28,4 @@ COPY --from=0 /build/dist ./
 HEALTHCHECK --interval=5m \
     CMD bash -c '[[ $(find . -maxdepth 1 -name ".last-successful-run" -mmin "-25" -print | wc -l) == "1" ]]'
 
-CMD node index.js
+CMD node --unhandled-rejections=strict -r source-map-support/register index.js
