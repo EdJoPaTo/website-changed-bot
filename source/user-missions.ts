@@ -13,7 +13,7 @@ export function getByIndex(issuer: string, index: number): Mission {
 		throw new Error('index out of range')
 	}
 
-	return all[index]
+	return all[index]!
 }
 
 function indexOf(missions: readonly Mission[], url: string, type: Type): number {

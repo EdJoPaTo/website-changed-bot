@@ -38,7 +38,7 @@ function topLevelOptions(context: Context): string[] {
 	const all = userMissions.get(issuer) ?? []
 	return all
 		.map(o => generateFilename(o.url, o.type))
-		.map(o => o.split('-')[0])
+		.map(o => o.split('-')[0]!)
 		.filter(arrayFilterUnique())
 		.sort((a, b) => a.localeCompare(b))
 }

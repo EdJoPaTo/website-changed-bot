@@ -50,8 +50,8 @@ menu.manualRow(backButtons)
 
 function getMission(context: Context): Mission {
 	const issuer = `tg${context.chat!.id}`
-	const key = context.match![1]
-	const index = Number(/^i(\d+)-/.exec(key)![1])
+	const key = context.match![1]!
+	const index = Number(/^i(\d+)-/.exec(key)![1]!)
 	return userMissions.getByIndex(issuer, index)
 }
 
