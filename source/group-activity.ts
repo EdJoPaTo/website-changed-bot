@@ -22,7 +22,7 @@ bot.use(async (context, next) => {
 		}
 
 		anyValidAdminExists = chatAdmins.some(o => isAuthorized(o.user.id))
-	} catch { }
+	} catch {}
 
 	if (!anyValidAdminExists) {
 		try {
