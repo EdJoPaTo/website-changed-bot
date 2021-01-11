@@ -12,5 +12,6 @@ export interface Session {
 }
 
 export interface Context extends TelegrafContext {
+	match?: RegExpExecArray;
 	session: Session;
 }

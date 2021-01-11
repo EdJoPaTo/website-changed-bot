@@ -1,11 +1,11 @@
 import {html as format} from 'telegram-format'
-import {Telegram} from 'telegraf'
+import {Telegraf} from 'telegraf'
 
 import {Mission} from './hunter'
 
-let telegram: Telegram
+let telegram: Telegraf['telegram']
 
-export function init(tg: Telegram): void {
+export function init(tg: Telegraf['telegram']): void {
 	telegram = tg
 }
 

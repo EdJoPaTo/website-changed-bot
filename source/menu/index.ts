@@ -24,10 +24,14 @@ bot.on('message', async (ctx, next) => {
 		throw new Error('typings?!')
 	}
 
-	const text = ctx.message.text ?? ctx.message.caption ?? ''
-	const entities = ctx.message.entities ?? ctx.message.caption_entities ?? []
+	const text = ('text' in ctx.message && ctx.message.text) ||
+		('caption' in ctx.message && ctx.message.caption) ||
+		''
+	const entities = ('entities' in ctx.message && ctx.message.entities) ||
+		('caption_entities' in ctx.message && ctx.message.caption_entities) ||
+		[]
 
-	const url = getFirstUrlFromMessageEntities(text, entities as any[])
+	const url = getFirstUrlFromMessageEntities(text, entities)
 
 	if (url) {
 		ctx.session.addUrl = url

@@ -57,6 +57,14 @@ bot.use(async (ctx, next) => {
 })
 
 bot.use(session())
+bot.use(async (ctx, next) => {
+	if (!ctx.session) {
+		ctx.session = {page: 0}
+	}
+
+	return next()
+})
+
 bot.use(Composer.groupChat(groupActivity))
 
 bot.use(menu)
@@ -91,7 +99,7 @@ async function startup() {
 	])
 
 	await bot.launch()
-	console.log(new Date(), 'Bot started as', bot.options.username)
+	console.log(new Date(), 'Bot started as', bot.botInfo?.username)
 
 	await checkRunner(notifyChange, notifyError)
 	console.log(new Date(), 'never reached')

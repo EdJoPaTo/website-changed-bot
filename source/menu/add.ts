@@ -18,7 +18,7 @@ export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
 const urlQuestion = new TelegrafStatelessQuestion<Context>('add-url', async context => {
-	const url = context.message.text
+	const url = 'text' in context.message && context.message.text
 	if (!url) {
 		await context.reply('Please send the url as a text message')
 	} else if (!(url.startsWith('https://') || url.startsWith('http://'))) {

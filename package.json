@@ -32,10 +32,10 @@
     "got": "^11.0.2",
     "js-beautify": "^1.10.0",
     "source-map-support": "^0.5.19",
-    "telegraf": "^3.38.0",
-    "telegraf-inline-menu": "^5.0.0",
-    "telegraf-middleware-console-time": "^1.2.0",
-    "telegraf-stateless-question": "^1.0.0",
+    "telegraf": "^4.0.0",
+    "telegraf-inline-menu": "^6.0.0-alpha1",
+    "telegraf-middleware-console-time": "^2.0.0",
+    "telegraf-stateless-question": "^2.0.0",
     "telegram-format": "^2.0.0"
   },
   "devDependencies": {

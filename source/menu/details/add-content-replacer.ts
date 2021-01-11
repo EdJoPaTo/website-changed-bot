@@ -16,7 +16,7 @@ export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
 const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', async (context, path) => {
-	const regex = context.message.text
+	const regex = 'text' in context.message && context.message.text
 	if (!regex) {
 		await context.reply('Please send the regular expression as a text message')
 		await replyMenuToContext(menu, context, path)
@@ -75,7 +75,7 @@ menu.select('flags', regexFlags, {
 })
 
 const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-replace-value', async (context, path) => {
-	const replaceValue = context.message.text
+	const replaceValue = 'text' in context.message ? context.message.text : undefined
 	context.session.replacerReplaceValue = replaceValue
 	await replyMenuToContext(menu, context, path)
 })
@@ -125,7 +125,9 @@ menu.interact('✅ Add', 'add', {
 		const flags = context.session.replacerRegexFlags ?? DEFAULT_FLAGS
 		const replaceValue = context.session.replacerReplaceValue ?? DEFAULT_REPLACE_VALUE
 
-		const index = /\/:i(\d+)-/.exec(context.callbackQuery!.data!)![1]
+		const data = context.callbackQuery && 'data' in context.callbackQuery ? context.callbackQuery.data : undefined
+
+		const index = /\/:i(\d+)-/.exec(data!)![1]
 		const issuer = `tg${context.chat!.id}`
 		const mission = userMissions.getByIndex(issuer, Number(index))
 
