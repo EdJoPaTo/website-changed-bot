@@ -3,9 +3,6 @@ name: NodeJS
 on:
   push:
   pull_request:
-  schedule:
-    # every 5th of the month on 4:32 UTC
-    - cron: '32 4 5 * *'
 
 jobs:
   test:
