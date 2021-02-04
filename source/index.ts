@@ -58,10 +58,7 @@ bot.use(async (ctx, next) => {
 
 bot.use(session())
 bot.use(async (ctx, next) => {
-	if (!ctx.session) {
-		ctx.session = {page: 0}
-	}
-
+	ctx.session ??= {}
 	return next()
 })
 
