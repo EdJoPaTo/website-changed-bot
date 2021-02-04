@@ -2,7 +2,7 @@ import {Context as TelegrafContext} from 'telegraf'
 import {Type} from './hunter'
 
 export interface Session {
-	page: number | undefined;
+	page?: number;
 	addUrl?: string;
 	addType?: Type;
 	listTopLevel?: string;
@@ -12,6 +12,6 @@ export interface Session {
 }
 
 export interface Context extends TelegrafContext {
-	match?: RegExpExecArray;
+	readonly match?: RegExpExecArray;
 	session: Session;
 }
