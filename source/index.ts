@@ -45,6 +45,7 @@ bot.use(async (ctx, next) => {
 	}
 
 	if (userList.length === 0) {
+		console.log('create initial admin', ctx.from)
 		await users.addUser(ctx.from!.id, true)
 		await ctx.reply('you are now Admin ☺️')
 		await next()
