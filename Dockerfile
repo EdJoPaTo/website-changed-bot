@@ -1,4 +1,4 @@
-FROM docker.io/library/node:14-alpine
+FROM docker.io/library/node:14-alpine AS builder
 WORKDIR /build
 
 COPY package.json package-lock.json tsconfig.json ./
@@ -22,8 +22,8 @@ RUN apk add --no-cache git bash
 
 COPY gitconfig /root/.gitconfig
 COPY package.json ./
-COPY --from=0 /build/node_modules ./node_modules
-COPY --from=0 /build/dist ./
+COPY --from=builder /build/node_modules ./node_modules
+COPY --from=builder /build/dist ./
 
 HEALTHCHECK --interval=5m \
     CMD bash -c '[[ $(find . -maxdepth 1 -name ".last-successful-run" -mmin "-25" -print | wc -l) == "1" ]]'
