@@ -35,7 +35,7 @@ initTrophyStore()
 bot.use(async (ctx, next) => {
 	const userList = users.getUsers()
 	if (userList.includes(ctx.from!.id)) {
-		await next?.()
+		await next()
 		return
 	}
 
@@ -47,6 +47,7 @@ bot.use(async (ctx, next) => {
 	if (userList.length === 0) {
 		await users.addUser(ctx.from!.id, true)
 		await ctx.reply('you are now Admin ☺️')
+		await next()
 		return
 	}
 
