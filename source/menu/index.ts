@@ -20,10 +20,6 @@ bot.command('add', async ctx => menuMiddleware.replyToContext(ctx, '/add/'))
 bot.command('list', async ctx => menuMiddleware.replyToContext(ctx, '/list/'))
 
 bot.on('message', async (ctx, next) => {
-	if (!ctx.message) {
-		throw new Error('typings?!')
-	}
-
 	const text = ('text' in ctx.message && ctx.message.text) ||
 		('caption' in ctx.message && ctx.message.caption) ||
 		''
