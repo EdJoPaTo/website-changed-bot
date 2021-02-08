@@ -8,7 +8,6 @@ import {getStore} from '../trophy-store'
 import {TYPES, stringIsType, Mission, hasChanged, generateFilename} from '../hunter'
 import * as userMissions from '../user-missions'
 
-import {backButtons} from './lib/generics'
 import {basicInfo} from './lib/mission'
 
 const DEFAULT_TYPE = 'html'
@@ -55,18 +54,15 @@ menu.select('type', TYPES, {
 	}
 })
 
-menu.interact('Reset', 'reset', {
-	hide: context => {
-		return !context.session.addUrl && (context.session.addType ?? DEFAULT_TYPE) === DEFAULT_TYPE
-	},
+menu.interact('🛑 Abort', 'reset', {
 	do: async context => {
 		delete context.session.addType
 		delete context.session.addUrl
-		return '.'
+		return '..'
 	}
 })
 
-menu.interact('Add', 'add', {
+menu.interact('➕ Add', 'add', {
 	joinLastRow: true,
 	hide: context => {
 		if (!context.session.addUrl) {
@@ -81,6 +77,7 @@ menu.interact('Add', 'add', {
 	},
 	do: async context => {
 		if (!context.session.addUrl) {
+			await context.answerCbQuery('looks like something went wrong?')
 			return '.'
 		}
 
@@ -99,17 +96,16 @@ menu.interact('Add', 'add', {
 			delete context.session.addType
 			delete context.session.addUrl
 
-			await context.answerCbQuery('added successfully 😎')
+			await context.reply('added successfully 😎')
+			return false
 		} catch (error: unknown) {
+			console.log('ERROR while adding something', error)
 			const errorMessage = error instanceof Error ? error.message : String(error)
 			await context.reply(errorMessage)
+			return true
 		}
-
-		return '.'
 	}
 })
-
-menu.manualRow(backButtons)
 
 function menuBody(context: Context): Body {
 	let text = 'Lets add a website to be stalked 🤓\n\n'
