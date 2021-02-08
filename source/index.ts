@@ -33,8 +33,14 @@ initNotifyTgUser(bot.telegram)
 initTrophyStore()
 
 bot.use(async (ctx, next) => {
+	if (!ctx.from) {
+		// Whatever this is, it is not relevant
+		console.log('ignore not relevant telegram update', ctx.update)
+		return
+	}
+
 	const userList = users.getUsers()
-	if (userList.includes(ctx.from!.id)) {
+	if (userList.includes(ctx.from.id)) {
 		await next()
 		return
 	}
@@ -46,7 +52,7 @@ bot.use(async (ctx, next) => {
 
 	if (userList.length === 0) {
 		console.log('create initial admin', ctx.from)
-		await users.addUser(ctx.from!.id, true)
+		await users.addUser(ctx.from.id, true)
 		await ctx.reply('you are now Admin ☺️')
 		await next()
 		return
@@ -57,7 +63,7 @@ bot.use(async (ctx, next) => {
 		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', {
 			disable_notification: true,
 			parse_mode: 'Markdown',
-			reply_markup: generateAddUserKeyboard(ctx.from!)
+			reply_markup: generateAddUserKeyboard(ctx.from)
 		}),
 		ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.')
 	])
