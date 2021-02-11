@@ -10,7 +10,8 @@ RUN node_modules/.bin/tsc
 RUN rm -rf node_modules && npm ci --production
 
 
-FROM docker.io/library/node:14-alpine
+FROM docker.io/library/alpine:3.13
+#FROM docker.io/library/node:14-alpine3.13
 WORKDIR /app
 VOLUME /app/persistent
 VOLUME /app/users
@@ -18,7 +19,7 @@ VOLUME /app/websites
 
 ENV NODE_ENV=production
 
-RUN apk add --no-cache git bash
+RUN apk add --no-cache git bash nodejs
 
 COPY gitconfig /root/.gitconfig
 COPY package.json ./

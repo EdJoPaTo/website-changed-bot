@@ -1,3 +1,5 @@
+[init]
+	defaultBranch = main
 [user]
 	name = website-changed-bot
 	email = website-changed-bot@3t0.de
