@@ -96,7 +96,12 @@ menu.interact('➕ Add', 'add', {
 			delete context.session.addType
 			delete context.session.addUrl
 
-			await context.reply('added successfully 😎')
+			const hint = 'added successfully 😎'
+			await Promise.all([
+				context.answerCbQuery(hint),
+				context.reply(hint)
+			])
+
 			return false
 		} catch (error: unknown) {
 			console.log('ERROR while adding something', error)
