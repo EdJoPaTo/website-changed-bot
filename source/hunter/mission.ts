@@ -1,11 +1,12 @@
 export type Mission =
 	HtmlMission |
 	JavaScriptMission |
+	JsonMission |
 	TextMission |
 	XmlMission
 
 export type Type = Mission['type']
-export const TYPES: Type[] = ['html', 'js', 'txt', 'xml']
+export const TYPES: Type[] = ['html', 'js', 'json', 'txt', 'xml']
 
 export function stringIsType(type: string): type is Type {
 	return (TYPES as string[]).includes(type)
@@ -29,6 +30,10 @@ export interface HtmlMission extends Base {
 
 export interface JavaScriptMission extends Base {
 	readonly type: 'js';
+}
+
+export interface JsonMission extends Base {
+	readonly type: 'json';
 }
 
 export interface TextMission extends Base {

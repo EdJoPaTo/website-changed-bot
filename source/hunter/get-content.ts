@@ -1,4 +1,5 @@
 import * as beautify from 'js-beautify'
+import * as jsonStableStringify from 'json-stable-stringify'
 
 import {cachedGot} from './got'
 import {Mission} from './mission'
@@ -16,6 +17,7 @@ export async function getCurrent(entry: Mission): Promise<string> {
 	const response = await cachedGot(entry.url)
 	const {body} = response
 
+	// eslint-disable-next-line default-case
 	switch (entry.type) {
 		case 'html':
 			if (!/<html/i.test(body)) {
@@ -38,6 +40,9 @@ export async function getCurrent(entry: Mission): Promise<string> {
 			}
 
 			return beautify.html(body, BEAUTIFY_OPTIONS)
-		default: throw new Error(`A hunter for this mission type was not implemented yet: ${(entry as any).type as string}`)
+		case 'json':
+			return jsonStableStringify(JSON.parse(body), {space: '\t'})
+		// Typescript detects missing cases in this switch case. No need for default then.
+		// default: throw new Error(`A hunter for this mission type was not implemented yet: ${(entry as any).type as string}`)
 	}
 }
