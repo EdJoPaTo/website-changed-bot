@@ -55,17 +55,19 @@ function detailsOptions(context: Context): Map<string, string> {
 function getAllEntries(chatId: number, filenameFilter: (s: string) => boolean): Map<string, string> {
 	const issuer = `tg${chatId}`
 	const all = userMissions.get(issuer) ?? []
-	const entries = new Map<string, string>()
-	all
+	const relevant = all
 		.map((o, i) => ({
 			index: i,
 			filename: generateFilename(o.url, o.type)
 		}))
 		.filter(o => filenameFilter(o.filename))
 		.sort((a, b) => a.filename.localeCompare(b.filename))
-		.forEach(o => {
-			const key = `i${o.index}-${o.filename.slice(0, 20)}`
-			entries.set(key, o.filename)
-		})
+
+	const entries = new Map<string, string>()
+	for (const o of relevant) {
+		const key = `i${o.index}-${o.filename.slice(0, 20)}`
+		entries.set(key, o.filename)
+	}
+
 	return entries
 }

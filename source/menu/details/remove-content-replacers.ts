@@ -56,7 +56,6 @@ function menuBody(context: Context): Body {
 
 	text += '\n'
 
-	// eslint-disable-next-line unicorn/prefer-ternary
 	if (mission.contentReplace?.length) {
 		text += mission.contentReplace
 			.map((o, i) => singleReplacerLine(format, o, i + 1))

@@ -1,5 +1,3 @@
-/* eslint no-await-in-loop: off */
-
 export async function sleep(ms: number): Promise<void> {
 	return new Promise(resolve => {
 		setTimeout(resolve, ms)
@@ -11,11 +9,13 @@ export async function runSequentiallyWithDelayInBetween<Argument>(runner: (job: 
 
 	for (const job of jobs) {
 		if (hasRunOnce) {
+			// eslint-disable-next-line no-await-in-loop
 			await sleep(delayMs)
 		} else {
 			hasRunOnce = true
 		}
 
+		// eslint-disable-next-line no-await-in-loop
 		await runner(job)
 	}
 }
@@ -29,11 +29,13 @@ export function generateEndlessLoopRunner(runner: () => Promise<void>, minimumDe
 		while (true) {
 			startTime = Date.now()
 
+			// eslint-disable-next-line no-await-in-loop
 			await runner()
 
 			const now = Date.now()
 			const waittime = (startTime + minimumDelayBetweenStarts) - now
 			if (waittime > 0) {
+				// eslint-disable-next-line no-await-in-loop
 				await sleep(waittime)
 			}
 		}
