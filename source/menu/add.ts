@@ -99,7 +99,8 @@ menu.interact('➕ Add', 'add', {
 			const hint = 'added successfully 😎'
 			await Promise.all([
 				context.answerCbQuery(hint),
-				context.reply(hint)
+				context.reply(hint),
+				context.editMessageReplyMarkup(undefined)
 			])
 
 			return false
