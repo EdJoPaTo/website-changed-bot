@@ -60,8 +60,11 @@ bot.use(async (ctx, next) => {
 		return
 	}
 
+	if (ctx.message) {
+		await ctx.forwardMessage(users.getAdmin(), {disable_notification: true})
+	}
+
 	await Promise.all([
-		bot.telegram.forwardMessage(users.getAdmin(), ctx.chat.id, ctx.message!.message_id, {disable_notification: true}),
 		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', {
 			disable_notification: true,
 			parse_mode: 'Markdown',
