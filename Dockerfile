@@ -7,7 +7,11 @@ RUN npm ci
 COPY source source
 RUN node_modules/.bin/tsc
 
-RUN rm -rf node_modules && npm ci --production
+
+FROM docker.io/library/node:14-alpine AS packages
+WORKDIR /build
+COPY package.json package-lock.json ./
+RUN npm ci --production
 
 
 FROM docker.io/library/alpine:3.13
@@ -23,7 +27,7 @@ RUN apk add --no-cache git bash nodejs
 
 COPY gitconfig /root/.gitconfig
 COPY package.json ./
-COPY --from=builder /build/node_modules ./node_modules
+COPY --from=packages /build/node_modules ./node_modules
 COPY --from=builder /build/dist ./
 
 HEALTHCHECK --interval=5m \
