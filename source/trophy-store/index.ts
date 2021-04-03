@@ -1,9 +1,9 @@
-import {Store} from '../store'
-import {StringFileStore} from '../file-store'
+import {Store} from '../store.js'
+import {StringFileStore} from '../file-store.js'
 
-import {cleanup} from './cleanup'
-import * as gitRepo from './git-repo'
-import {init as initGitDaemon} from './git-daemon'
+import {cleanup} from './cleanup.js'
+import {init as initGitDaemon} from './git-daemon.js'
+import * as gitRepo from './git-repo.js'
 
 export function init(): void {
 	initGitDaemon('websites/links/')

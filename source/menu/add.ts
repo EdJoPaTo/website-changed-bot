@@ -3,12 +3,12 @@ import {html as format} from 'telegram-format'
 import {MenuTemplate, replyMenuToContext, Body, deleteMenuFromContext} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
-import {Context} from '../context'
-import {getStore} from '../trophy-store'
-import {TYPES, stringIsType, Mission, hasChanged, generateFilename} from '../hunter'
-import * as userMissions from '../user-missions'
+import {Context} from '../context.js'
+import {getStore} from '../trophy-store/index.js'
+import {TYPES, stringIsType, Mission, hasChanged, generateFilename} from '../hunter/index.js'
+import * as userMissions from '../user-missions.js'
 
-import {basicInfo} from './lib/mission'
+import {basicInfo} from './lib/mission.js'
 
 const DEFAULT_TYPE = 'html'
 

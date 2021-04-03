@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 
-import {isAuthorized} from './lib/users'
+import {isAuthorized} from './lib/users.js'
 
 const removeMeFromBeingAdminMessageText = `Telegram bots which are administrators are a privacy risk to your group as they see every message or might do things every other group admin could do.
 

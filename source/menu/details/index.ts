@@ -1,15 +1,15 @@
 import {MenuTemplate, Body} from 'telegraf-inline-menu'
 import {html as format} from 'telegram-format'
 
-import {Context} from '../../context'
-import {Mission} from '../../hunter'
-import * as userMissions from '../../user-missions'
+import {Context} from '../../context.js'
+import {Mission} from '../../hunter/index.js'
+import * as userMissions from '../../user-missions.js'
 
-import {backButtons} from '../lib/generics'
-import {singleReplacerLine, basicInfo} from '../lib/mission'
+import {backButtons} from '../lib/generics.js'
+import {singleReplacerLine, basicInfo} from '../lib/mission.js'
 
-import {menu as addContentReplacerMenu} from './add-content-replacer'
-import {menu as removeContentReplacerMenu} from './remove-content-replacers'
+import {menu as addContentReplacerMenu} from './add-content-replacer.js'
+import {menu as removeContentReplacerMenu} from './remove-content-replacers.js'
 
 export const menu = new MenuTemplate<Context>(menuBody)
 

@@ -2,12 +2,12 @@ import {Composer} from 'telegraf'
 import {MenuMiddleware} from 'telegraf-inline-menu'
 import {MessageEntity} from 'typegram'
 
-import {Context} from '../context'
+import {Context} from '../context.js'
 
-import {mainMenu} from './main-menu'
+import {mainMenu} from './main-menu.js'
 
-import {bot as addComposer} from './add'
-import {bot as addContentReplacerComposer} from './details/add-content-replacer'
+import {bot as addComposer} from './add.js'
+import {bot as addContentReplacerComposer} from './details/add-content-replacer.js'
 
 export const bot = new Composer<Context>()
 bot.use(addComposer)

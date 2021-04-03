@@ -1,4 +1,4 @@
-import {Type} from './mission'
+import {Type} from './mission.js'
 
 export function getDomainFromUrl(url: string): string {
 	const result = /\/\/([^/]+)/.exec(url)

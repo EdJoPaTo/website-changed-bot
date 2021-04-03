@@ -1,15 +1,15 @@
 import arrayReduceGroupBy from 'array-reduce-group-by'
 
-import {runSequentiallyWithDelayInBetween} from '../async'
-import {Store} from '../store'
+import {runSequentiallyWithDelayInBetween} from '../async.js'
+import {Store} from '../store.js'
 
-import {Directions} from './directions'
-import {getCurrent} from './get-content'
-import {getDomainFromUrl, generateFilename} from './url-logic'
-import {Mission, ContentReplace} from './mission'
+import {Directions} from './directions.js'
+import {getCurrent} from './get-content.js'
+import {getDomainFromUrl, generateFilename} from './url-logic.js'
+import {Mission, ContentReplace} from './mission.js'
 
-export * from './mission'
-export * from './url-logic'
+export * from './mission.js'
+export * from './url-logic.js'
 
 export async function checkMany<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>, delayMsBetweenSameDomain: number): Promise<void> {
 	const groupedByDomain = directions

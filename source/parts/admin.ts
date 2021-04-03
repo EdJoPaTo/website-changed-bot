@@ -1,6 +1,6 @@
 import {Composer} from 'telegraf'
 
-import * as users from '../lib/users'
+import * as users from '../lib/users.js'
 
 export const bot = new Composer()
 

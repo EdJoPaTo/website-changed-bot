@@ -1,8 +1,8 @@
 import test, {ExecutionContext} from 'ava'
 
-import {Type} from './mission'
+import {Type} from './mission.js'
 
-import {getDomainFromUrl, generateFilename} from './url-logic'
+import {getDomainFromUrl, generateFilename} from './url-logic.js'
 
 function getDomainFromUrlMacro(t: ExecutionContext, input: string, expected: string): void {
 	const actual = getDomainFromUrl(input)

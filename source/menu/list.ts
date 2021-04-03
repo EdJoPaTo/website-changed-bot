@@ -1,13 +1,13 @@
 import {MenuTemplate} from 'telegraf-inline-menu'
 import arrayFilterUnique from 'array-filter-unique'
 
-import {Context} from '../context'
-import {generateFilename} from '../hunter'
-import {userMissions} from '../user-missions'
+import {Context} from '../context.js'
+import {generateFilename} from '../hunter/index.js'
+import {userMissions} from '../user-missions.js'
 
-import {backButtons} from './lib/generics'
+import {backButtons} from './lib/generics.js'
 
-import {menu as detailsMenu} from './details'
+import {menu as detailsMenu} from './details/index.js'
 
 export const menu = new MenuTemplate<Context>('Here you can see all the missions you set up to check regularly.')
 

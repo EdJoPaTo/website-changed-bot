@@ -1,12 +1,12 @@
 import {MenuTemplate} from 'telegraf-inline-menu'
 
-import {Context} from '../context'
+import {Context} from '../context.js'
 
-import {backButtons} from './lib/generics'
+import {backButtons} from './lib/generics.js'
 
-import {menu as addMenu} from './add'
-import {menu as gitMenu} from './git'
-import {menu as listMenu} from './list'
+import {menu as addMenu} from './add.js'
+import {menu as gitMenu} from './git.js'
+import {menu as listMenu} from './list.js'
 
 export const mainMenu = new MenuTemplate<Context>('Hello World!')
 

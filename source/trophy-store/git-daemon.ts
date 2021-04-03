@@ -1,7 +1,7 @@
 import {mkdirSync, readdirSync, unlinkSync} from 'fs'
 import {execSync} from 'child_process'
 
-import {gitCommand} from './git'
+import {gitCommand} from './git.js'
 
 let linkFolder: string
 
@@ -18,7 +18,8 @@ export function linkName(issuer: string, secret: string): string {
 }
 
 export function generateRemote(issuer: string, secret: string): string {
-	const host = process.env.PUBLIC_HOSTNAME ?? 'localhost'
+	// eslint-disable-next-line @typescript-eslint/dot-notation
+	const host = process.env['PUBLIC_HOSTNAME'] ?? 'localhost'
 	return `git://${host}/${linkName(issuer, secret)}/`
 }
 

@@ -5,9 +5,9 @@
 		"test"
 	],
 	"compilerOptions": {
-		"target": "ES2020",
-		"sourceMap": true,
+		"esModuleInterop": true,
 		"declaration": false,
+		"sourceMap": true,
 		"outDir": "dist"
 	}
 }

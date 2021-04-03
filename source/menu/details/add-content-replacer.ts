@@ -3,11 +3,11 @@ import {html as format} from 'telegram-format'
 import {MenuTemplate, Body, replyMenuToContext, deleteMenuFromContext, getMenuOfPath} from 'telegraf-inline-menu'
 import TelegrafStatelessQuestion from 'telegraf-stateless-question'
 
-import {ContentReplace} from '../../hunter'
-import {Context} from '../../context'
-import * as userMissions from '../../user-missions'
+import {ContentReplace} from '../../hunter/index.js'
+import {Context} from '../../context.js'
+import * as userMissions from '../../user-missions.js'
 
-import {basicInfo} from '../lib/mission'
+import {basicInfo} from '../lib/mission.js'
 
 const DEFAULT_FLAGS = 'g'
 const DEFAULT_REPLACE_VALUE = '$1'

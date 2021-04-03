@@ -1,6 +1,6 @@
 import {Formatter} from 'telegram-format'
 
-import {Mission, ContentReplace, generateFilename} from '../../hunter'
+import {Mission, ContentReplace, generateFilename} from '../../hunter/index.js'
 
 export function basicInfo(format: Formatter, mission: Mission): string {
 	let text = ''

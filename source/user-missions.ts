@@ -1,5 +1,5 @@
-import {JsonFileStore} from './file-store'
-import {Mission, Type, generateFilename} from './hunter'
+import {JsonFileStore} from './file-store.js'
+import {Mission, Type, generateFilename} from './hunter/index.js'
 
 export const userMissions = new JsonFileStore<Mission[]>('users/missions/')
 

@@ -1,6 +1,6 @@
 import {existsSync} from 'fs'
 
-import {gitCommand} from './git'
+import {gitCommand} from './git.js'
 
 function tryCommit(folder: string, commitMessage: string): void {
 	gitCommand(folder, 'add -A')

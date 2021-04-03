@@ -1,10 +1,10 @@
 import {writeFileSync} from 'fs'
 
-import {checkMany, Mission, generateFilename} from './hunter'
-import {getStore, finalizeStore} from './trophy-store'
-import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions'
-import {generateEndlessLoopRunner} from './async'
-import {userMissions} from './user-missions'
+import {checkMany, Mission, generateFilename} from './hunter/index.js'
+import {generateEndlessLoopRunner} from './async.js'
+import {getStore, finalizeStore} from './trophy-store/index.js'
+import {NotifyChangeFunction, NotifyErrorFunction, Directions} from './hunter/directions.js'
+import {userMissions} from './user-missions.js'
 
 const SECOND = 1000
 const MINUTE = 60 * SECOND

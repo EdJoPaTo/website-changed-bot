@@ -1,6 +1,6 @@
 import {mkdirSync, unlinkSync, rmdirSync, readFileSync, writeFileSync, readdirSync} from 'fs'
 
-import {Store} from './store'
+import {Store} from './store.js'
 
 export class StringFileStore implements Store<string> {
 	constructor(

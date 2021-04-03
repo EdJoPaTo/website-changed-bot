@@ -1,8 +1,8 @@
-import * as beautify from 'js-beautify'
-import * as jsonStableStringify from 'json-stable-stringify'
+import beautify from 'js-beautify'
+import jsonStableStringify from 'json-stable-stringify'
 
-import {cachedGot} from './got'
-import {Mission} from './mission'
+import {cachedGot} from './got.js'
+import {Mission} from './mission.js'
 
 const JAVASCRIPT_REQUIRED_WORDS = ['function', 'var', 'const']
 

@@ -1,7 +1,7 @@
 import {html as format} from 'telegram-format'
 import {Telegram} from 'telegraf'
 
-import {Mission} from './hunter'
+import {Mission} from './hunter/index.js'
 
 let telegram: Telegram
 

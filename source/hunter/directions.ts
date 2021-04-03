@@ -1,6 +1,6 @@
-import {Store} from '../store'
+import {Store} from '../store.js'
 
-import {Mission} from './mission'
+import {Mission} from './mission.js'
 
 export type NotifyChangeFunction<TMission> = (issuer: string, mission: TMission, change: boolean | undefined) => void | Promise<void>
 export type NotifyErrorFunction<TMission> = (issuer: string, mission: TMission, error: unknown) => void | Promise<void>
