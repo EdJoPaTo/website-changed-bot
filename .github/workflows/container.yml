@@ -29,7 +29,6 @@ jobs:
           tags: |
             type=ref,event=branch
             type=ref,event=pr
-            type=edge,branch=$repo.default_branch
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
