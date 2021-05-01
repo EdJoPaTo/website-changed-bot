@@ -84,7 +84,7 @@ bot.use(Composer.groupChat(groupActivity))
 
 bot.use(menu)
 
-bot.use(Telegraf.optional(ctx => ctx.from!.id === users.getAdmin(), partAdmin.middleware()))
+bot.use(Telegraf.optional(ctx => ctx.from?.id === users.getAdmin(), partAdmin.middleware()))
 
 function generateAddUserKeyboard(userDetails: User): InlineKeyboardMarkup {
 	return {

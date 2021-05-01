@@ -127,7 +127,7 @@ menu.interact('✅ Add', 'add', {
 
 		const data = context.callbackQuery && 'data' in context.callbackQuery ? context.callbackQuery.data : undefined
 
-		const index = /\/:i(\d+)-/.exec(data!)![1]
+		const index = /\/:i(\d+)-/.exec(data!)?.[1]
 		const issuer = `tg${context.chat!.id}`
 		const mission = userMissions.getByIndex(issuer, Number(index))
 
@@ -150,7 +150,7 @@ menu.interact('✅ Add', 'add', {
 function menuBody(context: Context, path: string): Body {
 	let text = ''
 
-	const index = Number(/:i(\d+)/.exec(path)![1])
+	const index = Number(/:i(\d+)/.exec(path)?.[1])
 	const issuer = `tg${context.chat!.id}`
 	const mission = userMissions.getByIndex(issuer, index)
 	text += basicInfo(format, mission)

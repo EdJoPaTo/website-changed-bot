@@ -8,12 +8,12 @@ export function getAll(issuer: string): readonly Mission[] {
 }
 
 export function getByIndex(issuer: string, index: number): Mission {
-	const all = getAll(issuer)
-	if (index < 0 || index >= all.length) {
+	const mission = getAll(issuer)[index]
+	if (!mission) {
 		throw new Error('index out of range')
 	}
 
-	return all[index]!
+	return mission
 }
 
 function indexOf(missions: readonly Mission[], url: string, type: Type): number {

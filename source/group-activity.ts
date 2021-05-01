@@ -16,7 +16,7 @@ bot.use(async (context, next) => {
 		const botId = context.botInfo.id
 		const chatAdmins = await context.getChatAdministrators()
 
-		if (context.chat!.type === 'supergroup' && chatAdmins.some(o => o.user.id === botId)) {
+		if (context.chat?.type === 'supergroup' && chatAdmins.some(o => o.user.id === botId)) {
 			console.log('bot is admin. Be annoyed.', context.chat)
 			await context.reply(removeMeFromBeingAdminMessageText)
 		}

@@ -17,7 +17,7 @@ function generateUniqueKeyForUrl(url: string, type: Type): string {
 		.replace(/index$/, '')
 
 	const domainMatch = /^[^/]+/.exec(trimmed)
-	const domain = domainMatch ? domainMatch[0]! : trimmed
+	const domain = domainMatch?.[0] ?? trimmed
 	const reverseDomain = domain.split('.').reverse().join('.')
 
 	const withReversedDomain = reverseDomain + trimmed.slice(domain.length)
