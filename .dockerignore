@@ -12,4 +12,5 @@ test
 botfather-settings
 bot-token.txt
 persistent/
+users/
 websites/
