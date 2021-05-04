@@ -22,7 +22,7 @@ VOLUME /app/websites
 
 ENV NODE_ENV=production
 
-RUN apk add --no-cache git bash
+RUN apk upgrade --no-cache && apk add --no-cache git bash
 
 COPY gitconfig /root/.gitconfig
 COPY package.json ./
