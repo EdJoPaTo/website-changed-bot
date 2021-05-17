@@ -18,7 +18,6 @@ export function linkName(issuer: string, secret: string): string {
 }
 
 export function generateRemote(issuer: string, secret: string): string {
-	// eslint-disable-next-line @typescript-eslint/dot-notation
 	const host = process.env['PUBLIC_HOSTNAME'] ?? 'localhost'
 	return `git://${host}/${linkName(issuer, secret)}/`
 }
