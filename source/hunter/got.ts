@@ -10,8 +10,10 @@ import got from 'got'
 
 function getVersion(): string {
 	const content = readFileSync('package.json', 'utf8')
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const json = JSON.parse(content)
-	return json.version
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+	return json.version as string
 }
 
 export const cachedGot = got.extend({
