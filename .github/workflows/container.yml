@@ -9,6 +9,8 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron:  '17 2 * * 3' # weekly Wednesday 02:17 UTC
 
 jobs:
   docker:
