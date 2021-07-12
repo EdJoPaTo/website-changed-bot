@@ -68,7 +68,13 @@ bot.use(async (ctx, next) => {
 			parse_mode: 'Markdown',
 			reply_markup: generateAddUserKeyboard(ctx.from),
 		}),
-		ctx.reply('Sorry. I do not serve you.\nThe admin was notified. Maybe he will grant you the permission.'),
+		ctx.reply(`Sorry. I do not serve you (yet).
+The admin was notified and might grant you the permission.
+
+If you are familiar with GitHub Actions or hosting stuff yourself check out my [website-stalker](https://github.com/EdJoPaTo/website-stalker).
+This bot will migrate towards using this tool under the hood too. (As soon as I find some time to do it…)`, {
+			parse_mode: 'Markdown',
+		}),
 	])
 })
 
