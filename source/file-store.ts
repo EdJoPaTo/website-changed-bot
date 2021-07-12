@@ -4,7 +4,7 @@ import {Store} from './store.js'
 
 export class StringFileStore implements Store<string> {
 	constructor(
-		public readonly folder: string
+		public readonly folder: string,
 	) {
 		if (!folder.endsWith('/')) {
 			throw new Error('folder has to end with a /')
@@ -56,7 +56,7 @@ export class JsonFileStore<T> implements Store<T> {
 	constructor(
 		public readonly folder: string,
 		public readonly serialise: (input: T) => string = input => JSON.stringify(input, undefined, '\t'),
-		public readonly deserialise: (input: string) => T = input => JSON.parse(input) as T
+		public readonly deserialise: (input: string) => T = input => JSON.parse(input) as T,
 	) {
 		this._stringFileStore = new StringFileStore(folder)
 	}

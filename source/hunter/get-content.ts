@@ -10,7 +10,7 @@ const BEAUTIFY_OPTIONS = {
 	end_with_newline: true,
 	eol: '\n',
 	indent_with_tabs: true,
-	max_preserve_newlines: 2
+	max_preserve_newlines: 2,
 }
 
 export async function getCurrent(entry: Mission): Promise<string> {

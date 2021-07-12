@@ -16,7 +16,7 @@ export async function checkMany<TMission extends Mission>(directions: ReadonlyAr
 		.reduce(arrayReduceGroupBy(o => getDomainFromUrl(o.mission.url)), {})
 
 	await Promise.all(Object.values(groupedByDomain)
-		.map(async group => checkGroup(group, delayMsBetweenSameDomain))
+		.map(async group => checkGroup(group, delayMsBetweenSameDomain)),
 	)
 }
 

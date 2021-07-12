@@ -43,7 +43,7 @@ function finishUpIssuer(issuer: string): void {
 
 async function directionsOfIssuers(issuers: readonly string[], notifyChange: NotifyChangeFunction<Mission>, notifyError: NotifyErrorFunction<Mission>): Promise<ReadonlyArray<Directions<Mission>>> {
 	const directionsArrayArray = await Promise.all(issuers
-		.map(async o => directionsOfIssuer(o, notifyChange, notifyError))
+		.map(async o => directionsOfIssuer(o, notifyChange, notifyError)),
 	)
 	return directionsArrayArray.flat(1)
 }
@@ -53,15 +53,13 @@ async function directionsOfIssuer(issuer: string, notifyChange: NotifyChangeFunc
 	const missions = userMissions.get(issuer) ?? []
 
 	const directions = await Promise.all(missions
-		.map(async (mission): Promise<Directions<Mission>> => {
-			return {
-				issuer,
-				mission,
-				store,
-				notifyChange,
-				notifyError
-			}
-		})
+		.map(async (mission): Promise<Directions<Mission>> => ({
+			issuer,
+			mission,
+			store,
+			notifyChange,
+			notifyError,
+		})),
 	)
 
 	return directions

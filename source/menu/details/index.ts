@@ -19,7 +19,7 @@ menu.submenu('Remove Content Replacer…', 'replacer-remove', removeContentRepla
 	hide: async context => {
 		const mission = getMission(context)
 		return !mission.contentReplace?.length
-	}
+	},
 })
 
 const removeMissionMenu = new MenuTemplate<Context>(context => {
@@ -39,7 +39,7 @@ removeMissionMenu.interact('Yes, remove the mission!', 'yes', {
 		userMissions.remove(issuer, mission)
 
 		return '../..'
-	}
+	},
 })
 
 removeMissionMenu.navigate('Nope! Keep it!', '..')

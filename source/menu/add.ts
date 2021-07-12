@@ -37,10 +37,10 @@ menu.interact('Set the url…', 'url', {
 	do: async context => {
 		await Promise.all([
 			urlQuestion.replyWithMarkdown(context, 'Please tell me the url you want to spy upon.'),
-			deleteMenuFromContext(context)
+			deleteMenuFromContext(context),
 		])
 		return false
-	}
+	},
 })
 
 menu.select('type', TYPES, {
@@ -51,7 +51,7 @@ menu.select('type', TYPES, {
 		}
 
 		return true
-	}
+	},
 })
 
 menu.interact('🛑 Abort', 'reset', {
@@ -59,7 +59,7 @@ menu.interact('🛑 Abort', 'reset', {
 		delete context.session.addType
 		delete context.session.addUrl
 		return '..'
-	}
+	},
 })
 
 menu.interact('➕ Add', 'add', {
@@ -85,7 +85,7 @@ menu.interact('➕ Add', 'add', {
 		const mission: Mission = {
 			type: context.session.addType ?? DEFAULT_TYPE,
 			url: context.session.addUrl,
-			contentReplace: []
+			contentReplace: [],
 		}
 
 		try {
@@ -100,7 +100,7 @@ menu.interact('➕ Add', 'add', {
 			await Promise.all([
 				context.answerCbQuery(hint),
 				context.reply(hint),
-				context.editMessageReplyMarkup(undefined)
+				context.editMessageReplyMarkup(undefined),
 			])
 
 			return false
@@ -110,7 +110,7 @@ menu.interact('➕ Add', 'add', {
 			await context.reply(errorMessage)
 			return true
 		}
-	}
+	},
 })
 
 function menuBody(context: Context): Body {

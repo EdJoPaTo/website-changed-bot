@@ -40,17 +40,17 @@ menu.interact('Set the Regular Expression…', 'regex', {
 	do: async (context, path) => {
 		await Promise.all([
 			regexQuestion.replyWithMarkdown(context, 'Please tell me the regexp you wanna use.', getMenuOfPath(path)),
-			deleteMenuFromContext(context)
+			deleteMenuFromContext(context),
 		])
 		return false
-	}
+	},
 })
 
 const regexFlags = {
 	g: 'global',
 	i: 'ignore case',
 	m: 'multiline',
-	u: 'unicode'
+	u: 'unicode',
 }
 
 menu.select('flags', regexFlags, {
@@ -71,7 +71,7 @@ menu.select('flags', regexFlags, {
 			.join('')
 
 		return true
-	}
+	},
 })
 
 const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-replace-value', async (context, path) => {
@@ -87,10 +87,10 @@ menu.interact('Replace with…', 'replaceValue', {
 	do: async (context, path) => {
 		await Promise.all([
 			replaceValueQuestion.replyWithMarkdown(context, 'Please tell me the replaceValue you wanna use.', getMenuOfPath(path)),
-			deleteMenuFromContext(context)
+			deleteMenuFromContext(context),
 		])
 		return false
-	}
+	},
 })
 
 menu.interact('Remove matches', 'replaceEmpty', {
@@ -99,7 +99,7 @@ menu.interact('Remove matches', 'replaceEmpty', {
 	do: async context => {
 		context.session.replacerReplaceValue = ''
 		return true
-	}
+	},
 })
 
 menu.interact('🛑 Abort', 'abort', {
@@ -108,7 +108,7 @@ menu.interact('🛑 Abort', 'abort', {
 		delete context.session.replacerRegexFlags
 		delete context.session.replacerReplaceValue
 		return '..'
-	}
+	},
 
 })
 
@@ -133,7 +133,7 @@ menu.interact('✅ Add', 'add', {
 
 		const newReplacers: ContentReplace[] = [
 			...(mission.contentReplace ?? []),
-			{source, flags, replaceValue}
+			{source, flags, replaceValue},
 		]
 
 		userMissions.update(issuer, {...mission, contentReplace: newReplacers})
@@ -144,7 +144,7 @@ menu.interact('✅ Add', 'add', {
 
 		await context.answerCbQuery('added successfully 😎')
 		return '..'
-	}
+	},
 })
 
 function menuBody(context: Context, path: string): Body {

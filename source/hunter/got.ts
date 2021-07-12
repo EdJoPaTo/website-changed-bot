@@ -18,6 +18,6 @@ function getVersion(): string {
 
 export const cachedGot = got.extend({
 	headers: {
-		'user-agent': 'website-changed-bot ' + getVersion() + 'https://github.com/EdJoPaTo/website-changed-bot'
-	}
+		'user-agent': 'website-changed-bot ' + getVersion() + 'https://github.com/EdJoPaTo/website-changed-bot',
+	},
 })

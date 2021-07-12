@@ -28,7 +28,7 @@ export function getAdmin(): number {
 
 export async function addUser(userID: number, isAdmin: boolean): Promise<void> {
 	await setUserSettings(userID, {
-		admin: isAdmin
+		admin: isAdmin,
 	})
 }
 

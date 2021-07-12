@@ -19,7 +19,7 @@ menu.interact(enableText, 'enable', {
 		const secret = generateSecret()
 		gitDaemon.createLink(issuer, secret)
 		return '.'
-	}
+	},
 })
 
 menu.interact('Disable Git', 'disable', {
@@ -31,7 +31,7 @@ menu.interact('Disable Git', 'disable', {
 		const issuer = `tg${context.chat!.id}`
 		gitDaemon.removeLink(issuer)
 		return '.'
-	}
+	},
 })
 
 menu.manualRow(backButtons)

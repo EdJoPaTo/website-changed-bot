@@ -22,8 +22,8 @@ export async function notifyChange(issuer: string, mission: Mission, change: boo
 
 	await telegram.sendMessage(user, text, {
 		reply_markup: {
-			remove_keyboard: true
-		}
+			remove_keyboard: true,
+		},
 	})
 }
 
@@ -53,7 +53,7 @@ export async function notifyError(issuer: string, mission: Mission, error: any):
 	await telegram.sendMessage(user, text, {
 		parse_mode: format.parse_mode,
 		reply_markup: {
-			remove_keyboard: true
-		}
+			remove_keyboard: true,
+		},
 	})
 }

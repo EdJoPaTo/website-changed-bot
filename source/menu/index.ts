@@ -20,12 +20,12 @@ bot.command('add', async ctx => menuMiddleware.replyToContext(ctx, '/add/'))
 bot.command('list', async ctx => menuMiddleware.replyToContext(ctx, '/list/'))
 
 bot.on('message', async (ctx, next) => {
-	const text = ('text' in ctx.message && ctx.message.text) ||
-		('caption' in ctx.message && ctx.message.caption) ||
-		''
-	const entities = ('entities' in ctx.message && ctx.message.entities) ||
-		('caption_entities' in ctx.message && ctx.message.caption_entities) ||
-		[]
+	const text = ('text' in ctx.message && ctx.message.text)
+		|| ('caption' in ctx.message && ctx.message.caption)
+		|| ''
+	const entities = ('entities' in ctx.message && ctx.message.entities)
+		|| ('caption_entities' in ctx.message && ctx.message.caption_entities)
+		|| []
 
 	const url = getFirstUrlFromMessageEntities(text, entities)
 

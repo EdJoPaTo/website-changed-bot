@@ -44,7 +44,7 @@ export function add(issuer: string, ...add: readonly Mission[]) {
 
 	const all = [
 		...current,
-		...add
+		...add,
 	]
 	userMissions.set(issuer, all)
 }

@@ -9,9 +9,7 @@ function getDomainFromUrlMacro(t: ExecutionContext, input: string, expected: str
 	t.is(actual, expected)
 }
 
-getDomainFromUrlMacro.title = (_name: string, input: string) => {
-	return 'getDomainFromUrl ' + input
-}
+getDomainFromUrlMacro.title = (_name: string, input: string) => 'getDomainFromUrl ' + input
 
 test(getDomainFromUrlMacro, 'http://edjopato.de', 'edjopato.de')
 test(getDomainFromUrlMacro, 'https://edjopato.de', 'edjopato.de')
@@ -26,9 +24,7 @@ function generateFilenameMacro(t: ExecutionContext, url: string, type: Type, exp
 	t.is(actual, expected)
 }
 
-generateFilenameMacro.title = (_name: string, url: string, type: Type) => {
-	return type + ' ' + url
-}
+generateFilenameMacro.title = (_name: string, url: string, type: Type) => type + ' ' + url
 
 test(generateFilenameMacro, 'https://edjopato.de', 'html', 'de-edjopato.html')
 test(generateFilenameMacro, 'https://edjopato.de/', 'html', 'de-edjopato.html')

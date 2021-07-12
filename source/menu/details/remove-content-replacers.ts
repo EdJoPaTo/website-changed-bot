@@ -28,7 +28,7 @@ menu.choose('remove', currentContentReplaceIndicies, {
 			newReplacers.splice(index, 1)
 			const newMission = {
 				...mission,
-				contentReplace: newReplacers
+				contentReplace: newReplacers,
 			}
 
 			const issuer = `tg${context.chat!.id}`
@@ -36,7 +36,7 @@ menu.choose('remove', currentContentReplaceIndicies, {
 		}
 
 		return '..'
-	}
+	},
 })
 
 menu.manualRow(backButtons)

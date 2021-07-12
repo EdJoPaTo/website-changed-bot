@@ -19,7 +19,7 @@ menu.select('toplevel', topLevelOptions, {
 	set: (context, key) => {
 		context.session.listTopLevel = key
 		return true
-	}
+	},
 })
 
 menu.chooseIntoSubmenu('', detailsOptions, detailsMenu, {
@@ -28,7 +28,7 @@ menu.chooseIntoSubmenu('', detailsOptions, detailsMenu, {
 	getCurrentPage: context => context.session.page,
 	setPage: (context, page) => {
 		context.session.page = page
-	}
+	},
 })
 
 menu.manualRow(backButtons)
@@ -45,9 +45,9 @@ function topLevelOptions(context: Context): string[] {
 
 function detailsOptions(context: Context): Map<string, string> {
 	const {listTopLevel} = context.session
-	const topLevelFilter = listTopLevel ?
-		(o: string) => o.startsWith(listTopLevel + '-') :
-		() => true
+	const topLevelFilter = listTopLevel
+		? (o: string) => o.startsWith(listTopLevel + '-')
+		: () => true
 
 	return getAllEntries(context.chat!.id, topLevelFilter)
 }
@@ -58,7 +58,7 @@ function getAllEntries(chatId: number, filenameFilter: (s: string) => boolean): 
 	const relevant = all
 		.map((o, i) => ({
 			index: i,
-			filename: generateFilename(o.url, o.type)
+			filename: generateFilename(o.url, o.type),
 		}))
 		.filter(o => filenameFilter(o.filename))
 		.sort((a, b) => a.filename.localeCompare(b.filename))
