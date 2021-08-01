@@ -20,7 +20,7 @@
 		"node": ">=14"
 	},
 	"dependencies": {
-		"@edjopato/datastore": "^0.3.3",
+		"@edjopato/datastore": "^0.4.0",
 		"array-filter-unique": "^2.2.0",
 		"array-reduce-group-by": "^1.0.0",
 		"got": "^11.0.2",
