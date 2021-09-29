@@ -1,3 +1,4 @@
+import {Buffer} from 'buffer'
 import {existsSync} from 'fs'
 
 import {gitCommand} from './git.js'

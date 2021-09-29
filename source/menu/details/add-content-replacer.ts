@@ -59,7 +59,7 @@ menu.select('flags', regexFlags, {
 	isSet: (context, key) => (context.session.replacerRegexFlags ?? DEFAULT_FLAGS).includes(key),
 	set: (context, key, newState) => {
 		const old = context.session.replacerRegexFlags ?? DEFAULT_FLAGS
-		const set = new Set([...old])
+		const set = new Set(old)
 		if (newState) {
 			set.add(key)
 		} else {

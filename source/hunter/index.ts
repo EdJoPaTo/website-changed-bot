@@ -12,8 +12,8 @@ export * from './mission.js'
 export * from './url-logic.js'
 
 export async function checkMany<TMission extends Mission>(directions: ReadonlyArray<Directions<TMission>>, delayMsBetweenSameDomain: number): Promise<void> {
-	const groupedByDomain = directions
-		.reduce(arrayReduceGroupBy(o => getDomainFromUrl(o.mission.url)), {})
+	// eslint-disable-next-line unicorn/prefer-object-from-entries
+	const groupedByDomain = directions.reduce(arrayReduceGroupBy(o => getDomainFromUrl(o.mission.url)), {})
 
 	await Promise.all(Object.values(groupedByDomain)
 		.map(async group => checkGroup(group, delayMsBetweenSameDomain)),
