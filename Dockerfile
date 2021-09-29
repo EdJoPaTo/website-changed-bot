@@ -15,14 +15,14 @@ RUN npm ci --production
 
 
 FROM docker.io/library/node:16-alpine
+ENV NODE_ENV=production
+RUN apk upgrade --no-cache \
+	&& apk add --no-cache bash git
+
 WORKDIR /app
 VOLUME /app/persistent
 VOLUME /app/users
 VOLUME /app/websites
-
-ENV NODE_ENV=production
-
-RUN apk upgrade --no-cache && apk add --no-cache git bash
 
 COPY gitconfig /root/.gitconfig
 COPY package.json ./
