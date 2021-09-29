@@ -1,8 +1,8 @@
 import {existsSync, readFileSync} from 'fs'
 
+import {Bot, session} from 'grammy'
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import {InlineKeyboardMarkup, User} from 'typegram'
-import {Telegraf, Composer, session} from 'telegraf'
+import {InlineKeyboardButton, User} from 'grammy/out/platform'
 
 import * as users from './lib/users.js'
 import {bot as partAdmin} from './parts/admin.js'
@@ -23,13 +23,13 @@ if (!token) {
 	throw new Error('You have to provide the bot-token from @BotFather via file (bot-token.txt) or environment variable (BOT_TOKEN)')
 }
 
-const bot = new Telegraf<Context>(token)
+const bot = new Bot<Context>(token)
 
 if (process.env['NODE_ENV'] !== 'production') {
 	bot.use(generateUpdateMiddleware())
 }
 
-initNotifyTgUser(bot.telegram)
+initNotifyTgUser(bot.api)
 initTrophyStore()
 
 bot.use(async (ctx, next) => {
@@ -63,10 +63,10 @@ bot.use(async (ctx, next) => {
 	}
 
 	await Promise.all([
-		bot.telegram.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', {
+		bot.api.sendMessage(users.getAdmin(), 'Wrong user```\n' + JSON.stringify(ctx.update, null, 2) + '\n```', {
 			disable_notification: true,
 			parse_mode: 'Markdown',
-			reply_markup: generateAddUserKeyboard(ctx.from),
+			reply_markup: {inline_keyboard: generateAddUserKeyboard(ctx.from)},
 		}),
 		ctx.reply(`Sorry. I do not serve you (yet).
 The admin was notified and might grant you the permission.
@@ -78,24 +78,22 @@ This bot will migrate towards using this tool under the hood too. (As soon as I 
 	])
 })
 
-bot.use(session())
-bot.use(async (ctx, next) => {
-	ctx.session ??= {}
-	return next()
-})
+bot.use(session({
+	initial: () => ({}),
+}))
 
-bot.use(Composer.groupChat(groupActivity))
+// eslint-disable-next-line unicorn/no-array-method-this-argument
+bot.filter(ctx => ctx.chat?.type === 'group' || ctx.chat?.type === 'supergroup', groupActivity)
 
 bot.use(menu)
 
-bot.use(Telegraf.optional(ctx => ctx.from?.id === users.getAdmin(), partAdmin.middleware()))
+// eslint-disable-next-line unicorn/no-array-method-this-argument
+bot.filter(ctx => ctx.from?.id === users.getAdmin(), partAdmin)
 
-function generateAddUserKeyboard(userDetails: User): InlineKeyboardMarkup {
-	return {
-		inline_keyboard: [[
-			{text: `add ${userDetails.first_name} as allowed user`, callback_data: `adduser:${userDetails.id}`},
-		]],
-	}
+function generateAddUserKeyboard(userDetails: User): InlineKeyboardButton[][] {
+	return [[
+		{text: `add ${userDetails.first_name} as allowed user`, callback_data: `adduser:${userDetails.id}`},
+	]]
 }
 
 bot.catch((error: any) => {
@@ -107,18 +105,21 @@ bot.catch((error: any) => {
 		return
 	}
 
-	console.error('TELEGRAF ERROR', error)
+	console.error('GRAMMY ERROR', error)
 })
 
 async function startup() {
-	await bot.telegram.setMyCommands([
+	await bot.api.setMyCommands([
 		{command: 'start', description: 'display the menu'},
 		{command: 'list', description: 'show all watched urls'},
 		{command: 'add', description: 'add another url'},
 	])
 
-	await bot.launch()
-	console.log(new Date(), 'Bot started as', bot.botInfo?.username)
+	void bot.start({
+		onStart: botInfo => {
+			console.log(new Date(), 'Bot starts as', botInfo.username)
+		},
+	})
 
 	await checkRunner(notifyChange, notifyError)
 	console.log(new Date(), 'never reached')

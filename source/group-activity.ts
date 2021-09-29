@@ -1,4 +1,4 @@
-import {Composer} from 'telegraf'
+import {Composer} from 'grammy'
 
 import {isAuthorized} from './lib/users.js'
 
@@ -13,7 +13,7 @@ bot.use(async (context, next) => {
 	let anyValidAdminExists = false
 
 	try {
-		const botId = context.botInfo.id
+		const botId = context.me.id
 		const chatAdmins = await context.getChatAdministrators()
 
 		if (context.chat?.type === 'supergroup' && chatAdmins.some(o => o.user.id === botId)) {

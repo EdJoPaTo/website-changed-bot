@@ -1,3 +1,3 @@
-import {createBackMainMenuButtons} from 'telegraf-inline-menu'
+import {createBackMainMenuButtons} from 'grammy-inline-menu'
 
 export const backButtons = createBackMainMenuButtons()

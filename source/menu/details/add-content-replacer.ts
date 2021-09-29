@@ -1,7 +1,7 @@
-import {Composer} from 'telegraf'
+import {Composer} from 'grammy'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, Body, replyMenuToContext, deleteMenuFromContext, getMenuOfPath} from 'telegraf-inline-menu'
-import TelegrafStatelessQuestion from 'telegraf-stateless-question'
+import {MenuTemplate, Body, replyMenuToContext, deleteMenuFromContext, getMenuOfPath} from 'grammy-inline-menu'
+import {StatelessQuestion} from '@grammyjs/stateless-question'
 
 import {ContentReplace} from '../../hunter/index.js'
 import {Context} from '../../context.js'
@@ -15,7 +15,7 @@ const DEFAULT_REPLACE_VALUE = '$1'
 export const bot = new Composer<Context>()
 export const menu = new MenuTemplate<Context>(menuBody)
 
-const regexQuestion = new TelegrafStatelessQuestion<Context>('replacer-regex', async (context, path) => {
+const regexQuestion = new StatelessQuestion<Context>('replacer-regex', async (context, path) => {
 	const regex = 'text' in context.message && context.message.text
 	if (!regex) {
 		await context.reply('Please send the regular expression as a text message')
@@ -74,7 +74,7 @@ menu.select('flags', regexFlags, {
 	},
 })
 
-const replaceValueQuestion = new TelegrafStatelessQuestion<Context>('replacer-replace-value', async (context, path) => {
+const replaceValueQuestion = new StatelessQuestion<Context>('replacer-replace-value', async (context, path) => {
 	const replaceValue = 'text' in context.message ? context.message.text : undefined
 	context.session.replacerReplaceValue = replaceValue
 	await replyMenuToContext(menu, context, path)
@@ -117,7 +117,7 @@ menu.interact('✅ Add', 'add', {
 	hide: context => !context.session.replacerRegexSource,
 	do: async context => {
 		if (!context.session.replacerRegexSource) {
-			await context.answerCbQuery('you need to specify a source')
+			await context.answerCallbackQuery({text: 'you need to specify a source'})
 			return false
 		}
 
@@ -142,7 +142,7 @@ menu.interact('✅ Add', 'add', {
 		delete context.session.replacerRegexFlags
 		delete context.session.replacerReplaceValue
 
-		await context.answerCbQuery('added successfully 😎')
+		await context.answerCallbackQuery({text: 'added successfully 😎'})
 		return '..'
 	},
 })

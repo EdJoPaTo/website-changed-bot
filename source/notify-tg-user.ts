@@ -1,11 +1,11 @@
+import {Api} from 'grammy'
 import {html as format} from 'telegram-format'
-import {Telegram} from 'telegraf'
 
 import {Mission} from './hunter/index.js'
 
-let telegram: Telegram
+let telegram: Api
 
-export function init(tg: Telegram): void {
+export function init(tg: Api): void {
 	telegram = tg
 }
 

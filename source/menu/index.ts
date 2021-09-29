@@ -1,6 +1,6 @@
-import {Composer} from 'telegraf'
-import {MenuMiddleware} from 'telegraf-inline-menu'
-import {MessageEntity} from 'typegram'
+import {Composer} from 'grammy'
+import {MenuMiddleware} from 'grammy-inline-menu'
+import {MessageEntity} from 'grammy/out/platform'
 
 import {Context} from '../context.js'
 

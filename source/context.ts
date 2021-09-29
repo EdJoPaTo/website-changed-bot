@@ -1,4 +1,4 @@
-import {Context as TelegrafContext} from 'telegraf'
+import {Context as BaseContext} from 'grammy'
 
 import {Type} from './hunter/index.js'
 
@@ -12,7 +12,8 @@ export interface Session {
 	replacerReplaceValue?: string;
 }
 
-export interface Context extends TelegrafContext {
-	readonly match?: RegExpExecArray;
+export interface SessionContextFlavour {
 	session: Session;
 }
+
+export type Context = BaseContext & SessionContextFlavour

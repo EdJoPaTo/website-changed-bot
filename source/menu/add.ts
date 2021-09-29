@@ -1,7 +1,7 @@
-import {Composer} from 'telegraf'
+import {Composer} from 'grammy'
 import {html as format} from 'telegram-format'
-import {MenuTemplate, replyMenuToContext, Body, deleteMenuFromContext} from 'telegraf-inline-menu'
-import TelegrafStatelessQuestion from 'telegraf-stateless-question'
+import {MenuTemplate, replyMenuToContext, Body, deleteMenuFromContext} from 'grammy-inline-menu'
+import {StatelessQuestion} from '@grammyjs/stateless-question'
 
 import {Context} from '../context.js'
 import {getStore} from '../trophy-store/index.js'
@@ -16,7 +16,7 @@ export const bot = new Composer<Context>()
 
 export const menu = new MenuTemplate<Context>(menuBody)
 
-const urlQuestion = new TelegrafStatelessQuestion<Context>('add-url', async context => {
+const urlQuestion = new StatelessQuestion<Context>('add-url', async context => {
 	const url = 'text' in context.message && context.message.text
 	if (!url) {
 		await context.reply('Please send the url as a text message')
@@ -77,7 +77,7 @@ menu.interact('➕ Add', 'add', {
 	},
 	do: async context => {
 		if (!context.session.addUrl) {
-			await context.answerCbQuery('looks like something went wrong?')
+			await context.answerCallbackQuery({text: 'looks like something went wrong?'})
 			return '.'
 		}
 
@@ -98,7 +98,7 @@ menu.interact('➕ Add', 'add', {
 
 			const hint = 'added successfully 😎'
 			await Promise.all([
-				context.answerCbQuery(hint),
+				context.answerCallbackQuery({text: hint}),
 				context.reply(hint),
 				context.editMessageReplyMarkup(undefined),
 			])

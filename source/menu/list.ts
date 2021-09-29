@@ -1,4 +1,4 @@
-import {MenuTemplate} from 'telegraf-inline-menu'
+import {MenuTemplate} from 'grammy-inline-menu'
 import arrayFilterUnique from 'array-filter-unique'
 
 import {Context} from '../context.js'
