@@ -1,6 +1,6 @@
 import {Composer} from 'grammy'
 import {MenuMiddleware} from 'grammy-inline-menu'
-import {MessageEntity} from 'grammy/out/platform'
+import {MessageEntity} from '@grammyjs/types'
 
 import {Context} from '../context.js'
 

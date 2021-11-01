@@ -2,7 +2,7 @@ import {existsSync, readFileSync} from 'fs'
 
 import {Bot, session} from 'grammy'
 import {generateUpdateMiddleware} from 'telegraf-middleware-console-time'
-import {InlineKeyboardButton, User} from 'grammy/out/platform'
+import {InlineKeyboardButton, User} from '@grammyjs/types'
 
 import * as users from './lib/users.js'
 import {bot as partAdmin} from './parts/admin.js'

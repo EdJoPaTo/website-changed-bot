@@ -12,7 +12,6 @@ function getVersion(): string {
 	const content = readFileSync('package.json', 'utf8')
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const json = JSON.parse(content)
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 	return json.version as string
 }
 
