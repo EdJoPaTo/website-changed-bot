@@ -25,9 +25,7 @@ if (!token) {
 
 const bot = new Bot<Context>(token)
 
-if (process.env['NODE_ENV'] !== 'production') {
-	bot.use(generateUpdateMiddleware())
-}
+bot.use(generateUpdateMiddleware())
 
 initNotifyTgUser(bot.api)
 initTrophyStore()
